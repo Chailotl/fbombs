@@ -1,8 +1,10 @@
 {
-  "block.fbombs.instant_tnt": "Instant TNT",
+  "block.fbombs.instant_tnt": "Instant Tnt",
+  "block.fbombs.split_tnt": "Split Tnt",
   "block.fbombs.test_block": "Test Block",
-  "item.fbombs.instant_tnt": "Instant TNT",
-  "item.fbombs.test_item": "Test Item",
+  "entity.fbombs.instant_tnt": "Instant Tnt",
+  "item.fbombs.dynamite_stick": "Dynamite Stick",
+  "item.fbombs.dynamite_stick.tooltip": "Use in combination with an Ignition Item to throw",
   "itemgroup.fbombs.blocks": "FBombs Blocks",
   "itemgroup.fbombs.items": "FBombs Items"
 }

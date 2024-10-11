@@ -20,8 +20,8 @@ public class TagProvider {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             getOrCreateTagBuilder(FBombsTags.TNT_VARIANTS)
-                    .add(FBombsBlocks.SPLIT_TNT)
-                    .add(FBombsBlocks.INSTANT_TNT);
+                    .add(FBombsBlocks.INSTANT_TNT)
+                    .add(FBombsBlocks.SPLIT_TNT);
         }
     }
 
@@ -34,6 +34,8 @@ public class TagProvider {
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             getOrCreateTagBuilder(FBombsTags.SPLITS_TNT)
                     .add(Items.SHEARS);
+            getOrCreateTagBuilder(FBombsTags.IGNITES_TNT)
+                    .add(Items.FLINT_AND_STEEL);
         }
     }
 

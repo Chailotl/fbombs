@@ -1,6 +1,8 @@
 package com.chailotl.fbombs.mixin;
 
+import com.chailotl.fbombs.block.SplitTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
+import com.chailotl.fbombs.init.FBombsItems;
 import com.chailotl.fbombs.init.FBombsTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TntBlock;
@@ -12,6 +14,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,11 +34,15 @@ public class TntBlockMixin {
                     stack.damage(1, serverWorld, serverPlayer, item -> {
                     });
                 }
-                world.setBlockState(pos, FBombsBlocks.SPLIT_TNT.getFirstSplitState(player.getHorizontalFacing().getOpposite()));
+                if (!state.contains(SplitTntBlock.TNT_SPLITS)) {
+                    world.setBlockState(pos, FBombsBlocks.SPLIT_TNT.getFirstSplitState(player.getHorizontalFacing().getOpposite()));
+                }
+                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), FBombsItems.DYNAMITE_STICK.getDefaultStack());
                 world.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
             }
             //TODO: [ShiroJR] add advancements / stats ?
+
+            cir.setReturnValue(ItemActionResult.SUCCESS);
         }
-        cir.setReturnValue(ItemActionResult.SUCCESS);
     }
 }

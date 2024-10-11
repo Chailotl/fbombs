@@ -49,6 +49,7 @@ public class SplitTntBlock extends TntBlock implements Waterloggable {
     @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         //TODO: [ShiroJR] split more into small pieces
+
         return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
     }
 }

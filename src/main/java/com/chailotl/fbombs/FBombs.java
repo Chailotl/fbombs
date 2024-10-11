@@ -1,6 +1,7 @@
 package com.chailotl.fbombs;
 
 import com.chailotl.fbombs.init.*;
+import com.chailotl.fbombs.network.FBombsC2SNetworking;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.util.Identifier;
@@ -19,6 +20,8 @@ public class FBombs implements ModInitializer {
 		FBombsItemGroups.initialize();
 		FBombsBlockEntities.initialize();
 		FBombsEntityTypes.initialize();
+		FBombsC2SNetworking.initialize();
+		FBombsNetworkPayloads.initialize();
 
 		LOGGER.info("May contain traces of nuclear explosions");
 	}

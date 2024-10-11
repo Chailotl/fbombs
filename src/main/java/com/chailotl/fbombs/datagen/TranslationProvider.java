@@ -2,6 +2,7 @@ package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.init.FBombsBlocks;
+import com.chailotl.fbombs.init.FBombsEntityTypes;
 import com.chailotl.fbombs.init.FBombsItemGroups;
 import com.chailotl.fbombs.init.FBombsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -30,9 +31,10 @@ public class TranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(FBombsBlocks.INSTANT_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.INSTANT_TNT)));
         translationBuilder.add(FBombsBlocks.SPLIT_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.SPLIT_TNT)));
 
-        translationBuilder.add(FBombsItems.TEST_ITEM, cleanString(Registries.ITEM.getId(FBombsItems.TEST_ITEM)));
+        translationBuilder.add(FBombsItems.DYNAMITE_STICK, cleanString(Registries.ITEM.getId(FBombsItems.DYNAMITE_STICK)));
 
-        // Load an existing language file.
+        translationBuilder.add(FBombsEntityTypes.INSTANT_TNT, cleanString(Registries.ENTITY_TYPE.getId(FBombsEntityTypes.INSTANT_TNT)));
+
         try {
             Path existingFilePath = dataOutput.getModContainer().findPath("assets/%s/lang/en_us.existing.json".formatted(FBombs.MOD_ID)).orElseThrow();
             translationBuilder.add(existingFilePath);

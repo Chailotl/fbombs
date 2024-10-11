@@ -1,4 +1,5 @@
-// 1.21.1	2024-10-11T06:41:26.2263674	FBombs/Model Definitions
+// 1.21.1	2024-10-11T08:28:17.9889419	FBombs/Model Definitions
 7add7be66178b564107918ed8fb7ecd730fe67c8 assets\fbombs\blockstates\instant_tnt.json
 cc80f62dca0d3058d5ed5c8283cf750485c9fe0b assets\fbombs\models\item\instant_tnt.json
+fe38ea410903b3da7c5f83e39be07a616be4e299 assets\fbombs\models\item\dynamite_stick.json
 63ee90f14fb599069147d446012b6e98177ddc61 assets\fbombs\models\block\instant_tnt.json
