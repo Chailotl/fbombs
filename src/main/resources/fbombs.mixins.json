@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "com.chailotl.mixin",
+	"package": "com.chailotl.fbombs.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"ExampleMixin"

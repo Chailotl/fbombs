@@ -1,4 +1,4 @@
-package com.chailotl;
+package com.chailotl.fbombs;
 
 import net.fabricmc.api.ModInitializer;
 

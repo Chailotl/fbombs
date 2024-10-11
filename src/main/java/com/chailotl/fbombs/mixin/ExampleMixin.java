@@ -1,4 +1,4 @@
-package com.chailotl.mixin;
+package com.chailotl.fbombs.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
