@@ -8,6 +8,9 @@ import com.chailotl.fbombs.init.FBombsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
@@ -25,17 +28,17 @@ public class TranslationProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-        translationBuilder.add(FBombsItemGroups.BLOCKS.getTranslationKey(), "FBombs " + cleanString(Registries.ITEM_GROUP.getId(FBombsItemGroups.BLOCKS.get())));
-        translationBuilder.add(FBombsItemGroups.ITEMS.getTranslationKey(), "FBombs " + cleanString(Registries.ITEM_GROUP.getId(FBombsItemGroups.ITEMS.get())));
+        translationBuilder.add(FBombsItemGroups.BLOCKS.getTranslationKey(), "FBombs " + cleanString(FBombsItemGroups.BLOCKS.get()));
+        translationBuilder.add(FBombsItemGroups.ITEMS.getTranslationKey(), "FBombs " + cleanString(FBombsItemGroups.ITEMS.get()));
 
-        translationBuilder.add(FBombsBlocks.TEST, cleanString(Registries.BLOCK.getId(FBombsBlocks.TEST)));
-        translationBuilder.add(FBombsBlocks.INSTANT_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.INSTANT_TNT)));
-        translationBuilder.add(FBombsBlocks.SPLIT_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.SPLIT_TNT)));
-        translationBuilder.add(FBombsBlocks.SHORT_FUSE_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.SHORT_FUSE_TNT)));
+        translationBuilder.add(FBombsBlocks.TEST, cleanString(FBombsBlocks.TEST));
+        translationBuilder.add(FBombsBlocks.INSTANT_TNT, cleanString(FBombsBlocks.INSTANT_TNT));
+        translationBuilder.add(FBombsBlocks.SPLIT_TNT, cleanString(FBombsBlocks.SPLIT_TNT));
+        translationBuilder.add(FBombsBlocks.SHORT_FUSE_TNT, cleanString(FBombsBlocks.SHORT_FUSE_TNT));
 
-        translationBuilder.add(FBombsItems.DYNAMITE_STICK, cleanString(Registries.ITEM.getId(FBombsItems.DYNAMITE_STICK)));
+        translationBuilder.add(FBombsItems.DYNAMITE_STICK, cleanString(FBombsItems.DYNAMITE_STICK));
 
-        translationBuilder.add(FBombsEntityTypes.INSTANT_TNT, cleanString(Registries.ENTITY_TYPE.getId(FBombsEntityTypes.INSTANT_TNT)));
+        translationBuilder.add(FBombsEntityTypes.INSTANT_TNT, cleanString(FBombsEntityTypes.INSTANT_TNT));
 
         try {
             Path existingFilePath = dataOutput.getModContainer().findPath("assets/%s/lang/en_us.existing.json".formatted(FBombs.MOD_ID)).orElseThrow();
@@ -61,5 +64,25 @@ public class TranslationProvider extends FabricLanguageProvider {
             }
         }
         return output.toString();
+    }
+
+    @NotNull
+    public static String cleanString(ItemGroup itemGroup) {
+        return cleanString(Registries.ITEM_GROUP.getId(itemGroup));
+    }
+
+    @NotNull
+    public static String cleanString(Block block) {
+        return cleanString(Registries.BLOCK.getId(block));
+    }
+
+    @NotNull
+    public static String cleanString(Item item) {
+        return cleanString(Registries.ITEM.getId(item));
+    }
+
+    @NotNull
+    public static String cleanString(EntityType<?> entityType) {
+        return cleanString(Registries.ENTITY_TYPE.getId(entityType));
     }
 }
