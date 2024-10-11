@@ -7,6 +7,7 @@ import com.chailotl.fbombs.init.FBombsItemGroups;
 import com.chailotl.fbombs.init.FBombsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
@@ -30,6 +31,7 @@ public class TranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(FBombsBlocks.TEST, cleanString(Registries.BLOCK.getId(FBombsBlocks.TEST)));
         translationBuilder.add(FBombsBlocks.INSTANT_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.INSTANT_TNT)));
         translationBuilder.add(FBombsBlocks.SPLIT_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.SPLIT_TNT)));
+        translationBuilder.add(FBombsBlocks.SHORT_FUSE_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.SHORT_FUSE_TNT)));
 
         translationBuilder.add(FBombsItems.DYNAMITE_STICK, cleanString(Registries.ITEM.getId(FBombsItems.DYNAMITE_STICK)));
 

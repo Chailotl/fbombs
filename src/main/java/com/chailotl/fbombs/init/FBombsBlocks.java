@@ -2,6 +2,7 @@ package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.InstantTntBlock;
+import com.chailotl.fbombs.block.ShortFuseTntBlock;
 import com.chailotl.fbombs.block.SplitTntBlock;
 import com.chailotl.fbombs.block.TestBlock;
 import net.minecraft.block.*;
@@ -15,6 +16,7 @@ public class FBombsBlocks {
     public static final TestBlock TEST = register("test_block", new TestBlock(AbstractBlock.Settings.create()), true);
     public static final InstantTntBlock INSTANT_TNT = register("instant_tnt", new InstantTntBlock(tntSettings()), true);
     public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(tntSettings()), true);
+    public static final ShortFuseTntBlock SHORT_FUSE_TNT = register("short_fuse_tnt", new ShortFuseTntBlock(tntSettings()), true);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
