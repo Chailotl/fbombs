@@ -16,7 +16,14 @@ import net.minecraft.sound.BlockSoundGroup;
 public class FBombsBlocks {
     public static final TestBlock TEST = register("test_block", new TestBlock(AbstractBlock.Settings.create()), true);
     public static final GenericTntBlock INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
-    public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(tntSettings()), true);
+    public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BRIGHT_RED)
+            .breakInstantly()
+            .sounds(BlockSoundGroup.GRASS)
+            .burnable()
+            .solidBlock(Blocks::never)
+    ), true);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
 
     @SuppressWarnings("SameParameterValue")
@@ -31,16 +38,15 @@ public class FBombsBlocks {
     }
 
     private static GenericTntBlock registerTnt(String name, TntEntityProvider tntEntityProvider) {
-        return register(name, new GenericTntBlock(TntEntityType.register(name, tntEntityProvider), tntSettings()), true);
-    }
-
-    private static AbstractBlock.Settings tntSettings() {
-        return AbstractBlock.Settings.create()
-            .mapColor(MapColor.BRIGHT_RED)
-            .breakInstantly()
-            .sounds(BlockSoundGroup.GRASS)
-            .burnable()
-            .solidBlock(Blocks::never);
+        return register(name, new GenericTntBlock(
+            TntEntityType.register(name, tntEntityProvider),
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.BRIGHT_RED)
+                .breakInstantly()
+                .sounds(BlockSoundGroup.GRASS)
+                .burnable()
+                .solidBlock(Blocks::never)
+        ), true);
     }
 
     public static void initialize() {
