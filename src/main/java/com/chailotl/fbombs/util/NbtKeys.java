@@ -1,5 +1,5 @@
 package com.chailotl.fbombs.util;
 
 public class NbtKeys {
-    public static final String TEST_VALUE = "test_value";
+    public static final String INVENTORY = "test_value";
 }
