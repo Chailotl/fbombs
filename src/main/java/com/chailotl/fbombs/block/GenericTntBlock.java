@@ -1,10 +1,10 @@
 package com.chailotl.fbombs.block;
 
 import com.chailotl.fbombs.entity.AbstractTntEntity;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import com.chailotl.fbombs.util.TntEntityType;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,15 +27,31 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractTntBlock extends Block {
+public class GenericTntBlock extends Block {
+    public static final MapCodec<GenericTntBlock> CODEC =  RecordCodecBuilder.mapCodec(
+        instance -> instance.group(
+                TntEntityType.CODEC.fieldOf("tnt_entity_type").forGetter(GenericTntBlock::getTntEntityType), createSettingsCodec()
+            )
+            .apply(instance, GenericTntBlock::new)
+    );
     public static final BooleanProperty UNSTABLE;
 
-    public AbstractTntBlock(AbstractBlock.Settings settings) {
+    private final TntEntityType tntEntityType;
+
+    @Override
+    public MapCodec<GenericTntBlock> getCodec() {
+        return CODEC;
+    }
+
+    public GenericTntBlock(TntEntityType tntEntityType, AbstractBlock.Settings settings) {
         super(settings);
+        this.tntEntityType = tntEntityType;
         this.setDefaultState(this.getDefaultState().with(UNSTABLE, false));
     }
 
-    public abstract AbstractTntEntity createTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter);
+    public TntEntityType getTntEntityType() {
+        return this.tntEntityType;
+    }
 
     protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         if (!oldState.isOf(state.getBlock())) {
@@ -63,7 +79,7 @@ public abstract class AbstractTntBlock extends Block {
 
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
         if (!world.isClient) {
-            AbstractTntEntity tntEntity = createTntEntity(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, explosion.getCausingEntity());
+            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, explosion.getCausingEntity());
             int i = tntEntity.getFuse();
             tntEntity.setFuse((short)(world.random.nextInt(Math.max(1, i / 4)) + i / 8));
             world.spawnEntity(tntEntity);
@@ -76,7 +92,7 @@ public abstract class AbstractTntBlock extends Block {
 
     private void primeTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
-            AbstractTntEntity tntEntity = createTntEntity(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, igniter);
+            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, igniter);
             world.spawnEntity(tntEntity);
             world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             world.emitGameEvent(igniter, GameEvent.PRIME_FUSE, pos);

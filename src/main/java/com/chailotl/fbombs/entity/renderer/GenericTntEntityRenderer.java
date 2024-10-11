@@ -15,10 +15,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 @Environment(EnvType.CLIENT)
-public class AbstractTntEntityRenderer extends EntityRenderer<AbstractTntEntity> {
+public class GenericTntEntityRenderer extends EntityRenderer<AbstractTntEntity> {
     private final BlockRenderManager blockRenderManager;
 
-    public AbstractTntEntityRenderer(EntityRendererFactory.Context context) {
+    public GenericTntEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         this.shadowRadius = 0.5F;
         this.blockRenderManager = context.getBlockRenderManager();
