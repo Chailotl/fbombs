@@ -33,15 +33,16 @@ public class ExplosionHandler {
                                                         @Nullable Double extrusion, Predicate<BlockState> blockExceptions, int blastStrength) {
         HashMap<BlockPos, BlockState> explodedBlocks = new HashMap<>();
         List<BlockPos> excludedBlocks = new ArrayList<>();
-        BlockPos.Mutable currentPos = new BlockPos.Mutable();
+        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 
         for (int x = -radius; x < radius; x++) {
             for (int y = -radius; y < radius; y++) {
                 for (int z = -radius; z < radius; z++) {
-                    if (!shape.isInsideVolume(radius, extrusion, new Vec3d(x, y, z))) continue;
-
-                    currentPos.set(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
-                    BlockState currentState = world.getBlockState(currentPos);
+                    if (!shape.isInsideVolume(radius, extrusion, new Vec3d(x, y, z))) {
+                        continue;
+                    }
+                    mutablePos.set(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
+                    BlockState currentState = world.getBlockState(mutablePos.toImmutable());
                     boolean isAir = currentState.isAir();
                     boolean resistsBlast = currentState.getBlock().getBlastResistance() > blastStrength;
                     boolean isExcluded = !blockExceptions.test(currentState);
@@ -49,16 +50,16 @@ public class ExplosionHandler {
                         continue;
                     }
                     if (resistsBlast || isExcluded) {
-                        excludedBlocks.add(currentPos.mutableCopy());
+                        excludedBlocks.add(mutablePos.toImmutable());
                         continue;
                     }
-                    explodedBlocks.put(currentPos.mutableCopy(), currentState);
+                    explodedBlocks.put(mutablePos.toImmutable(), currentState);
                 }
             }
         }
-        StringBuilder sb = new StringBuilder("Ignored ");
-        excludedBlocks.forEach(pos -> sb.append(pos.toShortString()).append(" | "));
-        LoggerUtil.devLogger("Ignored " + sb);
+        StringBuilder sb = new StringBuilder("[%s] Ignored ".formatted(explodedBlocks.size()));
+        explodedBlocks.forEach((pos, state) -> sb.append(pos.toShortString()).append(" | "));
+        LoggerUtil.devLogger(sb.toString());
 
         //TODO: [ShiroJR] calculate explosion shadow based on excluded blocks?
         return explodedBlocks;
