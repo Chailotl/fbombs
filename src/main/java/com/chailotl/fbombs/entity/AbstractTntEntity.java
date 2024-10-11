@@ -55,19 +55,23 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         this.setPosition(x, y, z);
         double d = world.random.nextDouble() * (float) (Math.PI * 2);
         this.setVelocity(-Math.sin(d) * 0.02, 0.2F, -Math.cos(d) * 0.02);
-        this.setFuse(80);
+        this.setFuse(getDefaultFuse());
         this.prevX = x;
         this.prevY = y;
         this.prevZ = z;
         this.causingEntity = igniter;
     }
 
-    protected abstract Block getBlock();
+    protected int getDefaultFuse() {
+        return DEFAULT_FUSE;
+    }
+
+    protected abstract Block getDefaultBlock();
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
-        builder.add(FUSE, 80);
-        builder.add(BLOCK_STATE, getBlock().getDefaultState());
+        builder.add(FUSE, getDefaultFuse());
+        builder.add(BLOCK_STATE, getDefaultBlock().getDefaultState());
     }
 
     @Override
@@ -128,15 +132,15 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.putShort("fuse", (short)this.getFuse());
-        nbt.put("block_state", NbtHelper.fromBlockState(this.getBlockState()));
+        nbt.putShort(FUSE_NBT_KEY, (short)this.getFuse());
+        nbt.put(BLOCK_STATE_NBT_KEY, NbtHelper.fromBlockState(this.getBlockState()));
     }
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-        this.setFuse(nbt.getShort("fuse"));
-        if (nbt.contains("block_state", NbtElement.COMPOUND_TYPE)) {
-            this.setBlockState(NbtHelper.toBlockState(this.getWorld().createCommandRegistryWrapper(RegistryKeys.BLOCK), nbt.getCompound("block_state")));
+        this.setFuse(nbt.getShort(FUSE_NBT_KEY));
+        if (nbt.contains(BLOCK_STATE_NBT_KEY, NbtElement.COMPOUND_TYPE)) {
+            this.setBlockState(NbtHelper.toBlockState(this.getWorld().createCommandRegistryWrapper(RegistryKeys.BLOCK), nbt.getCompound(BLOCK_STATE_NBT_KEY)));
         }
     }
 

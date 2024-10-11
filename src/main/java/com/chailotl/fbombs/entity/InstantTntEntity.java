@@ -15,11 +15,15 @@ public class InstantTntEntity extends AbstractTntEntity {
 
     public InstantTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(FBombsEntityTypes.INSTANT_TNT, world, x, y, z, igniter);
-        this.setFuse(0);
     }
 
     @Override
-    protected Block getBlock() {
+    protected int getDefaultFuse() {
+        return 0;
+    }
+
+    @Override
+    protected Block getDefaultBlock() {
         return FBombsBlocks.INSTANT_TNT;
     }
 }
