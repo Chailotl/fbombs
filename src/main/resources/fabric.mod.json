@@ -3,15 +3,17 @@
 	"id": "fbombs",
 	"version": "${version}",
 	"name": "FBombs",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A silly Fabric mod inspired by old-school Forge nuke mods",
 	"authors": [
-		"Me!"
+		"Chai",
+		"ShiroJR"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Chailotl/fbombs",
+		"issues": "https://github.com/Chailotl/fbombs/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "LGPL-3.0",
 	"icon": "assets/fbombs/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -27,8 +29,5 @@
 		"minecraft": "~1.21.1",
 		"java": ">=21",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }
