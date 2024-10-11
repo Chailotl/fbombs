@@ -1,8 +1,8 @@
 package com.chailotl.fbombs.entity;
 
+import com.chailotl.fbombs.explosion.ExplosionHandler;
 import com.chailotl.fbombs.init.FBombsEntityTypes;
 import com.chailotl.fbombs.init.FBombsItems;
-import com.chailotl.fbombs.util.LoggerUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
@@ -64,7 +64,7 @@ public class DynamiteStickEntity extends ThrownItemEntity {
         if (!(getWorld() instanceof ServerWorld serverWorld)) return;
 
         if (this.getTick() <= 0 || this.bounces == 0 || this.isOnFire()) {
-            // TODO: [ShiroJR] ExplosionHelper.explodeSpherical(serverWorld, this.getBlockPos(), 8);
+            ExplosionHandler.explodeSpherical(serverWorld, this.getBlockPos(), 8, 8);
             this.remove(RemovalReason.DISCARDED);
             return;
         }
@@ -94,7 +94,7 @@ public class DynamiteStickEntity extends ThrownItemEntity {
             velocity = velocity.subtract(wallVector.multiply(velocity.dotProduct(wallVector) * 2));
             velocity = velocity.multiply(bounceDampenerHorizontal);
         }
-        LoggerUtil.devLogger("Bounce! " + velocity.toString());
+        // LoggerUtil.devLogger("Bounce! " + velocity.toString());
         this.setVelocity(velocity);
         this.velocityModified = true;
 
