@@ -20,6 +20,9 @@ public class DynamiteStickEntity extends ThrownItemEntity {
     private int tick = 60;
     private int bounces = -1;
 
+    private static final double BOUNCE_DAMPENER_VERTICAL = 0.4;
+    private static final double BOUNCE_DAMPENER_HORIZONTAL = 0.7;
+
     public DynamiteStickEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -81,18 +84,15 @@ public class DynamiteStickEntity extends ThrownItemEntity {
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
-
         Vec3d velocity = this.getVelocity();
         Vec3d wallVector = Vec3d.of(blockHitResult.getSide().getVector());
-        double bounceDampenerVertical = 0.4;
-        double bounceDampenerHorizontal = 0.7;
 
         if (Direction.Type.VERTICAL.stream().anyMatch(direction -> direction.equals(blockHitResult.getSide()))) {
-            velocity = new Vec3d(velocity.x * bounceDampenerHorizontal, (-velocity.y) * bounceDampenerVertical,
-                    velocity.z * bounceDampenerHorizontal);
+            velocity = new Vec3d(velocity.x * BOUNCE_DAMPENER_HORIZONTAL, (-velocity.y) * BOUNCE_DAMPENER_VERTICAL,
+                    velocity.z * BOUNCE_DAMPENER_HORIZONTAL);
         } else {
             velocity = velocity.subtract(wallVector.multiply(velocity.dotProduct(wallVector) * 2));
-            velocity = velocity.multiply(bounceDampenerHorizontal);
+            velocity = velocity.multiply(BOUNCE_DAMPENER_HORIZONTAL);
         }
         // LoggerUtil.devLogger("Bounce! " + velocity.toString());
         this.setVelocity(velocity);
