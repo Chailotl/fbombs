@@ -1,6 +1,6 @@
 package com.chailotl.fbombs.entity.renderer;
 
-import com.chailotl.fbombs.entity.InstantTntEntity;
+import com.chailotl.fbombs.entity.AbstractTntEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -10,22 +10,21 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.TntMinecartEntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.TntEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 @Environment(EnvType.CLIENT)
-public class InstantTntEntityRenderer extends EntityRenderer<InstantTntEntity> {
+public class AbstractTntEntityRenderer extends EntityRenderer<AbstractTntEntity> {
     private final BlockRenderManager blockRenderManager;
 
-    public InstantTntEntityRenderer(EntityRendererFactory.Context context) {
+    public AbstractTntEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         this.shadowRadius = 0.5F;
         this.blockRenderManager = context.getBlockRenderManager();
     }
 
-    public void render(InstantTntEntity tntEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    public void render(AbstractTntEntity tntEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
         matrixStack.translate(0.0F, 0.5F, 0.0F);
         int j = tntEntity.getFuse();
@@ -46,7 +45,7 @@ public class InstantTntEntityRenderer extends EntityRenderer<InstantTntEntity> {
         super.render(tntEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }
 
-    public Identifier getTexture(InstantTntEntity tntEntity) {
+    public Identifier getTexture(AbstractTntEntity tntEntity) {
         return SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE;
     }
 }
