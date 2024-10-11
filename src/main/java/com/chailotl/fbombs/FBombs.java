@@ -7,6 +7,7 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("unused")
 public class FBombs implements ModInitializer {
 	public static final String MOD_ID = "fbombs";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -24,5 +25,8 @@ public class FBombs implements ModInitializer {
 
 	public static Identifier getId(String path) {
 		return Identifier.of(MOD_ID, path);
+	}
+	public static Identifier getCommonId(String path) {
+		return Identifier.of("c", path);
 	}
 }
