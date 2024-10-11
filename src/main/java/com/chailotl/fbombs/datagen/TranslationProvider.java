@@ -26,7 +26,9 @@ public class TranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(FBombsItemGroups.BLOCKS.getTranslationKey(), "FBombs " + cleanString(Registries.ITEM_GROUP.getId(FBombsItemGroups.BLOCKS.get())));
         translationBuilder.add(FBombsItemGroups.ITEMS.getTranslationKey(), "FBombs " + cleanString(Registries.ITEM_GROUP.getId(FBombsItemGroups.ITEMS.get())));
 
-        translationBuilder.add(FBombsBlocks.TEST_BLOCK, cleanString(Registries.BLOCK.getId(FBombsBlocks.TEST_BLOCK)));
+        translationBuilder.add(FBombsBlocks.TEST, cleanString(Registries.BLOCK.getId(FBombsBlocks.TEST)));
+        translationBuilder.add(FBombsBlocks.INSTANT_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.INSTANT_TNT)));
+        translationBuilder.add(FBombsBlocks.SPLIT_TNT, cleanString(Registries.BLOCK.getId(FBombsBlocks.SPLIT_TNT)));
 
         translationBuilder.add(FBombsItems.TEST_ITEM, cleanString(Registries.ITEM.getId(FBombsItems.TEST_ITEM)));
 

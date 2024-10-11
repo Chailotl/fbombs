@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 // method references instead of lambdas cause issues when lazy initialisation
 public class FBombsItemGroups {
     public static final ItemGroupEntry ITEMS = new ItemGroupEntry("items", () -> Items.STICK);
-    public static final ItemGroupEntry BLOCKS = new ItemGroupEntry("blocks", () -> FBombsBlocks.TEST_BLOCK.asItem());
+    public static final ItemGroupEntry BLOCKS = new ItemGroupEntry("blocks", () -> FBombsBlocks.INSTANT_TNT.asItem());
 
     public static void initialize() {
         ItemGroupEntry.ALL_GROUPS.forEach(entry -> entry.register());

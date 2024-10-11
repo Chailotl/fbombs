@@ -20,6 +20,6 @@ public class InstantTntEntity extends AbstractTntEntity {
 
     @Override
     protected Block getBlock() {
-        return FBombsBlocks.INSTANT_TNT_BLOCK;
+        return FBombsBlocks.INSTANT_TNT;
     }
 }

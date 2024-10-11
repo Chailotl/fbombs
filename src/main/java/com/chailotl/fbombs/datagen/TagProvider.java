@@ -5,6 +5,7 @@ import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,8 @@ public class TagProvider {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             getOrCreateTagBuilder(FBombsTags.TNT_VARIANTS)
-                    .add(FBombsBlocks.TEST_BLOCK);
+                    .add(FBombsBlocks.SPLIT_TNT)
+                    .add(FBombsBlocks.INSTANT_TNT);
         }
     }
 
@@ -30,8 +32,8 @@ public class TagProvider {
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-            /*getOrCreateTagBuilder(FBombsTags.TEST_ITEM_TAG)
-                    .add(FBombsItems.TEST_ITEM);*/
+            getOrCreateTagBuilder(FBombsTags.SPLITS_TNT)
+                    .add(Items.SHEARS);
         }
     }
 

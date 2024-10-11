@@ -11,7 +11,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class FBombsBlockEntities {
-    public static final BlockEntityType<TestBlockEntity> TEST_BLOCK_ENTITY = register("test_block_entity", TestBlockEntity::new, FBombsBlocks.TEST_BLOCK);
+    public static final BlockEntityType<TestBlockEntity> TEST_BLOCK_ENTITY = register("test_block_entity", TestBlockEntity::new, FBombsBlocks.TEST);
 
     private static <T extends BlockEntity> BlockEntityType<T> register(
             String name, BlockEntityType.BlockEntityFactory<? extends T> entityFactory, Block... blocks) {
