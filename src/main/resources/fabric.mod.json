@@ -5,8 +5,8 @@
 	"name": "FBombs",
 	"description": "A silly Fabric mod inspired by old-school Forge nuke mods",
 	"authors": [
-		"Chai",
-		"ShiroJR"
+		"DEV - Chai",
+		"DEV - ShiroJR"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -19,6 +19,12 @@
 	"entrypoints": {
 		"main": [
 			"com.chailotl.fbombs.FBombs"
+		],
+		"client": [
+			"com.chailotl.fbombs.FBombsClient"
+		],
+		"fabric-datagen": [
+			"com.chailotl.fbombs.FBombsDataGenerator"
 		]
 	},
 	"mixins": [
