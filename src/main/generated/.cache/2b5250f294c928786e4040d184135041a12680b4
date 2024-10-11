@@ -1,10 +1,10 @@
-// 1.21.1	2024-10-11T18:36:08.2742076	FBombs/Model Definitions
+// 1.21.1	2024-10-11T19:18:23.6291285	FBombs/Model Definitions
 fe38ea410903b3da7c5f83e39be07a616be4e299 assets\fbombs\models\item\dynamite_stick.json
 d4b970a093c55b73c4c9db2af1141261a805b016 assets\fbombs\blockstates\short_fuse_tnt.json
 7add7be66178b564107918ed8fb7ecd730fe67c8 assets\fbombs\blockstates\instant_tnt.json
 cc80f62dca0d3058d5ed5c8283cf750485c9fe0b assets\fbombs\models\item\instant_tnt.json
-44ef89bee3d4b936cf0fbeec02ceaf4aff4d0ebf assets\fbombs\models\block\short_fuse_tnt.json
 5bfd95ed9404e97555d548939eb172242a0f3759 assets\fbombs\models\block\long_fuse_tnt.json
+44ef89bee3d4b936cf0fbeec02ceaf4aff4d0ebf assets\fbombs\models\block\short_fuse_tnt.json
 63ee90f14fb599069147d446012b6e98177ddc61 assets\fbombs\models\block\instant_tnt.json
 f5fec77dd783605fe617b212babdf75caa3576ae assets\fbombs\models\item\long_fuse_tnt.json
 e614619e7ab671c210ca5055190136c5f19334f7 assets\fbombs\blockstates\long_fuse_tnt.json

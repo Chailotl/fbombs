@@ -12,9 +12,7 @@ public class FBombsClient implements ClientModInitializer {
     public void onInitializeClient() {
         FBombsS2CNetworking.initialize();
 
-        EntityRendererRegistry.register(FBombsEntityTypes.INSTANT_TNT, GenericTntEntityRenderer::new);
-        EntityRendererRegistry.register(FBombsEntityTypes.SHORT_FUSE_TNT, GenericTntEntityRenderer::new);
-        EntityRendererRegistry.register(FBombsEntityTypes.LONG_FUSE_TNT, GenericTntEntityRenderer::new);
+        FBombsEntityTypes.streamTntEntityTypes().forEach(entityType -> EntityRendererRegistry.register(entityType, GenericTntEntityRenderer::new));
         EntityRendererRegistry.register(FBombsEntityTypes.DYNAMITE_STICK, DynamiteStickEntityRenderer::new);
     }
 }

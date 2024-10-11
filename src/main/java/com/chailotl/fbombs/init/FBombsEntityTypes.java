@@ -1,59 +1,62 @@
 package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
-import com.chailotl.fbombs.entity.DynamiteStickEntity;
-import com.chailotl.fbombs.entity.InstantTntEntity;
-import com.chailotl.fbombs.entity.LongFuseTntEntity;
-import com.chailotl.fbombs.entity.ShortFuseTntEntity;
+import com.chailotl.fbombs.entity.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 public class FBombsEntityTypes {
-    public static final EntityType<InstantTntEntity> INSTANT_TNT = register(
-        "instant_tnt",
-        EntityType.Builder.<InstantTntEntity>create(InstantTntEntity::new, SpawnGroup.MISC)
-            .makeFireImmune()
-            .dimensions(0.98F, 0.98F)
-            .eyeHeight(0.15F)
-            .maxTrackingRange(10)
-            .trackingTickInterval(10)
-    );
-    public static final EntityType<ShortFuseTntEntity> SHORT_FUSE_TNT = register(
-        "short_fuse_tnt",
-        EntityType.Builder.<ShortFuseTntEntity>create(ShortFuseTntEntity::new, SpawnGroup.MISC)
-            .makeFireImmune()
-            .dimensions(0.98F, 0.98F)
-            .eyeHeight(0.15F)
-            .maxTrackingRange(10)
-            .trackingTickInterval(10)
-    );
-    public static final EntityType<LongFuseTntEntity> LONG_FUSE_TNT = register(
-        "long_fuse_tnt",
-        EntityType.Builder.<LongFuseTntEntity>create(LongFuseTntEntity::new, SpawnGroup.MISC)
-            .makeFireImmune()
-            .dimensions(0.98F, 0.98F)
-            .eyeHeight(0.15F)
-            .maxTrackingRange(10)
-            .trackingTickInterval(10)
-    );
+    private static List<EntityType<?>> VALUES = new ArrayList<>();
+    private static List<EntityType<? extends AbstractTntEntity>> TNT_ENTITY_TYPES = new ArrayList<>();
+
+    public static final EntityType<InstantTntEntity> INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
+    public static final EntityType<ShortFuseTntEntity> SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
+    public static final EntityType<LongFuseTntEntity> LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
 
     public static final EntityType<DynamiteStickEntity> DYNAMITE_STICK = register(
-            "dynamite_stick",
-            EntityType.Builder.<DynamiteStickEntity>create(DynamiteStickEntity::new, SpawnGroup.MISC)
-                    .makeFireImmune()
-                    .dimensions(0.25F, 0.25F)
-                    .maxTrackingRange(4)
-                    .trackingTickInterval(10)
+        "dynamite_stick",
+        EntityType.Builder.<DynamiteStickEntity>create(DynamiteStickEntity::new, SpawnGroup.MISC)
+            .makeFireImmune()
+            .dimensions(0.25F, 0.25F)
+            .maxTrackingRange(4)
+            .trackingTickInterval(10)
     );
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {
-        return Registry.register(Registries.ENTITY_TYPE, FBombs.getId(name), type.build(name));
+        EntityType<T> entityType = type.build(name);
+        VALUES.add(entityType);
+        return Registry.register(Registries.ENTITY_TYPE, FBombs.getId(name), entityType);
+    }
+
+    private static <T extends AbstractTntEntity> EntityType<T> registerTnt(String name, EntityType.EntityFactory<T> factory) {
+        EntityType<T> entityType = EntityType.Builder.create(factory, SpawnGroup.MISC)
+            .makeFireImmune()
+            .dimensions(0.98F, 0.98F)
+            .eyeHeight(0.15F)
+            .maxTrackingRange(10)
+            .trackingTickInterval(10)
+            .build(name);
+        VALUES.add(entityType);
+        TNT_ENTITY_TYPES.add(entityType);
+        return Registry.register(Registries.ENTITY_TYPE, FBombs.getId(name), entityType);
     }
 
     public static void initialize() {
         // static initialisation
+    }
+
+    public static Stream<EntityType<?>> stream() {
+        return VALUES.stream();
+    }
+
+    public static Stream<EntityType<? extends AbstractTntEntity>> streamTntEntityTypes() {
+        return TNT_ENTITY_TYPES.stream();
     }
 }

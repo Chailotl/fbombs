@@ -31,17 +31,11 @@ public class TranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(FBombsItemGroups.BLOCKS.getTranslationKey(), "FBombs " + cleanString(FBombsItemGroups.BLOCKS.get()));
         translationBuilder.add(FBombsItemGroups.ITEMS.getTranslationKey(), "FBombs " + cleanString(FBombsItemGroups.ITEMS.get()));
 
-        translationBuilder.add(FBombsBlocks.TEST, cleanString(FBombsBlocks.TEST));
-        translationBuilder.add(FBombsBlocks.INSTANT_TNT, cleanString(FBombsBlocks.INSTANT_TNT));
-        translationBuilder.add(FBombsBlocks.SPLIT_TNT, cleanString(FBombsBlocks.SPLIT_TNT));
-        translationBuilder.add(FBombsBlocks.SHORT_FUSE_TNT, cleanString(FBombsBlocks.SHORT_FUSE_TNT));
-        translationBuilder.add(FBombsBlocks.LONG_FUSE_TNT, cleanString(FBombsBlocks.LONG_FUSE_TNT));
+        FBombsBlocks.stream().forEach(block -> translationBuilder.add(block, cleanString(block)));
 
-        translationBuilder.add(FBombsItems.DYNAMITE_STICK, cleanString(FBombsItems.DYNAMITE_STICK));
+        FBombsItems.stream().forEach(item -> translationBuilder.add(item, cleanString(item)));
 
-        translationBuilder.add(FBombsEntityTypes.INSTANT_TNT, cleanString(FBombsEntityTypes.INSTANT_TNT));
-        translationBuilder.add(FBombsEntityTypes.SHORT_FUSE_TNT, cleanString(FBombsEntityTypes.SHORT_FUSE_TNT));
-        translationBuilder.add(FBombsEntityTypes.LONG_FUSE_TNT, cleanString(FBombsEntityTypes.LONG_FUSE_TNT));
+        FBombsEntityTypes.stream().forEach(entityType -> translationBuilder.add(entityType, cleanString(entityType)));
 
         try {
             Path existingFilePath = dataOutput.getModContainer().findPath("assets/%s/lang/en_us.existing.json".formatted(FBombs.MOD_ID)).orElseThrow();
