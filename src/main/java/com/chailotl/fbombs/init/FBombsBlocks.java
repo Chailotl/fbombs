@@ -3,6 +3,7 @@ package com.chailotl.fbombs.init;
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.*;
 import com.chailotl.fbombs.entity.InstantTntEntity;
+import com.chailotl.fbombs.entity.LongFuseTntEntity;
 import com.chailotl.fbombs.entity.ShortFuseTntEntity;
 import com.chailotl.fbombs.util.TntEntityProvider;
 import com.chailotl.fbombs.util.TntEntityType;
@@ -25,6 +26,7 @@ public class FBombsBlocks {
             .solidBlock(Blocks::never)
     ), true);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
+    public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {

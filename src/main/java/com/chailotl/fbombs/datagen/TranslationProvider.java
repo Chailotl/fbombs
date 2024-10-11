@@ -35,11 +35,13 @@ public class TranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(FBombsBlocks.INSTANT_TNT, cleanString(FBombsBlocks.INSTANT_TNT));
         translationBuilder.add(FBombsBlocks.SPLIT_TNT, cleanString(FBombsBlocks.SPLIT_TNT));
         translationBuilder.add(FBombsBlocks.SHORT_FUSE_TNT, cleanString(FBombsBlocks.SHORT_FUSE_TNT));
+        translationBuilder.add(FBombsBlocks.LONG_FUSE_TNT, cleanString(FBombsBlocks.LONG_FUSE_TNT));
 
         translationBuilder.add(FBombsItems.DYNAMITE_STICK, cleanString(FBombsItems.DYNAMITE_STICK));
 
         translationBuilder.add(FBombsEntityTypes.INSTANT_TNT, cleanString(FBombsEntityTypes.INSTANT_TNT));
         translationBuilder.add(FBombsEntityTypes.SHORT_FUSE_TNT, cleanString(FBombsEntityTypes.SHORT_FUSE_TNT));
+        translationBuilder.add(FBombsEntityTypes.LONG_FUSE_TNT, cleanString(FBombsEntityTypes.LONG_FUSE_TNT));
 
         try {
             Path existingFilePath = dataOutput.getModContainer().findPath("assets/%s/lang/en_us.existing.json".formatted(FBombs.MOD_ID)).orElseThrow();

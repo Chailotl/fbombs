@@ -3,6 +3,7 @@ package com.chailotl.fbombs.init;
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.entity.DynamiteStickEntity;
 import com.chailotl.fbombs.entity.InstantTntEntity;
+import com.chailotl.fbombs.entity.LongFuseTntEntity;
 import com.chailotl.fbombs.entity.ShortFuseTntEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -21,8 +22,17 @@ public class FBombsEntityTypes {
             .trackingTickInterval(10)
     );
     public static final EntityType<ShortFuseTntEntity> SHORT_FUSE_TNT = register(
-        "instant_tnt",
+        "short_fuse_tnt",
         EntityType.Builder.<ShortFuseTntEntity>create(ShortFuseTntEntity::new, SpawnGroup.MISC)
+            .makeFireImmune()
+            .dimensions(0.98F, 0.98F)
+            .eyeHeight(0.15F)
+            .maxTrackingRange(10)
+            .trackingTickInterval(10)
+    );
+    public static final EntityType<LongFuseTntEntity> LONG_FUSE_TNT = register(
+        "long_fuse_tnt",
+        EntityType.Builder.<LongFuseTntEntity>create(LongFuseTntEntity::new, SpawnGroup.MISC)
             .makeFireImmune()
             .dimensions(0.98F, 0.98F)
             .eyeHeight(0.15F)
