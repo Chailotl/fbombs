@@ -1,5 +1,6 @@
 package com.chailotl.fbombs;
 
+import com.chailotl.fbombs.init.FBombsBlockEntities;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsItemGroups;
 import com.chailotl.fbombs.init.FBombsItems;
@@ -18,6 +19,7 @@ public class FBombs implements ModInitializer {
 		FBombsBlocks.initialize();
 		FBombsItems.initialize();
 		FBombsItemGroups.initialize();
+		FBombsBlockEntities.initialize();
 
 		LOGGER.info("May contain traces of nuclear explosions");
 	}
