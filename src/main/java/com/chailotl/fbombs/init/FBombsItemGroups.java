@@ -11,12 +11,15 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
-@SuppressWarnings({"Convert2MethodRef", "unused"})  // method references instead of lambdas cause issues when lazy initialisation
+@SuppressWarnings({"Convert2MethodRef", "unused"})
+// method references instead of lambdas cause issues when lazy initialisation
 public class FBombsItemGroups {
     public static final ItemGroupEntry ITEMS = new ItemGroupEntry("items", () -> Items.STICK);
     public static final ItemGroupEntry BLOCKS = new ItemGroupEntry("blocks", () -> FBombsBlocks.TEST_BLOCK.asItem());
@@ -37,9 +40,18 @@ public class FBombsItemGroups {
             this.items.addAll(List.of(items));
         }
 
+        @NotNull
+        public ItemGroup get() {
+            return Optional.ofNullable(Registries.ITEM_GROUP.get(getRegistryKey())).orElseThrow();
+        }
+
+        public String getTranslationKey() {
+            return "itemgroup.%s.%s".formatted(FBombs.MOD_ID, this.name());
+        }
+
         @SuppressWarnings("UnusedReturnValue")
         public RegistryKey<ItemGroup> register() {
-            Text displayName = Text.translatable("itemgroup.%s.%s".formatted(FBombs.MOD_ID, this.name));
+            Text displayName = Text.translatable(getTranslationKey());
             ItemGroup itemGroup = FabricItemGroup.builder()
                     .icon(() -> new ItemStack(this.icon.get()))
                     .displayName(displayName)
@@ -51,7 +63,7 @@ public class FBombsItemGroups {
             return getRegistryKey();
         }
 
-        private RegistryKey<ItemGroup> getRegistryKey() {
+        public RegistryKey<ItemGroup> getRegistryKey() {
             return RegistryKey.of(RegistryKeys.ITEM_GROUP, FBombs.getId(this.name));
         }
     }

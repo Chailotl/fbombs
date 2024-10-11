@@ -1,3 +1,6 @@
 {
-  "block.fbombs.test_block": "Test Block"
+  "block.fbombs.test_block": "Test Block",
+  "item.fbombs.test_item": "Test Item",
+  "itemgroup.fbombs.blocks": "FBombs Blocks",
+  "itemgroup.fbombs.items": "FBombs Items"
 }
