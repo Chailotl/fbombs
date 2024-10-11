@@ -1,5 +1,7 @@
 {
+  "block.fbombs.instant_tnt": "Instant TNT",
   "block.fbombs.test_block": "Test Block",
+  "item.fbombs.instant_tnt": "Instant TNT",
   "item.fbombs.test_item": "Test Item",
   "itemgroup.fbombs.blocks": "FBombs Blocks",
   "itemgroup.fbombs.items": "FBombs Items"
