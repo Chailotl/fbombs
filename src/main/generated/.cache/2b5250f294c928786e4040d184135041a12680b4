@@ -1,11 +1,20 @@
-// 1.21.1	2024-10-11T21:17:07.5419869	FBombs/Model Definitions
+// 1.21.1	2024-10-11T21:35:00.0562183	FBombs/Model Definitions
 fe38ea410903b3da7c5f83e39be07a616be4e299 assets\fbombs\models\item\dynamite_stick.json
-d4b970a093c55b73c4c9db2af1141261a805b016 assets\fbombs\blockstates\short_fuse_tnt.json
 7add7be66178b564107918ed8fb7ecd730fe67c8 assets\fbombs\blockstates\instant_tnt.json
+179079ce4310557dc2a75c3df21a5ea446a4ba96 assets\fbombs\models\item\low_power_tnt.json
+7da3268d07a8063b5b3aea0db8a1a80082ff5e43 assets\fbombs\blockstates\low_power_tnt.json
 cc80f62dca0d3058d5ed5c8283cf750485c9fe0b assets\fbombs\models\item\instant_tnt.json
+5a36727ee09aceaba8c69236f73294a3a40854ee assets\fbombs\models\block\fire_tnt.json
+546c6fa80e0c1e0d045d376d9422f4a0f1dfc0b1 assets\fbombs\blockstates\high_power_tnt.json
 5bfd95ed9404e97555d548939eb172242a0f3759 assets\fbombs\models\block\long_fuse_tnt.json
+f5fec77dd783605fe617b212babdf75caa3576ae assets\fbombs\models\item\long_fuse_tnt.json
+a5deae280bacacb755d539a397f9621cbc94f4a3 assets\fbombs\models\item\high_power_tnt.json
+7964fed0ab674a294fe46e780675dc93e6d1c17a assets\fbombs\models\item\short_fuse_tnt.json
+d4b970a093c55b73c4c9db2af1141261a805b016 assets\fbombs\blockstates\short_fuse_tnt.json
+fe027e99d93df45f5d7c860a5bf45704c20cc2af assets\fbombs\models\block\high_power_tnt.json
+ddf745ce346d71772629eae63aae9fe6baf1f856 assets\fbombs\blockstates\fire_tnt.json
 44ef89bee3d4b936cf0fbeec02ceaf4aff4d0ebf assets\fbombs\models\block\short_fuse_tnt.json
 63ee90f14fb599069147d446012b6e98177ddc61 assets\fbombs\models\block\instant_tnt.json
-f5fec77dd783605fe617b212babdf75caa3576ae assets\fbombs\models\item\long_fuse_tnt.json
+99da4648819a05a3f7329986b8634229f54bf96b assets\fbombs\models\item\fire_tnt.json
 e614619e7ab671c210ca5055190136c5f19334f7 assets\fbombs\blockstates\long_fuse_tnt.json
-7964fed0ab674a294fe46e780675dc93e6d1c17a assets\fbombs\models\item\short_fuse_tnt.json
+a52197eaafe9c4c5b2925abb484f756b8d04492f assets\fbombs\models\block\low_power_tnt.json

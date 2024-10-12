@@ -1,4 +1,5 @@
 {
+  "block.fbombs.fire_tnt": "Fire Tnt",
   "block.fbombs.high_power_tnt": "High Power Tnt",
   "block.fbombs.instant_tnt": "Instant Tnt",
   "block.fbombs.long_fuse_tnt": "Long Fuse Tnt",
@@ -7,6 +8,7 @@
   "block.fbombs.split_tnt": "Split Tnt",
   "block.fbombs.test_block": "Test Block",
   "entity.fbombs.dynamite_stick": "Dynamite Stick",
+  "entity.fbombs.fire_tnt": "Fire Tnt",
   "entity.fbombs.high_power_tnt": "High Power Tnt",
   "entity.fbombs.instant_tnt": "Instant Tnt",
   "entity.fbombs.long_fuse_tnt": "Long Fuse Tnt",

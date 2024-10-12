@@ -22,6 +22,9 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSingleton(FBombsBlocks.INSTANT_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHORT_FUSE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.LONG_FUSE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.HIGH_POWER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.LOW_POWER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.FIRE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
     }
 
     @Override

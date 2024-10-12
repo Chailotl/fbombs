@@ -42,6 +42,7 @@ public class FBombsBlocks {
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
     public static final GenericTntBlock LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
+    public static final GenericTntBlock FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
