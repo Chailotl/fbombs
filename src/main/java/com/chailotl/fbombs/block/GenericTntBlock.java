@@ -94,7 +94,9 @@ public class GenericTntBlock extends Block {
         if (!world.isClient) {
             AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, igniter);
             world.spawnEntity(tntEntity);
-            world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if (tntEntity.getFuse() >= 10) {
+                world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
             world.emitGameEvent(igniter, GameEvent.PRIME_FUSE, pos);
         }
     }
