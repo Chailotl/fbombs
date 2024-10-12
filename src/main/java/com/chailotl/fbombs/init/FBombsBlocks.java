@@ -2,15 +2,11 @@ package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.*;
-import com.chailotl.fbombs.entity.AbstractTntEntity;
-import com.chailotl.fbombs.entity.InstantTntEntity;
-import com.chailotl.fbombs.entity.LongFuseTntEntity;
-import com.chailotl.fbombs.entity.ShortFuseTntEntity;
+import com.chailotl.fbombs.entity.*;
 import com.chailotl.fbombs.util.TntEntityProvider;
 import com.chailotl.fbombs.util.TntEntityType;
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
-import net.minecraft.entity.TntEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -44,6 +40,7 @@ public class FBombsBlocks {
     ), true);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
+    public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
