@@ -1,4 +1,6 @@
 {
+  "advancement.fbombs.explodification": "Explodification",
+  "advancement.fbombs.explodification.desc": "Successfully explodificated the Stick",
   "block.fbombs.fire_tnt": "Fire Tnt",
   "block.fbombs.high_power_tnt": "High Power Tnt",
   "block.fbombs.instant_tnt": "Instant Tnt",
@@ -14,6 +16,7 @@
   "entity.fbombs.long_fuse_tnt": "Long Fuse Tnt",
   "entity.fbombs.low_power_tnt": "Low Power Tnt",
   "entity.fbombs.short_fuse_tnt": "Short Fuse Tnt",
+  "entity.fbombs.split_tnt": "Split Tnt",
   "item.fbombs.dynamite_stick": "Dynamite Stick",
   "item.fbombs.dynamite_stick.tooltip": "Use in combination with an Ignition Item to throw",
   "itemgroup.fbombs.blocks": "FBombs Blocks",

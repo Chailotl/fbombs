@@ -1,3 +1,5 @@
 {
-  "item.fbombs.dynamite_stick.tooltip": "Use in combination with an Ignition Item to throw"
+  "item.fbombs.dynamite_stick.tooltip": "Use in combination with an Ignition Item to throw",
+  "advancement.fbombs.explodification": "Explodification",
+  "advancement.fbombs.explodification.desc": "Successfully explodificated the Stick"
 }

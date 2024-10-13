@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "north_east_split=false,north_west_split=false,south_east_split=false,south_west_split=false": {
+      "model": "fbombs:block/split_tnt"
+    },
+    "north_east_split=false,north_west_split=false,south_east_split=false,south_west_split=true": {
+      "model": "fbombs:block/split_tnt_sw"
+    },
+    "north_east_split=false,north_west_split=false,south_east_split=true,south_west_split=false": {
+      "model": "fbombs:block/split_tnt_se"
+    },
+    "north_east_split=false,north_west_split=false,south_east_split=true,south_west_split=true": {
+      "model": "fbombs:block/split_tnt_se_sw"
+    },
+    "north_east_split=false,north_west_split=true,south_east_split=false,south_west_split=false": {
+      "model": "fbombs:block/split_tnt_nw"
+    },
+    "north_east_split=false,north_west_split=true,south_east_split=false,south_west_split=true": {
+      "model": "fbombs:block/split_tnt_sw_nw"
+    },
+    "north_east_split=false,north_west_split=true,south_east_split=true,south_west_split=false": {
+      "model": "fbombs:block/split_tnt_se_nw"
+    },
+    "north_east_split=false,north_west_split=true,south_east_split=true,south_west_split=true": {
+      "model": "fbombs:block/split_tnt_se_sw_nw"
+    },
+    "north_east_split=true,north_west_split=false,south_east_split=false,south_west_split=false": {
+      "model": "fbombs:block/split_tnt_ne"
+    },
+    "north_east_split=true,north_west_split=false,south_east_split=false,south_west_split=true": {
+      "model": "fbombs:block/split_tnt_ne_sw"
+    },
+    "north_east_split=true,north_west_split=false,south_east_split=true,south_west_split=false": {
+      "model": "fbombs:block/split_tnt_ne_se"
+    },
+    "north_east_split=true,north_west_split=false,south_east_split=true,south_west_split=true": {
+      "model": "fbombs:block/split_tnt_ne_se_sw"
+    },
+    "north_east_split=true,north_west_split=true,south_east_split=false,south_west_split=false": {
+      "model": "fbombs:block/split_tnt_ne_nw"
+    },
+    "north_east_split=true,north_west_split=true,south_east_split=false,south_west_split=true": {
+      "model": "fbombs:block/split_tnt_ne_sw_nw"
+    },
+    "north_east_split=true,north_west_split=true,south_east_split=true,south_west_split=false": {
+      "model": "fbombs:block/split_tnt_ne_se_nw"
+    },
+    "north_east_split=true,north_west_split=true,south_east_split=true,south_west_split=true": {
+      "model": "fbombs:block/split_tnt_ne_se_sw_nw"
+    }
+  }
+}
