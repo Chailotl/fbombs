@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -21,7 +20,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("Convert2MethodRef")
 // method references instead of lambdas cause issues when lazy initialisation
 public class FBombsItemGroups {
-    public static final ItemGroupEntry ITEMS = new ItemGroupEntry("items", () -> Items.STICK);
+    public static final ItemGroupEntry ITEMS = new ItemGroupEntry("items", () -> FBombsItems.DYNAMITE_STICK);
     public static final ItemGroupEntry BLOCKS = new ItemGroupEntry("blocks", () -> FBombsBlocks.INSTANT_TNT.asItem());
 
     public static void initialize() {

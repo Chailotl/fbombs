@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class SplitTntEntity extends AbstractTntEntity {
-    private BlockState state;
 
     public SplitTntEntity(EntityType<SplitTntEntity> entityType, World world) {
         super(entityType, world);
@@ -19,7 +18,6 @@ public class SplitTntEntity extends AbstractTntEntity {
 
     public SplitTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter, BlockState state) {
         super(FBombsEntityTypes.SPLIT_TNT, world, x, y, z, igniter, state);
-        this.state = state;
     }
 
     @Override
@@ -29,8 +27,8 @@ public class SplitTntEntity extends AbstractTntEntity {
 
     @Override
     protected float getPower() {
-        if (SplitTntBlock.containsSplitStates(state)) {
-            return SplitTntBlock.getExistingSplits(state).size();
+        if (SplitTntBlock.containsSplitStates(getBlockState())) {
+            return SplitTntBlock.getExistingSplits(getBlockState()).size();
         }
         return super.getPower();
     }

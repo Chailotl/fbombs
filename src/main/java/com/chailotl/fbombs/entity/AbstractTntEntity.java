@@ -42,7 +42,6 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
     };
     @Nullable
     private LivingEntity causingEntity;
-    @Nullable BlockState state;
     private boolean teleported;
 
     public AbstractTntEntity(EntityType<? extends AbstractTntEntity> entityType, World world) {
@@ -61,7 +60,7 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         this.prevY = y;
         this.prevZ = z;
         this.causingEntity = igniter;
-        this.state = state;
+        this.setBlockState(state);
     }
 
     protected int getDefaultFuse() {
