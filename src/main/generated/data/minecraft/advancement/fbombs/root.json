@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "explodification": {
+      "trigger": "fbombs:used_dynamite_stick"
+    }
+  },
+  "display": {
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "description": {
+      "translate": "advancement.fbombs.explodification.desc"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "fbombs:dynamite_stick"
+    },
+    "title": {
+      "translate": "advancement.fbombs.explodification"
+    }
+  },
+  "requirements": [
+    [
+      "explodification"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
