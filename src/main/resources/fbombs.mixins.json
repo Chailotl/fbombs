@@ -3,6 +3,7 @@
   "package": "com.chailotl.fbombs.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractBlockMixin",
     "TntBlockMixin"
   ],
   "injectors": {

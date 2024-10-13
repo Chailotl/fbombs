@@ -1,8 +1,10 @@
 package com.chailotl.fbombs.explosion;
 
+import com.chailotl.fbombs.init.FBombsGamerules;
+import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.LoggerUtil;
+import com.chailotl.fbombs.api.VolumetricExplosion;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -45,7 +47,8 @@ public class ExplosionHandler {
                     BlockState currentState = world.getBlockState(mutablePos.toImmutable());
                     boolean isAir = currentState.isAir();
                     boolean resistsBlast = currentState.getBlock().getBlastResistance() > blastStrength;
-                    boolean isExcluded = !blockExceptions.test(currentState);
+                    boolean isExcluded = blockExceptions.test(currentState);
+                    LoggerUtil.devLogger(origin.toShortString() + " | " + mutablePos.toImmutable() + " | " + currentState);
                     if (isAir) {
                         continue;
                     }
@@ -58,7 +61,7 @@ public class ExplosionHandler {
             }
         }
         StringBuilder sb = new StringBuilder("[%s] Ignored ".formatted(explodedBlocks.size()));
-        explodedBlocks.forEach((pos, state) -> sb.append(pos.toShortString()).append(" | "));
+        explodedBlocks.forEach((pos, state) -> sb.append(state.toString()).append(" | "));
         LoggerUtil.devLogger(sb.toString());
 
         //TODO: [ShiroJR] calculate explosion shadow based on excluded blocks?
@@ -66,23 +69,22 @@ public class ExplosionHandler {
     }
 
     public static void explodeSpherical(ServerWorld world, BlockPos origin, int radius, int strength) {
-        Predicate<BlockState> isSafeFromExplosion = blockState -> {
-            if (blockState.contains(Properties.WATERLOGGED)) return true;
-            if (blockState.isOf(Blocks.BEDROCK)) return true;
-            return true;
+        Predicate<BlockState> isImmune = blockState -> {
+            if (blockState.contains(Properties.WATERLOGGED) && blockState.get(Properties.WATERLOGGED)) return true;
+            if (!world.getGameRules().getBoolean(FBombsGamerules.ALLOW_VOLUMETRIC_EXPLOSION_DAMAGE)) return true;
+            return blockState.isIn(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE);
         };
-
-        HashMap<BlockPos, BlockState> influencedBlocks = collect(world, origin, radius, ExplosionShape.SPHERE, null, isSafeFromExplosion, strength);
+        HashMap<BlockPos, BlockState> influencedBlocks = collect(world, origin, radius, ExplosionShape.SPHERE, null, isImmune, strength);
         for (var entry : influencedBlocks.entrySet()) {
-            if (world.getRandom().nextFloat() > 0.5f) continue;
             BlockPos pos = entry.getKey();
             BlockState state = entry.getValue();
+            ((VolumetricExplosion) state.getBlock()).fbombs$onExploded(world, pos, origin, state, strength);
+            if (world.getRandom().nextFloat() > 0.5f) continue;
             world.spawnParticles(ParticleTypes.EXPLOSION, pos.getX(), pos.getY(), pos.getZ(), 1,
                     world.getRandom().nextGaussian() - 0.5,
                     world.getRandom().nextGaussian() - 0.5,
                     world.getRandom().nextGaussian() - 0.5,
                     0.25);
-            // state.onExploded(world, pos, );
         }
         if (!influencedBlocks.isEmpty()) {
             world.playSound(null, origin, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.BLOCKS, 1f, 1f);

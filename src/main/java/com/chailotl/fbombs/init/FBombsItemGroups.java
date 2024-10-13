@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-@SuppressWarnings({"Convert2MethodRef", "unused"})
+@SuppressWarnings("Convert2MethodRef")
 // method references instead of lambdas cause issues when lazy initialisation
 public class FBombsItemGroups {
     public static final ItemGroupEntry ITEMS = new ItemGroupEntry("items", () -> Items.STICK);

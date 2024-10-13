@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class FBombsEntityTypes {
-    private static List<EntityType<?>> VALUES = new ArrayList<>();
-    private static List<EntityType<? extends AbstractTntEntity>> TNT_ENTITY_TYPES = new ArrayList<>();
+    private static final List<EntityType<?>> VALUES = new ArrayList<>();
+    private static final List<EntityType<? extends AbstractTntEntity>> TNT_ENTITY_TYPES = new ArrayList<>();
 
     public static final EntityType<InstantTntEntity> INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
     public static final EntityType<ShortFuseTntEntity> SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
@@ -22,6 +22,7 @@ public class FBombsEntityTypes {
     public static final EntityType<HighPowerTntEntity> HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
     public static final EntityType<LowPowerTntEntity> LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
     public static final EntityType<FireTntEntity> FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
+    public static final EntityType<SplitTntEntity> SPLIT_TNT = registerTnt("split_tnt", SplitTntEntity::new);
 
     public static final EntityType<DynamiteStickEntity> DYNAMITE_STICK = register(
         "dynamite_stick",

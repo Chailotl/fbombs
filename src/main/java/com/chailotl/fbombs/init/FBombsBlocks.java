@@ -1,7 +1,9 @@
 package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
-import com.chailotl.fbombs.block.*;
+import com.chailotl.fbombs.block.GenericTntBlock;
+import com.chailotl.fbombs.block.SplitTntBlock;
+import com.chailotl.fbombs.block.TestBlock;
 import com.chailotl.fbombs.entity.*;
 import com.chailotl.fbombs.util.TntEntityProvider;
 import com.chailotl.fbombs.util.TntEntityType;
@@ -25,19 +27,19 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class FBombsBlocks {
-    private static List<Block> VALUES = new ArrayList<>();
-    private static List<GenericTntBlock> TNT_BLOCKS = new ArrayList<>();
+    private static final List<Block> VALUES = new ArrayList<>();
+    private static final List<GenericTntBlock> TNT_BLOCKS = new ArrayList<>();
 
     public static final TestBlock TEST = register("test_block", new TestBlock(AbstractBlock.Settings.create()), true);
     public static final GenericTntBlock INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
     public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(
-        AbstractBlock.Settings.create()
-            .mapColor(MapColor.BRIGHT_RED)
-            .breakInstantly()
-            .sounds(BlockSoundGroup.GRASS)
-            .burnable()
-            .solidBlock(Blocks::never)
-    ), true);
+                    new TntEntityType("split_tnt", SplitTntEntity::new), AbstractBlock.Settings.create()
+                    .mapColor(MapColor.BRIGHT_RED)
+                    .breakInstantly()
+                    .sounds(BlockSoundGroup.GRASS)
+                    .burnable()
+                    .solidBlock(Blocks::never)),
+            false);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
@@ -58,13 +60,13 @@ public class FBombsBlocks {
 
     private static GenericTntBlock registerTnt(String name, TntEntityProvider tntEntityProvider) {
         GenericTntBlock block = new GenericTntBlock(
-            TntEntityType.register(name, tntEntityProvider),
-            AbstractBlock.Settings.create()
-                .mapColor(MapColor.BRIGHT_RED)
-                .breakInstantly()
-                .sounds(BlockSoundGroup.GRASS)
-                .burnable()
-                .solidBlock(Blocks::never)
+                TntEntityType.register(name, tntEntityProvider),
+                AbstractBlock.Settings.create()
+                        .mapColor(MapColor.BRIGHT_RED)
+                        .breakInstantly()
+                        .sounds(BlockSoundGroup.GRASS)
+                        .burnable()
+                        .solidBlock(Blocks::never)
         );
         TNT_BLOCKS.add(block);
         register(name, block, true);
@@ -73,7 +75,7 @@ public class FBombsBlocks {
             protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
                 World world = pointer.world();
                 BlockPos blockPos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
-                AbstractTntEntity tntEntity = tntEntityProvider.spawn(world, (double)blockPos.getX() + 0.5, blockPos.getY(), (double)blockPos.getZ() + 0.5, null);
+                AbstractTntEntity tntEntity = tntEntityProvider.spawn(world, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, null);
                 world.spawnEntity(tntEntity);
                 if (tntEntity.getFuse() >= 10) {
                     world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);

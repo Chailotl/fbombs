@@ -1,9 +1,6 @@
 package com.chailotl.fbombs;
 
-import com.chailotl.fbombs.datagen.BlockLootTableProvider;
-import com.chailotl.fbombs.datagen.ModelProvider;
-import com.chailotl.fbombs.datagen.TagProvider;
-import com.chailotl.fbombs.datagen.TranslationProvider;
+import com.chailotl.fbombs.datagen.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
@@ -14,6 +11,7 @@ public class FBombsDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModelProvider::new);
         pack.addProvider(BlockLootTableProvider::new);
         pack.addProvider(TranslationProvider::new);
+        pack.addProvider(AdvancementsProvider::new);
         TagProvider.registerAll(pack);
     }
 }

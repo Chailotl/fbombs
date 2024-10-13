@@ -28,14 +28,11 @@ public class TranslationProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-        translationBuilder.add(FBombsItemGroups.BLOCKS.getTranslationKey(), "FBombs " + cleanString(FBombsItemGroups.BLOCKS.get()));
-        translationBuilder.add(FBombsItemGroups.ITEMS.getTranslationKey(), "FBombs " + cleanString(FBombsItemGroups.ITEMS.get()));
-
         FBombsBlocks.stream().forEach(block -> translationBuilder.add(block, cleanString(block)));
-
         FBombsItems.stream().forEach(item -> translationBuilder.add(item, cleanString(item)));
-
         FBombsEntityTypes.stream().forEach(entityType -> translationBuilder.add(entityType, cleanString(entityType)));
+        FBombsItemGroups.ItemGroupEntry.ALL_GROUPS.forEach(itemGroupEntry ->
+                translationBuilder.add(itemGroupEntry.getTranslationKey(), "FBombs " + cleanString(itemGroupEntry.get())));
 
         try {
             Path existingFilePath = dataOutput.getModContainer().findPath("assets/%s/lang/en_us.existing.json".formatted(FBombs.MOD_ID)).orElseThrow();

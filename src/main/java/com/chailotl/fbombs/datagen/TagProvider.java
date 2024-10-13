@@ -5,6 +5,7 @@ import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 
@@ -19,9 +20,14 @@ public class TagProvider {
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-            getOrCreateTagBuilder(FBombsTags.TNT_VARIANTS)
-                    .add(FBombsBlocks.INSTANT_TNT)
-                    .add(FBombsBlocks.SPLIT_TNT);
+            getOrCreateTagBuilder(FBombsTags.Blocks.TNT_VARIANTS)
+                    .add(FBombsBlocks.INSTANT_TNT, FBombsBlocks.SPLIT_TNT);
+            getOrCreateTagBuilder(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE)
+                    .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.BEDROCK, Blocks.END_PORTAL,
+                            Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,
+                            Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW, Blocks.MOVING_PISTON, Blocks.LIGHT,
+                            Blocks.REINFORCED_DEEPSLATE);
+
         }
     }
 
@@ -32,10 +38,10 @@ public class TagProvider {
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-            getOrCreateTagBuilder(FBombsTags.SPLITS_TNT)
+            getOrCreateTagBuilder(FBombsTags.Items.SPLITS_TNT)
                     .add(Items.SHEARS);
-            getOrCreateTagBuilder(FBombsTags.IGNITES_TNT)
-                    .add(Items.FLINT_AND_STEEL);
+            getOrCreateTagBuilder(FBombsTags.Items.IGNITES_TNT)
+                    .add(Items.FLINT_AND_STEEL, Items.FIRE_CHARGE);
         }
     }
 

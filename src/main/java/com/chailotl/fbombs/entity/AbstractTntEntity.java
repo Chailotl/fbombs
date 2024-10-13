@@ -124,6 +124,10 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
 
     private void explode() {
         float f = 4.0F;
+        if (getPower() < 0) {
+            this.discard();
+            return;
+        }
         this.getWorld()
             .createExplosion(
                 this,

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 @SuppressWarnings("unused")
 public class FBombsItems {
-    private static List<Item> VALUES = new ArrayList<>();
+    private static final List<Item> VALUES = new ArrayList<>();
 
     public static final DynamiteStickItem DYNAMITE_STICK = register("dynamite_stick", new DynamiteStickItem(new Item.Settings()), FBombsItemGroups.ITEMS);
 

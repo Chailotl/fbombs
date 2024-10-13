@@ -1,7 +1,9 @@
 package com.chailotl.fbombs.item;
 
 import com.chailotl.fbombs.entity.DynamiteStickEntity;
+import com.chailotl.fbombs.init.FBombsCriteria;
 import com.chailotl.fbombs.init.FBombsTags;
+import com.chailotl.fbombs.util.ItemStackHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,7 +35,7 @@ public class DynamiteStickItem extends Item {
 
         //TODO: [ShiroJR] make it switchable in hands
 
-        if (offStack == null || !(offStack.isIn(FBombsTags.IGNITES_TNT))) {
+        if (offStack == null || !(offStack.isIn(FBombsTags.Items.IGNITES_TNT))) {
             return super.use(world, user, hand);
         }
 
@@ -42,14 +44,14 @@ public class DynamiteStickItem extends Item {
         }
         DynamiteStickEntity dynamiteStickEntity = new DynamiteStickEntity(world, user);
         dynamiteStickEntity.setItem(stack);
-        dynamiteStickEntity.setTick(100);
-        dynamiteStickEntity.setMaxBounces(4);   // remove if only ticks should apply
+        dynamiteStickEntity.setTick(60);
+        dynamiteStickEntity.setMaxBounces(5);   // remove if only ticks should apply
         dynamiteStickEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 1.2f, 1.0f);
         world.spawnEntity(dynamiteStickEntity);
+        FBombsCriteria.USED_DYNAMITE_STICK.trigger(serverPlayer);
 
-        if (!user.isInCreativeMode()) {
-            offStack.damage(1, serverWorld, serverPlayer, item -> {});
-        }
+        ItemStackHelper.decrementOrDamageInNonCreative(stack, 1, serverPlayer);
+        ItemStackHelper.decrementOrDamageInNonCreative(offStack, 1, serverPlayer);
 
         return TypedActionResult.success(user.getStackInHand(hand), true);
     }
