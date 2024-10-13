@@ -79,7 +79,8 @@ public class GenericTntBlock extends Block {
 
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
         if (!world.isClient) {
-            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, explosion.getCausingEntity());
+            BlockState state = world.getBlockState(pos);
+            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, explosion.getCausingEntity(), state);
             int i = tntEntity.getFuse();
             tntEntity.setFuse((short)(world.random.nextInt(Math.max(1, i / 4)) + i / 8));
             world.spawnEntity(tntEntity);
@@ -92,7 +93,8 @@ public class GenericTntBlock extends Block {
 
     private void primeTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
-            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, igniter);
+            BlockState state = world.getBlockState(pos);
+            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, igniter, state);
             world.spawnEntity(tntEntity);
             if (tntEntity.getFuse() >= 10) {
                 world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);

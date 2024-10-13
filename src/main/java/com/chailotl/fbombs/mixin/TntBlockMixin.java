@@ -10,7 +10,6 @@ import net.minecraft.block.TntBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -28,9 +27,12 @@ public class TntBlockMixin {
     private void splitTntBlock(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player,
                                Hand hand, BlockHitResult hit, CallbackInfoReturnable<ItemActionResult> cir) {
         if (stack.isIn(FBombsTags.Items.SPLITS_TNT)) {
-            if (player instanceof ServerPlayerEntity serverPlayer && world instanceof ServerWorld serverWorld) {
+            if (player instanceof ServerPlayerEntity serverPlayer) {
                 ItemStackHelper.decrementOrDamageInNonCreative(stack, 1, serverPlayer);
-                SplitTntBlock.removeSplit(serverWorld, pos, state, hit);
+                if (!SplitTntBlock.removeSplit(world, pos, state, hit)) {
+                    cir.setReturnValue(ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
+                    return;
+                }
             }
             cir.setReturnValue(ItemActionResult.SUCCESS);
         }

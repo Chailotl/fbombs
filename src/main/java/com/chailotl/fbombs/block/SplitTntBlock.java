@@ -1,5 +1,7 @@
 package com.chailotl.fbombs.block;
 
+import com.chailotl.fbombs.FBombs;
+import com.chailotl.fbombs.entity.AbstractTntEntity;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsItems;
 import com.chailotl.fbombs.init.FBombsTags;
@@ -28,7 +30,9 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,8 +74,7 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
     @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (stack.isIn(FBombsTags.Items.SPLITS_TNT)) {
-            if (!(world instanceof ServerWorld serverWorld)) return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
-            removeSplit(serverWorld, pos, state, hit);
+            if (!removeSplit(world, pos, state, hit)) return ItemActionResult.FAIL;
             ItemStackHelper.decrementOrDamageInNonCreative(stack, 1, player);
             return ItemActionResult.SUCCESS;
         }
@@ -86,17 +89,23 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
         return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
     }
 
-    public static void removeSplit(ServerWorld serverWorld, BlockPos pos, BlockState state, @NotNull BlockHitResult hitResult) {
-        if (getExistingSplits(state).size() <= 1) {
-            serverWorld.setBlockState(pos, Blocks.AIR.getDefaultState(), NOTIFY_ALL);
-        } else {
-            if (state.getBlock() instanceof TntBlock) {
-                state = FBombsBlocks.SPLIT_TNT.getDefaultState().with(Properties.WATERLOGGED, serverWorld.getFluidState(pos).isOf(Fluids.WATER));
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean removeSplit(World world, BlockPos pos, BlockState state, @NotNull BlockHitResult hitResult) {
+        Split split = SplitTntBlock.Split.get(hitResult, hitResult.getSide(), state, true);
+        if (split == null) return false;
+        if (world instanceof ServerWorld serverWorld) {
+            if (getExistingSplits(state).size() <= 1) {
+                world.setBlockState(pos, Blocks.AIR.getDefaultState(), NOTIFY_ALL);
+            } else {
+                if (state.getBlock() instanceof TntBlock) {
+                    state = FBombsBlocks.SPLIT_TNT.getDefaultState().with(Properties.WATERLOGGED, world.getFluidState(pos).isOf(Fluids.WATER));
+                }
+                serverWorld.setBlockState(pos, state.with(split.getProperty(), false), NOTIFY_ALL);
             }
-            serverWorld.setBlockState(pos, state.with(SplitTntBlock.Split.get(hitResult).getProperty(), false), NOTIFY_ALL);
+            ItemScatterer.spawn(serverWorld, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsItems.DYNAMITE_STICK.getDefaultStack());
+            serverWorld.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
         }
-        ItemScatterer.spawn(serverWorld, pos.getX(), pos.getY(), pos.getZ(), FBombsItems.DYNAMITE_STICK.getDefaultStack());
-        serverWorld.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
+        return true;
     }
 
     public static List<Split> getExistingSplits(BlockState state) {
@@ -109,6 +118,26 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
         if (state.get(Split.SW.getProperty())) splits.add(Split.SW);
         if (state.get(Split.NW.getProperty())) splits.add(Split.NW);
         return splits;
+    }
+
+    @Override
+    public void primeTnt(World world, BlockPos pos) {
+        if (!world.isClient) {
+            BlockState state = world.getBlockState(pos);
+            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, null, state);
+            world.spawnEntity(tntEntity);
+            if (tntEntity.getFuse() >= 10) {
+                world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+            world.emitGameEvent(null, GameEvent.PRIME_FUSE, pos);
+        }
+    }
+
+    public static boolean containsSplitStates(BlockState state) {
+        for (Split entry : Split.values()) {
+            if (!state.contains(entry.getProperty())) return false;
+        }
+        return true;
     }
 
     public enum Split {
@@ -144,14 +173,22 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
             return shape;
         }
 
-        @NotNull
-        public static Split get(BlockHitResult hit) {
-            Direction hitDirection = hit.getSide();
+        @Nullable
+        public static Split get(BlockHitResult hit, Direction testDirection, BlockState state, boolean testOpposite) {
+            if (testDirection.equals(Direction.UP) || testDirection.equals(Direction.DOWN)) {
+                Throwable error = new UnsupportedOperationException("Interacted with [%s] side of TntSplitBlock".formatted(testDirection));
+                FBombs.LOGGER.error("Interacted with invalid side", error);
+                return null;
+            }
             BlockPos blockPos = hit.getBlockPos();
-            Pair<Split, Split> possibleSides = getSplitsFromCardinalDirection(hitDirection);
+            Pair<Split, Split> possibleSides = getSplitsFromCardinalDirection(testDirection);
             Vec3d vec3d = hit.getPos().subtract(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-            Vec2f sideCoordinates = getSideCoordinates(vec3d, hitDirection);
-            return sideCoordinates.x < 0.5 ? possibleSides.getLeft() : possibleSides.getRight();
+            Vec2f sideCoordinates = getSideCoordinates(vec3d, testDirection);
+            Split split = sideCoordinates.x < 0.5 ? possibleSides.getLeft() : possibleSides.getRight();
+            if ((split == null || (state.contains(split.getProperty()) && !state.get(split.getProperty()))) && testOpposite) {
+                return get(hit, testDirection.getOpposite(), state, false);
+            }
+            return split;
         }
 
         private static Vec2f getSideCoordinates(Vec3d vec3d, Direction hitDirection) {

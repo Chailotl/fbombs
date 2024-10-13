@@ -75,7 +75,10 @@ public class FBombsBlocks {
             protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
                 World world = pointer.world();
                 BlockPos blockPos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
-                AbstractTntEntity tntEntity = tntEntityProvider.spawn(world, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, null);
+                BlockState state = world.getBlockState(blockPos);
+                AbstractTntEntity tntEntity;
+                tntEntity = tntEntityProvider.spawn(world, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, null, state);
+
                 world.spawnEntity(tntEntity);
                 if (tntEntity.getFuse() >= 10) {
                     world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);

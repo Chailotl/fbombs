@@ -42,6 +42,7 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
     };
     @Nullable
     private LivingEntity causingEntity;
+    @Nullable BlockState state;
     private boolean teleported;
 
     public AbstractTntEntity(EntityType<? extends AbstractTntEntity> entityType, World world) {
@@ -49,7 +50,7 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         this.intersectionChecked = true;
     }
 
-    public AbstractTntEntity(EntityType<? extends AbstractTntEntity> entityType, World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+    public AbstractTntEntity(EntityType<? extends AbstractTntEntity> entityType, World world, double x, double y, double z, @Nullable LivingEntity igniter, @Nullable BlockState state) {
         this(entityType, world);
         this.intersectionChecked = true;
         this.setPosition(x, y, z);
@@ -60,6 +61,7 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         this.prevY = y;
         this.prevZ = z;
         this.causingEntity = igniter;
+        this.state = state;
     }
 
     protected int getDefaultFuse() {
@@ -185,6 +187,7 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         return this.dataTracker.get(BLOCK_STATE);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void setTeleported(boolean teleported) {
         this.teleported = teleported;
     }

@@ -2,7 +2,6 @@ package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.item.DynamiteStickItem;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
