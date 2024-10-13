@@ -77,10 +77,13 @@ public class GenericTntBlock extends Block {
         return super.onBreak(world, pos, state, player);
     }
 
-    public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
+    public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion, BlockState state) {
         if (!world.isClient) {
-            BlockState state = world.getBlockState(pos);
-            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, explosion.getCausingEntity(), state);
+            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world,
+                    (double)pos.getX() + 0.5, pos.getY(),
+                    (double)pos.getZ() + 0.5,
+                    explosion.getCausingEntity(),
+                    state);
             int i = tntEntity.getFuse();
             tntEntity.setFuse((short)(world.random.nextInt(Math.max(1, i / 4)) + i / 8));
             world.spawnEntity(tntEntity);

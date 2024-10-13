@@ -2,6 +2,10 @@ package com.chailotl.fbombs.mixin;
 
 import com.chailotl.fbombs.api.VolumetricExplosion;
 import com.chailotl.fbombs.block.GenericTntBlock;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.TntEntity;
@@ -13,7 +17,10 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(AbstractBlock.class)
 public class AbstractBlockMixin implements VolumetricExplosion {
@@ -46,5 +53,15 @@ public class AbstractBlockMixin implements VolumetricExplosion {
             world.removeBlock(pos, false);
         }
         world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+    }
+
+    @WrapOperation(method = "onExploded", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onDestroyedByExplosion(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/explosion/Explosion;)V"))
+    private void onExplodedWithOriginalState(Block instance, World world, BlockPos pos, Explosion explosion, Operation<Void> original,
+                                             @Local(argsOnly = true) LocalRef<BlockState> state) {
+        if (!(instance instanceof GenericTntBlock genericTntBlock)) {
+            original.call(instance, world, pos, explosion);
+            return;
+        }
+        genericTntBlock.onDestroyedByExplosion(world, pos, explosion, state.get());
     }
 }
