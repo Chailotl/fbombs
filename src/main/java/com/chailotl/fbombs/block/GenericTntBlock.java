@@ -1,7 +1,7 @@
 package com.chailotl.fbombs.block;
 
 import com.chailotl.fbombs.entity.AbstractTntEntity;
-import com.chailotl.fbombs.util.TntEntityType;
+import com.chailotl.fbombs.entity.util.TntEntityType;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.*;

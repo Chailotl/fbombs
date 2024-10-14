@@ -1,4 +1,4 @@
-package com.chailotl.fbombs.util;
+package com.chailotl.fbombs.entity.util;
 
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;

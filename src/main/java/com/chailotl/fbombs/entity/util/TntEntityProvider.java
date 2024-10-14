@@ -1,4 +1,4 @@
-package com.chailotl.fbombs.util;
+package com.chailotl.fbombs.entity.util;
 
 import com.chailotl.fbombs.entity.AbstractTntEntity;
 import net.minecraft.block.BlockState;

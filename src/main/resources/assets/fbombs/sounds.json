@@ -1,0 +1,8 @@
+{
+  "radioactive_noise": {
+    "subtitle": "sound.fbombs.radioactive_noise",
+    "sounds": [
+      "fbombs:radioactive_noise"
+    ]
+  }
+}

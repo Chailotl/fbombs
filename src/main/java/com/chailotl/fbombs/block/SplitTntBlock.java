@@ -7,7 +7,7 @@ import com.chailotl.fbombs.init.FBombsCriteria;
 import com.chailotl.fbombs.init.FBombsItems;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.ItemStackHelper;
-import com.chailotl.fbombs.util.TntEntityType;
+import com.chailotl.fbombs.entity.util.TntEntityType;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
