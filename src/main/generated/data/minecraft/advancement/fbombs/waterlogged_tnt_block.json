@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:fbombs/split_tnt_block",
+  "criteria": {
+    "waterlogged_tnt_block": {
+      "trigger": "fbombs:waterlogged_tnt_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.fbombs.waterlogged_tnt_block.desc"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "minecraft:water_bucket"
+    },
+    "title": {
+      "translate": "advancement.fbombs.waterlogged_tnt_block"
+    }
+  },
+  "requirements": [
+    [
+      "waterlogged_tnt_block"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

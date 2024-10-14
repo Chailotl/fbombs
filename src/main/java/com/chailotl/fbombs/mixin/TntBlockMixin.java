@@ -1,6 +1,7 @@
 package com.chailotl.fbombs.mixin;
 
 import com.chailotl.fbombs.block.SplitTntBlock;
+import com.chailotl.fbombs.init.FBombsCriteria;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.ItemStackHelper;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -30,9 +31,10 @@ public class TntBlockMixin {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 ItemStackHelper.decrementOrDamageInNonCreative(stack, 1, serverPlayer);
                 if (!SplitTntBlock.removeSplit(world, pos, state, hit)) {
-                    cir.setReturnValue(ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
+                    cir.setReturnValue(ItemActionResult.FAIL);
                     return;
                 }
+                FBombsCriteria.SPLIT_TNT_BLOCK.trigger(serverPlayer);
             }
             cir.setReturnValue(ItemActionResult.SUCCESS);
         }

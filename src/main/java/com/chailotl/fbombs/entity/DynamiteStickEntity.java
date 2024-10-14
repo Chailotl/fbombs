@@ -111,7 +111,7 @@ public class DynamiteStickEntity extends ThrownItemEntity {
     }
 
     private boolean explode(ServerWorld serverWorld, BlockPos pos) {
-        ExplosionHandler.explodeSpherical(serverWorld, pos, 4, 8);
+        ExplosionHandler.explodeSpherical(serverWorld, pos, 2, 8);
         this.remove(RemovalReason.DISCARDED);
         return true;
     }

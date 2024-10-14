@@ -1,5 +1,9 @@
 {
   "item.fbombs.dynamite_stick.tooltip": "Use in combination with an Ignition Item to throw",
   "advancement.fbombs.explodification": "Explodification",
-  "advancement.fbombs.explodification.desc": "Successfully explodificated the Stick"
+  "advancement.fbombs.explodification.desc": "Successfully explodificated the Stick",
+  "advancement.fbombs.split_tnt_block": "Precision Explosion",
+  "advancement.fbombs.split_tnt_block.desc": "\"I just sawed this TNT Block in half!\"",
+  "advancement.fbombs.waterlogged_tnt_block": "Waterlogged a TNT Block",
+  "advancement.fbombs.waterlogged_tnt_block.desc": "But why?"
 }

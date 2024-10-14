@@ -1,2 +1,4 @@
-// 1.21.1	2024-10-13T03:51:05.4639175	FBombs/Advancements
-4e4843d28545230151e76f477b757cca14120894 data\minecraft\advancement\fbombs\root.json
+// 1.21.1	2024-10-14T02:58:12.8969281	FBombs/Advancements
+abc6215cc1defa69464f8feddce0987009ce5cab data\minecraft\advancement\fbombs\waterlogged_tnt_block.json
+1834eeb0b3337020ea50d5e037f2084f2556cd77 data\minecraft\advancement\fbombs\split_tnt_block.json
+7074262424589337df096883820e4b03716db2d3 data\minecraft\advancement\fbombs\dynamite_stick.json

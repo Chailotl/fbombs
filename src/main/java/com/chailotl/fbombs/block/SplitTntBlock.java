@@ -3,6 +3,7 @@ package com.chailotl.fbombs.block;
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.entity.AbstractTntEntity;
 import com.chailotl.fbombs.init.FBombsBlocks;
+import com.chailotl.fbombs.init.FBombsCriteria;
 import com.chailotl.fbombs.init.FBombsItems;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.ItemStackHelper;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -90,6 +92,7 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (stack.isIn(FBombsTags.Items.SPLITS_TNT)) {
             if (!removeSplit(world, pos, state, hit)) return ItemActionResult.FAIL;
+            if (player instanceof ServerPlayerEntity serverPlayer) FBombsCriteria.SPLIT_TNT_BLOCK.trigger(serverPlayer);
             ItemStackHelper.decrementOrDamageInNonCreative(stack, 1, player);
             return ItemActionResult.SUCCESS;
         }

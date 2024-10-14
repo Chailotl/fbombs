@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:fbombs/split_tnt_block",
+  "criteria": {
+    "explodification": {
+      "trigger": "fbombs:used_dynamite_stick"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.fbombs.explodification.desc"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "fbombs:dynamite_stick"
+    },
+    "title": {
+      "translate": "advancement.fbombs.explodification"
+    }
+  },
+  "requirements": [
+    [
+      "explodification"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

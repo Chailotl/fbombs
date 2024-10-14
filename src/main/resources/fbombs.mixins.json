@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractBlockMixin",
+    "BucketItemMixin",
     "TntBlockMixin"
   ],
   "injectors": {

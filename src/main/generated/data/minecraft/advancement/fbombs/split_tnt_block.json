@@ -1,26 +1,26 @@
 {
   "criteria": {
-    "explodification": {
-      "trigger": "fbombs:used_dynamite_stick"
+    "split_tnt_block": {
+      "trigger": "fbombs:split_tnt_block"
     }
   },
   "display": {
+    "announce_to_chat": false,
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
     "description": {
-      "translate": "advancement.fbombs.explodification.desc"
+      "translate": "advancement.fbombs.split_tnt_block.desc"
     },
-    "hidden": true,
     "icon": {
       "count": 1,
-      "id": "fbombs:dynamite_stick"
+      "id": "minecraft:tnt"
     },
     "title": {
-      "translate": "advancement.fbombs.explodification"
+      "translate": "advancement.fbombs.split_tnt_block"
     }
   },
   "requirements": [
     [
-      "explodification"
+      "split_tnt_block"
     ]
   ],
   "sends_telemetry_event": true
