@@ -1,12 +1,12 @@
-// 1.21.1	2024-10-14T02:58:12.903909	FBombs/Model Definitions
+// 1.21.1	2024-10-14T12:40:09.104432	FBombs/Model Definitions
 7add7be66178b564107918ed8fb7ecd730fe67c8 assets\fbombs\blockstates\instant_tnt.json
 516f0a5d56de86a745177413a17d4e7f32237474 assets\fbombs\blockstates\split_tnt.json
 fe027e99d93df45f5d7c860a5bf45704c20cc2af assets\fbombs\models\block\high_power_tnt.json
 7964fed0ab674a294fe46e780675dc93e6d1c17a assets\fbombs\models\item\short_fuse_tnt.json
 cc80f62dca0d3058d5ed5c8283cf750485c9fe0b assets\fbombs\models\item\instant_tnt.json
 fe38ea410903b3da7c5f83e39be07a616be4e299 assets\fbombs\models\item\dynamite_stick.json
-546c6fa80e0c1e0d045d376d9422f4a0f1dfc0b1 assets\fbombs\blockstates\high_power_tnt.json
 e614619e7ab671c210ca5055190136c5f19334f7 assets\fbombs\blockstates\long_fuse_tnt.json
+546c6fa80e0c1e0d045d376d9422f4a0f1dfc0b1 assets\fbombs\blockstates\high_power_tnt.json
 a52197eaafe9c4c5b2925abb484f756b8d04492f assets\fbombs\models\block\low_power_tnt.json
 179079ce4310557dc2a75c3df21a5ea446a4ba96 assets\fbombs\models\item\low_power_tnt.json
 99da4648819a05a3f7329986b8634229f54bf96b assets\fbombs\models\item\fire_tnt.json

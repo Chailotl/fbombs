@@ -25,6 +25,7 @@ public class FBombs implements ModInitializer {
 		FBombsGamerules.initialize();
 		FBombsItemComponents.initialize();
 		FBombsCriteria.initialize();
+		FBombsCommonEvents.initialize();
 
 		LOGGER.info("May contain traces of nuclear explosions");
 	}
