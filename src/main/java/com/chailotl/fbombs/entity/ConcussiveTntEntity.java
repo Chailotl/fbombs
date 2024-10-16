@@ -35,7 +35,7 @@ public class ConcussiveTntEntity extends AbstractTntEntity {
     }
 
     public ConcussiveTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter, BlockState state) {
-        super(FBombsEntityTypes.SHORT_FUSE_TNT, world, x, y, z, igniter, state);
+        super(FBombsEntityTypes.CONCUSSIVE_TNT, world, x, y, z, igniter, state);
     }
 
     @Override

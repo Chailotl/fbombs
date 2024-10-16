@@ -47,7 +47,7 @@ public class WindChargedTntEntity extends AbstractTntEntity {
     }
 
     public WindChargedTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter, BlockState state) {
-        super(FBombsEntityTypes.SHORT_FUSE_TNT, world, x, y, z, igniter, state);
+        super(FBombsEntityTypes.WIND_CHARGED_TNT, world, x, y, z, igniter, state);
     }
 
     @Override
