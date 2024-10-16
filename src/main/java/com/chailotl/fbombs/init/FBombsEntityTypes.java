@@ -23,14 +23,16 @@ public class FBombsEntityTypes {
     public static final EntityType<LowPowerTntEntity> LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
     public static final EntityType<FireTntEntity> FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
     public static final EntityType<SplitTntEntity> SPLIT_TNT = registerTnt("split_tnt", SplitTntEntity::new);
+    public static final EntityType<TntSlabEntity> TNT_SLAB = registerTnt("tnt_slab", TntSlabEntity::new);
+
 
     public static final EntityType<DynamiteStickEntity> DYNAMITE_STICK = register(
-        "dynamite_stick",
-        EntityType.Builder.<DynamiteStickEntity>create(DynamiteStickEntity::new, SpawnGroup.MISC)
-            .makeFireImmune()
-            .dimensions(0.25F, 0.25F)
-            .maxTrackingRange(4)
-            .trackingTickInterval(10)
+            "dynamite_stick",
+            EntityType.Builder.<DynamiteStickEntity>create(DynamiteStickEntity::new, SpawnGroup.MISC)
+                    .makeFireImmune()
+                    .dimensions(0.25F, 0.25F)
+                    .maxTrackingRange(4)
+                    .trackingTickInterval(10)
     );
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {
@@ -41,12 +43,12 @@ public class FBombsEntityTypes {
 
     private static <T extends AbstractTntEntity> EntityType<T> registerTnt(String name, EntityType.EntityFactory<T> factory) {
         EntityType<T> entityType = EntityType.Builder.create(factory, SpawnGroup.MISC)
-            .makeFireImmune()
-            .dimensions(0.98F, 0.98F)
-            .eyeHeight(0.15F)
-            .maxTrackingRange(10)
-            .trackingTickInterval(10)
-            .build(name);
+                .makeFireImmune()
+                .dimensions(0.98F, 0.98F)
+                .eyeHeight(0.15F)
+                .maxTrackingRange(10)
+                .trackingTickInterval(10)
+                .build(name);
         VALUES.add(entityType);
         TNT_ENTITY_TYPES.add(entityType);
         return Registry.register(Registries.ENTITY_TYPE, FBombs.getId(name), entityType);

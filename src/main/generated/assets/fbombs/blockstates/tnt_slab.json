@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "fbombs:block/tnt_slab_bottom"
+    },
+    "type=double": {
+      "model": "fbombs:block/tnt_slab_double"
+    },
+    "type=top": {
+      "model": "fbombs:block/tnt_slab_top"
+    }
+  }
+}

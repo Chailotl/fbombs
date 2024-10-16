@@ -4,6 +4,7 @@ import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.block.SplitTntBlock;
 import com.chailotl.fbombs.block.TestBlock;
+import com.chailotl.fbombs.block.TntSlabBlock;
 import com.chailotl.fbombs.entity.*;
 import com.chailotl.fbombs.entity.util.TntEntityProvider;
 import com.chailotl.fbombs.entity.util.TntEntityType;
@@ -40,6 +41,14 @@ public class FBombsBlocks {
                     .burnable()
                     .solidBlock(Blocks::never)),
             false);
+    public static final TntSlabBlock TNT_SLAB_BLOCK = register("tnt_slab", new TntSlabBlock(
+                    new TntEntityType("tnt_slab", TntSlabEntity::new), AbstractBlock.Settings.create()
+                    .mapColor(MapColor.BRIGHT_RED)
+                    .breakInstantly()
+                    .sounds(BlockSoundGroup.GRASS)
+                    .burnable()
+                    .solidBlock(Blocks::never)),
+            true);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
