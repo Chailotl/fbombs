@@ -57,6 +57,7 @@ public class FBombsBlocks {
     public static final GenericTntBlock CONCUSSIVE_TNT = registerTnt("concussive_tnt", ConcussiveTntEntity::new);
     public static final GenericTntBlock WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
     public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
+    public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
