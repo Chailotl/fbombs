@@ -109,34 +109,36 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean removeSplit(World world, BlockPos pos, BlockState state, @NotNull BlockHitResult hitResult) {
-        //FIXME: [ShiroJR] client side always approves... fix this mess of a code asap
-        if (world instanceof ServerWorld serverWorld) {
-            boolean removedSlab = false;
-            if (getExistingSplits(state).size() == Split.values().length) {
-                if (hitResult.getSide().equals(Direction.UP)) {
-                    world.setBlockState(pos, FBombsBlocks.TNT_SLAB_BLOCK.getDefaultState().with(Properties.SLAB_TYPE, SlabType.BOTTOM));
-                    removedSlab = true;
-                    ItemScatterer.spawn(serverWorld, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsBlocks.TNT_SLAB_BLOCK.asItem().getDefaultStack());
-                } else if (hitResult.getSide().equals(Direction.DOWN)) {
-                    world.setBlockState(pos, FBombsBlocks.TNT_SLAB_BLOCK.getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP));
-                    removedSlab = true;
-                    ItemScatterer.spawn(serverWorld, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsBlocks.TNT_SLAB_BLOCK.asItem().getDefaultStack());
+        if (getExistingSplits(state).size() >= Split.values().length) {
+            if (hitResult.getSide().equals(Direction.UP)) {
+                world.setBlockState(pos, FBombsBlocks.TNT_SLAB_BLOCK.getDefaultState().with(Properties.SLAB_TYPE, SlabType.BOTTOM));
+                ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsBlocks.TNT_SLAB_BLOCK.asItem().getDefaultStack());
+                if (world instanceof ServerWorld serverWorld) {
+                    serverWorld.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
                 }
-            }
-            if (!removedSlab) {
-                if (getExistingSplits(state).size() > 1) {
-                    if (state.getBlock() instanceof TntBlock) {
-                        state = FBombsBlocks.SPLIT_TNT.getDefaultState().with(Properties.WATERLOGGED, world.getFluidState(pos).isOf(Fluids.WATER));
-                    }
-                    Split split = SplitTntBlock.Split.get(hitResult, hitResult.getSide(), state, true);
-                    if (split == null) return false;
-                    serverWorld.setBlockState(pos, state.with(split.getProperty(), false), NOTIFY_ALL);
-                    ItemScatterer.spawn(serverWorld, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsItems.DYNAMITE_STICK.getDefaultStack());
-                } else {
-                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), NOTIFY_ALL);
+                return true;
+            } else if (hitResult.getSide().equals(Direction.DOWN)) {
+                world.setBlockState(pos, FBombsBlocks.TNT_SLAB_BLOCK.getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP));
+                ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsBlocks.TNT_SLAB_BLOCK.asItem().getDefaultStack());
+                if (world instanceof ServerWorld serverWorld) {
+                    serverWorld.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
                 }
+                return true;
             }
+        }
+        if (getExistingSplits(state).size() > 1) {
+            if (state.getBlock() instanceof TntBlock) {
+                state = FBombsBlocks.SPLIT_TNT.getDefaultState().with(Properties.WATERLOGGED, world.getFluidState(pos).isOf(Fluids.WATER));
+            }
+            Split split = SplitTntBlock.Split.get(hitResult, hitResult.getSide(), state, true);
+            if (split == null) return false;
+            world.setBlockState(pos, state.with(split.getProperty(), false), NOTIFY_ALL);
+        } else {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState(), NOTIFY_ALL);
+        }
+        ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsItems.DYNAMITE_STICK.getDefaultStack());
 
+        if (world instanceof ServerWorld serverWorld) {
             serverWorld.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
         }
         return true;
@@ -174,6 +176,7 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
         return true;
     }
 
+    @SuppressWarnings("unused")
     public enum Split {
         NE("north_east_split", Direction.NORTH, Direction.EAST,
                 Block.createCuboidShape(8, 0, 0, 16, 16, 8)),
