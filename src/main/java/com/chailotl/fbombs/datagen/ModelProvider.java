@@ -26,6 +26,7 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSingleton(FBombsBlocks.FIRE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.CONCUSSIVE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.WIND_CHARGED_TNT, TexturedModel.CUBE_BOTTOM_TOP);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.UNDERWATER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
 
         //TODO: [ShiroJR] we could assume that all will use it by default and select the ones, which don't while streaming it
         /*FBombsBlocks.streamTntBlocks().forEach(block -> {
