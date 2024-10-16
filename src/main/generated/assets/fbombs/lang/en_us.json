@@ -34,5 +34,9 @@
   "item.fbombs.dynamite_stick": "Dynamite Stick",
   "item.fbombs.dynamite_stick.tooltip": "Use in combination with an Ignition Item to throw",
   "itemgroup.fbombs.blocks": "FBombs Blocks",
-  "itemgroup.fbombs.items": "FBombs Items"
+  "itemgroup.fbombs.items": "FBombs Items",
+  "tag.block.fbombs.tnt_variants": "TNT Variants",
+  "tag.block.fbombs.volumetric_explosion_immune": "Volumetric Explosion Immune",
+  "tag.item.fbombs.ignites_tnt": "Ignites TNT",
+  "tag.item.fbombs.splits_tnt": "Splits TNT"
 }

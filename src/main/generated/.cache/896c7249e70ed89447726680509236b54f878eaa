@@ -1,11 +1,11 @@
-// 1.21.1	2024-10-16T19:29:52.113805	FBombs/Block Loot Tables
-657e70b06b4434875f2517b51d0d2a59b6ebd374 data\fbombs\loot_table\blocks\concussive_tnt.json
-78e0c2ab3f10d899db385fd3ef9e0a96dbaababb data\fbombs\loot_table\blocks\underwater_tnt.json
-9c40bc6865e9630f3f39faee43b7bb60127ad7b2 data\fbombs\loot_table\blocks\fire_tnt.json
-6beca4410d1401aa495e480657ab803a8c6c89f5 data\fbombs\loot_table\blocks\sponge_bomb.json
-68a90c3b330647eaef421d039bc8d0af7e0220b7 data\fbombs\loot_table\blocks\long_fuse_tnt.json
-1569b34cda491c5b247224caaf48b2cfb48388b8 data\fbombs\loot_table\blocks\instant_tnt.json
-8936051b3376f4f41363fbe495d56ecc821ce634 data\fbombs\loot_table\blocks\low_power_tnt.json
-ed93ccc7ba437e4d0f43366cdc67f99a2abbbd32 data\fbombs\loot_table\blocks\high_power_tnt.json
+// 1.21.1	2024-10-17T00:07:25.3442061	FBombs/Block Loot Tables
 71509762dbd54532b1ac92b3aa72081359fb50e2 data\fbombs\loot_table\blocks\short_fuse_tnt.json
 b2cec2a2e47b6e9098cacfd6c66617371c26605a data\fbombs\loot_table\blocks\wind_charged_tnt.json
+ad7752265f340dd255813fb9c3abe6e15c896ce6 data\fbombs\loot_table\blocks\tnt_slab.json
+8936051b3376f4f41363fbe495d56ecc821ce634 data\fbombs\loot_table\blocks\low_power_tnt.json
+78e0c2ab3f10d899db385fd3ef9e0a96dbaababb data\fbombs\loot_table\blocks\underwater_tnt.json
+68a90c3b330647eaef421d039bc8d0af7e0220b7 data\fbombs\loot_table\blocks\long_fuse_tnt.json
+1569b34cda491c5b247224caaf48b2cfb48388b8 data\fbombs\loot_table\blocks\instant_tnt.json
+9c40bc6865e9630f3f39faee43b7bb60127ad7b2 data\fbombs\loot_table\blocks\fire_tnt.json
+657e70b06b4434875f2517b51d0d2a59b6ebd374 data\fbombs\loot_table\blocks\concussive_tnt.json
+ed93ccc7ba437e4d0f43366cdc67f99a2abbbd32 data\fbombs\loot_table\blocks\high_power_tnt.json
