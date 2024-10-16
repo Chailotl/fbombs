@@ -22,6 +22,16 @@ import java.util.Optional;
 public class WindChargedTntEntity extends AbstractTntEntity {
     private static final ExplosionBehavior EXPLOSION_BEHAVIOR = new ExplosionBehavior() {
         @Override
+        public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+            return Optional.empty();
+        }
+
+        @Override
+        public boolean canDestroyBlock(Explosion explosion, BlockView world, BlockPos pos, BlockState state, float power) {
+            return false;
+        }
+
+        @Override
         public float getKnockbackModifier(Entity entity) {
             return 2;
         }
@@ -43,11 +53,6 @@ public class WindChargedTntEntity extends AbstractTntEntity {
     @Override
     protected Block getDefaultBlock() {
         return FBombsBlocks.SHORT_FUSE_TNT;
-    }
-
-    @Override
-    protected boolean shouldBreakBlocks() {
-        return false;
     }
 
     @Override

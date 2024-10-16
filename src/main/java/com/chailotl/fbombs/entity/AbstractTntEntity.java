@@ -77,10 +77,6 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         return false;
     }
 
-    protected boolean shouldBreakBlocks() {
-        return true;
-    }
-
     protected ExplosionBehavior getExplosionBehavior() {
         return this.teleported ? TELEPORTED_EXPLOSION_BEHAVIOR : null;
     }
@@ -146,7 +142,7 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
                 this.getZ(),
                 getPower(),
                 shouldCreateFire(),
-                shouldBreakBlocks() ? World.ExplosionSourceType.TNT : World.ExplosionSourceType.NONE
+                World.ExplosionSourceType.TNT
             );
     }
 
