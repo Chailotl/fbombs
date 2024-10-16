@@ -1,9 +1,10 @@
-// 1.21.1	2024-10-16T15:44:43.859683	FBombs/Model Definitions
+// 1.21.1	2024-10-16T15:50:50.8390209	FBombs/Model Definitions
 516f0a5d56de86a745177413a17d4e7f32237474 assets\fbombs\blockstates\split_tnt.json
+5fbeec19f72a9ba1de30d5c74a6289760d81af56 assets\fbombs\models\block\wind_charged_tnt.json
 179079ce4310557dc2a75c3df21a5ea446a4ba96 assets\fbombs\models\item\low_power_tnt.json
+286ec52c4fd5aa40df748085ed0cde0d3788dc47 assets\fbombs\models\item\concussive_tnt.json
 cc80f62dca0d3058d5ed5c8283cf750485c9fe0b assets\fbombs\models\item\instant_tnt.json
 7da3268d07a8063b5b3aea0db8a1a80082ff5e43 assets\fbombs\blockstates\low_power_tnt.json
-286ec52c4fd5aa40df748085ed0cde0d3788dc47 assets\fbombs\models\item\concussive_tnt.json
 5bfd95ed9404e97555d548939eb172242a0f3759 assets\fbombs\models\block\long_fuse_tnt.json
 f5fec77dd783605fe617b212babdf75caa3576ae assets\fbombs\models\item\long_fuse_tnt.json
 35438ba154410aabe7116de1ae4c243e16678954 assets\fbombs\blockstates\concussive_tnt.json
@@ -19,8 +20,10 @@ e614619e7ab671c210ca5055190136c5f19334f7 assets\fbombs\blockstates\long_fuse_tnt
 cb05a8a9c22057204ed6a12df381ca4107abeacd assets\fbombs\blockstates\tnt_slab.json
 fe38ea410903b3da7c5f83e39be07a616be4e299 assets\fbombs\models\item\dynamite_stick.json
 7add7be66178b564107918ed8fb7ecd730fe67c8 assets\fbombs\blockstates\instant_tnt.json
+7c7fa2220fd034f0e60c329d6b0c74d10e74539a assets\fbombs\blockstates\wind_charged_tnt.json
 5a36727ee09aceaba8c69236f73294a3a40854ee assets\fbombs\models\block\fire_tnt.json
 546c6fa80e0c1e0d045d376d9422f4a0f1dfc0b1 assets\fbombs\blockstates\high_power_tnt.json
 733f452976c964c2978a0b1ac878ae5f2bbb3533 assets\fbombs\models\item\tnt_slab.json
+fd43ea098bdef530b3aa9d090cb55526f36205f0 assets\fbombs\models\item\wind_charged_tnt.json
 99da4648819a05a3f7329986b8634229f54bf96b assets\fbombs\models\item\fire_tnt.json
 a52197eaafe9c4c5b2925abb484f756b8d04492f assets\fbombs\models\block\low_power_tnt.json

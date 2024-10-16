@@ -81,6 +81,10 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         return true;
     }
 
+    protected ExplosionBehavior getExplosionBehavior() {
+        return this.teleported ? TELEPORTED_EXPLOSION_BEHAVIOR : null;
+    }
+
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         builder.add(FUSE, getDefaultFuse());
@@ -136,7 +140,7 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
             .createExplosion(
                 this,
                 Explosion.createDamageSource(this.getWorld(), this),
-                this.teleported ? TELEPORTED_EXPLOSION_BEHAVIOR : null,
+                getExplosionBehavior(),
                 this.getX(),
                 this.getBodyY(0.0625),
                 this.getZ(),
