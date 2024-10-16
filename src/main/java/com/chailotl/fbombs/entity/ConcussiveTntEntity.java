@@ -4,6 +4,7 @@ import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -21,7 +22,13 @@ public class ConcussiveTntEntity extends AbstractTntEntity {
     private static final ExplosionBehavior EXPLOSION_BEHAVIOR = new ExplosionBehavior() {
         @Override
         public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
-            return Optional.empty();
+            if (blockState.isAir() && fluidState.isEmpty()) {
+                return Optional.empty();
+            }
+            else {
+                float blastResistance = blockState.getBlock().getBlastResistance();
+                return Optional.of(blastResistance <= 0.1f ? blastResistance : 3600000f);
+            }
         }
 
         @Override
