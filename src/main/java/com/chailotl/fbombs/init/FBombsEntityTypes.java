@@ -24,6 +24,7 @@ public class FBombsEntityTypes {
     public static final EntityType<FireTntEntity> FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
     public static final EntityType<SplitTntEntity> SPLIT_TNT = registerTnt("split_tnt", SplitTntEntity::new);
     public static final EntityType<TntSlabEntity> TNT_SLAB = registerTnt("tnt_slab", TntSlabEntity::new);
+    public static final EntityType<ConcussiveTntEntity> CONCUSSIVE_TNT = registerTnt("concussive_tnt", ConcussiveTntEntity::new);
 
 
     public static final EntityType<DynamiteStickEntity> DYNAMITE_STICK = register(

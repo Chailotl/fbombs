@@ -77,6 +77,10 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         return false;
     }
 
+    protected boolean shouldBreakBlocks() {
+        return true;
+    }
+
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         builder.add(FUSE, getDefaultFuse());
@@ -124,7 +128,6 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
     }
 
     private void explode() {
-        float f = 4.0F;
         if (getPower() < 0) {
             this.discard();
             return;
@@ -139,7 +142,7 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
                 this.getZ(),
                 getPower(),
                 shouldCreateFire(),
-                World.ExplosionSourceType.TNT
+                shouldBreakBlocks() ? World.ExplosionSourceType.TNT : World.ExplosionSourceType.NONE
             );
     }
 
