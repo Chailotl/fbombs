@@ -40,7 +40,7 @@ public class ConcussiveTntEntity extends AbstractTntEntity {
 
     @Override
     protected Block getDefaultBlock() {
-        return FBombsBlocks.SHORT_FUSE_TNT;
+        return FBombsBlocks.CONCUSSIVE_TNT;
     }
 
     @Override

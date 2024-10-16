@@ -52,7 +52,7 @@ public class WindChargedTntEntity extends AbstractTntEntity {
 
     @Override
     protected Block getDefaultBlock() {
-        return FBombsBlocks.SHORT_FUSE_TNT;
+        return FBombsBlocks.WIND_CHARGED_TNT;
     }
 
     @Override
