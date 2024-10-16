@@ -20,8 +20,10 @@ public class TagProvider {
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+
             getOrCreateTagBuilder(FBombsTags.Blocks.TNT_VARIANTS)
-                    .add(FBombsBlocks.INSTANT_TNT, FBombsBlocks.SPLIT_TNT);
+                    .add(FBombsBlocks.INSTANT_TNT, FBombsBlocks.SPLIT_TNT, Blocks.TNT);
+
             getOrCreateTagBuilder(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE)
                     .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.BEDROCK, Blocks.END_PORTAL,
                             Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,

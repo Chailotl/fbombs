@@ -1,6 +1,7 @@
 {
   "values": [
     "fbombs:instant_tnt",
-    "fbombs:split_tnt"
+    "fbombs:split_tnt",
+    "minecraft:tnt"
   ]
 }

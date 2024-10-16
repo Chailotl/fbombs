@@ -1,10 +1,7 @@
 package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
-import com.chailotl.fbombs.init.FBombsBlocks;
-import com.chailotl.fbombs.init.FBombsEntityTypes;
-import com.chailotl.fbombs.init.FBombsItemGroups;
-import com.chailotl.fbombs.init.FBombsItems;
+import com.chailotl.fbombs.init.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
@@ -33,6 +30,12 @@ public class TranslationProvider extends FabricLanguageProvider {
         FBombsEntityTypes.stream().forEach(entityType -> translationBuilder.add(entityType, cleanString(entityType)));
         FBombsItemGroups.ItemGroupEntry.ALL_GROUPS.forEach(itemGroupEntry ->
                 translationBuilder.add(itemGroupEntry.getTranslationKey(), "FBombs " + cleanString(itemGroupEntry.get())));
+
+        translationBuilder.add(FBombsTags.Items.SPLITS_TNT, "Splits TNT");
+        translationBuilder.add(FBombsTags.Items.IGNITES_TNT, "Ignites TNT");
+
+        translationBuilder.add(FBombsTags.Blocks.TNT_VARIANTS, "TNT Variants");
+        translationBuilder.add(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE, "Volumetric Explosion Immune");
 
         try {
             Path existingFilePath = dataOutput.getModContainer().findPath("assets/%s/lang/en_us.existing.json".formatted(FBombs.MOD_ID)).orElseThrow();
