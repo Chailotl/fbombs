@@ -7,6 +7,8 @@ import com.chailotl.fbombs.init.FBombsCriteria;
 import com.chailotl.fbombs.init.FBombsItems;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.ItemStackHelper;
+import com.chailotl.fbombs.entity.util.TntEntityType;
+import com.chailotl.fbombs.util.LoggerUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -158,7 +160,7 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
     public void primeTnt(World world, BlockPos pos) {
         if (!world.isClient) {
             BlockState state = world.getBlockState(pos);
-            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5, null, state);
+            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, null, state);
             world.spawnEntity(tntEntity);
             if (tntEntity.getFuse() >= 10) {
                 world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -238,7 +240,7 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
             };
         }
 
-
+        @Nullable
         public static Pair<Split, Split> getSplitsFromCardinalDirection(Direction hitDirection) {
             return switch (hitDirection) {
                 case NORTH -> new Pair<>(NE, NW);
