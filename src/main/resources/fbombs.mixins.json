@@ -5,7 +5,10 @@
   "mixins": [
     "AbstractBlockMixin",
     "BucketItemMixin",
-    "TntBlockMixin"
+    "StatusEffectInstanceMixin",
+    "TntBlockMixin",
+    "access.StatusEffectInstanceAccessor",
+    "access.StatusEffectInstanceInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

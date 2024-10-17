@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class FBombsEntityTypes {
-    private static final List<EntityType<?>> VALUES = new ArrayList<>();
     private static final List<EntityType<? extends AbstractTntEntity>> TNT_ENTITY_TYPES = new ArrayList<>();
 
     public static final EntityType<InstantTntEntity> INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
@@ -40,9 +39,9 @@ public class FBombsEntityTypes {
                     .trackingTickInterval(10)
     );
 
+    @SuppressWarnings("SameParameterValue")
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {
         EntityType<T> entityType = type.build(name);
-        VALUES.add(entityType);
         return Registry.register(Registries.ENTITY_TYPE, FBombs.getId(name), entityType);
     }
 
@@ -54,20 +53,15 @@ public class FBombsEntityTypes {
                 .maxTrackingRange(10)
                 .trackingTickInterval(10)
                 .build(name);
-        VALUES.add(entityType);
         TNT_ENTITY_TYPES.add(entityType);
         return Registry.register(Registries.ENTITY_TYPE, FBombs.getId(name), entityType);
     }
 
-    public static void initialize() {
-        // static initialisation
-    }
-
-    public static Stream<EntityType<?>> stream() {
-        return VALUES.stream();
-    }
-
     public static Stream<EntityType<? extends AbstractTntEntity>> streamTntEntityTypes() {
         return TNT_ENTITY_TYPES.stream();
+    }
+
+    public static void initialize() {
+        // static initialisation
     }
 }

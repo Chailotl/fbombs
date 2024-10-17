@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class FBombsBlocks {
-    private static final List<Block> VALUES = new ArrayList<>();
     private static final List<GenericTntBlock> TNT_BLOCKS = new ArrayList<>();
 
     public static final TestBlock TEST = register("test_block", new TestBlock(AbstractBlock.Settings.create()), true);
@@ -62,7 +61,6 @@ public class FBombsBlocks {
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
-        VALUES.add(block);
         Registry.register(Registries.BLOCK, FBombs.getId(name), block);
         if (hasDefaultItem) {
             BlockItem blockItem = new BlockItem(block, new Item.Settings());
@@ -105,15 +103,11 @@ public class FBombsBlocks {
         return block;
     }
 
-    public static void initialize() {
-        // static initialisation
-    }
-
-    public static Stream<Block> stream() {
-        return VALUES.stream();
-    }
-
     public static Stream<GenericTntBlock> streamTntBlocks() {
         return TNT_BLOCKS.stream();
+    }
+
+    public static void initialize() {
+        // static initialisation
     }
 }

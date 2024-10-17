@@ -1,11 +1,14 @@
 package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
-import com.chailotl.fbombs.init.*;
+import com.chailotl.fbombs.init.FBombsItemGroups;
+import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
@@ -25,17 +28,19 @@ public class TranslationProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-        FBombsBlocks.stream().forEach(block -> translationBuilder.add(block, cleanString(block)));
-        FBombsItems.stream().forEach(item -> translationBuilder.add(item, cleanString(item)));
-        FBombsEntityTypes.stream().forEach(entityType -> translationBuilder.add(entityType, cleanString(entityType)));
+        translationBuilder.add(FBombsTags.Items.SPLITS_TNT, "Splits TNT");
+        translationBuilder.add(FBombsTags.Items.IGNITES_TNT, "Ignites TNT");
+        translationBuilder.add(FBombsTags.Blocks.TNT_VARIANTS, "TNT Variants");
+        translationBuilder.add(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE, "Volumetric Explosion Immune");
+
         FBombsItemGroups.ItemGroupEntry.ALL_GROUPS.forEach(itemGroupEntry ->
                 translationBuilder.add(itemGroupEntry.getTranslationKey(), "FBombs " + cleanString(itemGroupEntry.get())));
 
-        translationBuilder.add(FBombsTags.Items.SPLITS_TNT, "Splits TNT");
-        translationBuilder.add(FBombsTags.Items.IGNITES_TNT, "Ignites TNT");
+        FBombs.streamEntries(Registries.ENTITY_TYPE).forEach(entityType -> translationBuilder.add(entityType, cleanString(entityType)));
+        FBombs.streamEntries(Registries.STATUS_EFFECT).forEach(statusEffect -> translationBuilder.add(statusEffect, cleanString(statusEffect)));
+        FBombs.streamEntries(Registries.ITEM, item -> !(item instanceof BlockItem)).forEach(item -> translationBuilder.add(item, cleanString(item)));
+        FBombs.streamEntries(Registries.BLOCK).forEach(block -> translationBuilder.add(block, cleanString(block)));
 
-        translationBuilder.add(FBombsTags.Blocks.TNT_VARIANTS, "TNT Variants");
-        translationBuilder.add(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE, "Volumetric Explosion Immune");
 
         try {
             Path existingFilePath = dataOutput.getModContainer().findPath("assets/%s/lang/en_us.existing.json".formatted(FBombs.MOD_ID)).orElseThrow();
@@ -81,5 +86,10 @@ public class TranslationProvider extends FabricLanguageProvider {
     @NotNull
     public static String cleanString(EntityType<?> entityType) {
         return cleanString(Registries.ENTITY_TYPE.getId(entityType));
+    }
+
+    @NotNull
+    public static String cleanString(StatusEffect statusEffect) {
+        return cleanString(Registries.STATUS_EFFECT.getId(statusEffect));
     }
 }
