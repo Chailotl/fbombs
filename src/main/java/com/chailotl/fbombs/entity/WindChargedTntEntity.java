@@ -1,5 +1,6 @@
 package com.chailotl.fbombs.entity;
 
+import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsEntityTypes;
 import net.minecraft.block.Block;
@@ -9,6 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
@@ -34,7 +37,7 @@ public class WindChargedTntEntity extends AbstractTntEntity {
 
         @Override
         public boolean canDestroyBlock(Explosion explosion, BlockView world, BlockPos pos, BlockState state, float power) {
-            return false;
+            return state.isIn(TagKey.of(RegistryKeys.BLOCK, FBombs.getId("tnt_variants")));
         }
 
         @Override
