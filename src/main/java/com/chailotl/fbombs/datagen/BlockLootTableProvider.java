@@ -15,6 +15,6 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         FBombsBlocks.streamTntBlocks().forEach(this::addDrop);
-        addDrop(FBombsBlocks.TNT_SLAB_BLOCK);
+        addDrop(FBombsBlocks.TNT_SLAB);
     }
 }

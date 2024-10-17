@@ -40,7 +40,7 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT)
                 .coordinate(createSplitTntBlockState()));
         blockStateModelGenerator.blockStateCollector.accept(
-                BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB_BLOCK,
+                BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
                         FBombs.getId("block/tnt_slab_bottom"),
                         FBombs.getId("block/tnt_slab_top"),
                         FBombs.getId("block/tnt_slab_double")
@@ -48,7 +48,7 @@ public class ModelProvider extends FabricModelProvider {
         );
 
         //TODO: [ShiroJR] apply proper block item model
-        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.TNT_SLAB_BLOCK.asItem(), FBombs.getId("block/tnt_slab_bottom"));
+        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.TNT_SLAB.asItem(), FBombs.getId("block/tnt_slab_bottom"));
     }
 
     @Override

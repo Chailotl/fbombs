@@ -41,7 +41,7 @@ public class FBombsBlocks {
                     .burnable()
                     .solidBlock(Blocks::never)),
             false);
-    public static final TntSlabBlock TNT_SLAB_BLOCK = register("tnt_slab", new TntSlabBlock(
+    public static final TntSlabBlock TNT_SLAB = register("tnt_slab", new TntSlabBlock(
                     new TntEntityType("tnt_slab", TntSlabEntity::new), AbstractBlock.Settings.create()
                     .mapColor(MapColor.BRIGHT_RED)
                     .breakInstantly()

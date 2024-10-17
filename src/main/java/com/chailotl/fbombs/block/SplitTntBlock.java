@@ -111,15 +111,15 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
     public static boolean removeSplit(World world, BlockPos pos, BlockState state, @NotNull BlockHitResult hitResult) {
         if (getExistingSplits(state).size() >= Split.values().length) {
             if (hitResult.getSide().equals(Direction.UP)) {
-                world.setBlockState(pos, FBombsBlocks.TNT_SLAB_BLOCK.getDefaultState().with(Properties.SLAB_TYPE, SlabType.BOTTOM));
-                ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsBlocks.TNT_SLAB_BLOCK.asItem().getDefaultStack());
+                world.setBlockState(pos, FBombsBlocks.TNT_SLAB.getDefaultState().with(Properties.SLAB_TYPE, SlabType.BOTTOM));
+                ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsBlocks.TNT_SLAB.asItem().getDefaultStack());
                 if (world instanceof ServerWorld serverWorld) {
                     serverWorld.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
                 }
                 return true;
             } else if (hitResult.getSide().equals(Direction.DOWN)) {
-                world.setBlockState(pos, FBombsBlocks.TNT_SLAB_BLOCK.getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP));
-                ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsBlocks.TNT_SLAB_BLOCK.asItem().getDefaultStack());
+                world.setBlockState(pos, FBombsBlocks.TNT_SLAB.getDefaultState().with(Properties.SLAB_TYPE, SlabType.TOP));
+                ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsBlocks.TNT_SLAB.asItem().getDefaultStack());
                 if (world instanceof ServerWorld serverWorld) {
                     serverWorld.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
                 }
