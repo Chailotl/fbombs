@@ -9,7 +9,7 @@ import net.minecraft.registry.Registry;
 
 @SuppressWarnings({"unused", "SameParameterValue"})
 public class FBombsItemComponents {
-    public static final ComponentType<Integer> TEST_COUNTER = register("test_counter", PrimitiveCodec.INT);
+    public static final ComponentType<Float> CONTAMINATION = register("contamination", PrimitiveCodec.FLOAT);
 
 
     private static <T> ComponentType<T> register(String name, Codec<T> codec) {
