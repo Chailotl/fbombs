@@ -26,6 +26,17 @@ import java.util.Optional;
 public class MiningChargeEntity extends AbstractTntEntity {
     private static final ExplosionBehavior EXPLOSION_BEHAVIOR = new ExplosionBehavior() {
         @Override
+        public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+            if (blockState.isAir() && fluidState.isEmpty()) {
+                return Optional.empty();
+            } else if (blockState.isIn(TagKey.of(RegistryKeys.BLOCK, FBombs.getCommonId("ores")))) {
+                return Optional.of(1f);
+            } else {
+                return Optional.of(Math.max(blockState.getBlock().getBlastResistance(), fluidState.getBlastResistance()));
+            }
+        }
+
+        @Override
         public boolean canDestroyBlock(Explosion explosion, BlockView world, BlockPos pos, BlockState state, float power) {
             return !state.isIn(TagKey.of(RegistryKeys.BLOCK, FBombs.getCommonId("ores")));
         }
