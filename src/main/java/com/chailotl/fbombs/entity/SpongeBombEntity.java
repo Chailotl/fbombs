@@ -27,8 +27,7 @@ public class SpongeBombEntity extends AbstractTntEntity {
         public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
             if (blockState.isAir() && fluidState.isEmpty()) {
                 return Optional.empty();
-            }
-            else if (blockState.isOf(Blocks.WATER)) {
+            } else if (blockState.isOf(Blocks.WATER)) {
                 return Optional.of(0f);
             } else {
                 float blastResistance = blockState.getBlock().getBlastResistance();

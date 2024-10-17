@@ -28,8 +28,7 @@ public class WindChargedTntEntity extends AbstractTntEntity {
         public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
             if (blockState.isAir() && fluidState.isEmpty()) {
                 return Optional.empty();
-            }
-            else {
+            } else {
                 float blastResistance = blockState.getBlock().getBlastResistance();
                 return Optional.of(blastResistance <= 0.1f ? blastResistance : 3600000f);
             }
