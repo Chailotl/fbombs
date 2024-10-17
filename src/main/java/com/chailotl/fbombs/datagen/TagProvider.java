@@ -1,5 +1,6 @@
 package com.chailotl.fbombs.datagen;
 
+import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -21,14 +22,20 @@ public class TagProvider {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 
-            getOrCreateTagBuilder(FBombsTags.Blocks.TNT_VARIANTS)
-                    .add(FBombsBlocks.INSTANT_TNT, FBombsBlocks.SPLIT_TNT, Blocks.TNT);
+            var tntVariants = getOrCreateTagBuilder(FBombsTags.Blocks.TNT_VARIANTS)
+                .add(Blocks.TNT);
+
+            FBombsBlocks.stream().forEach(block -> {
+                if (block instanceof GenericTntBlock) {
+                    tntVariants.add(block);
+                }
+            });
 
             getOrCreateTagBuilder(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE)
-                    .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.BEDROCK, Blocks.END_PORTAL,
-                            Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,
-                            Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW, Blocks.MOVING_PISTON, Blocks.LIGHT,
-                            Blocks.REINFORCED_DEEPSLATE);
+                .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.BEDROCK, Blocks.END_PORTAL,
+                    Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,
+                    Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW, Blocks.MOVING_PISTON, Blocks.LIGHT,
+                    Blocks.REINFORCED_DEEPSLATE);
 
         }
     }

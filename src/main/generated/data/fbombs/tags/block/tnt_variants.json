@@ -1,7 +1,18 @@
 {
   "values": [
+    "minecraft:tnt",
     "fbombs:instant_tnt",
     "fbombs:split_tnt",
-    "minecraft:tnt"
+    "fbombs:tnt_slab",
+    "fbombs:short_fuse_tnt",
+    "fbombs:long_fuse_tnt",
+    "fbombs:high_power_tnt",
+    "fbombs:low_power_tnt",
+    "fbombs:fire_tnt",
+    "fbombs:concussive_tnt",
+    "fbombs:wind_charged_tnt",
+    "fbombs:underwater_tnt",
+    "fbombs:sponge_bomb",
+    "fbombs:mining_charge"
   ]
 }
