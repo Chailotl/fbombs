@@ -5,6 +5,7 @@
   "mixins": [
     "AbstractBlockMixin",
     "BucketItemMixin",
+    "ItemEntityMixin",
     "StatusEffectInstanceMixin",
     "TntBlockMixin",
     "access.StatusEffectInstanceAccessor",

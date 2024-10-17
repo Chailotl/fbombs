@@ -39,10 +39,11 @@ public abstract class StatusEffectInstanceMixin {
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/effect/StatusEffectInstance;updateDuration()I"))
     private int increaseTimer(StatusEffectInstance instance, Operation<Integer> original, @Local(argsOnly = true) LocalRef<LivingEntity> entityRef) {
-        Identifier identifier = Optional.ofNullable(Registries.STATUS_EFFECT.getId(FBombsStatusEffects.RADIATION_POISONING)).orElseThrow();
+        Identifier identifier = Optional.ofNullable(Registries.STATUS_EFFECT.getId(FBombsStatusEffects.RADIATION_POISONING.value())).orElseThrow();
         if (!getEffectType().matchesId(identifier)) {
             return original.call(instance);
         }
+        //TODO: [ShiroJR] consider other types of LivingEntities too?
         if (!(entityRef.get() instanceof PlayerEntity player)) return original.call(instance);
         if (getMaxContaminationInInventory(player) <= RadiationData.SAFE_CPS_LEVEL) return original.call(instance);
 
