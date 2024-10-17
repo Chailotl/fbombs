@@ -28,6 +28,7 @@ public class FBombsEntityTypes {
     public static final EntityType<WindChargedTntEntity> WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
     public static final EntityType<UnderwaterTntEntity> UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
     public static final EntityType<SpongeBombEntity> SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
+    public static final EntityType<MiningChargeEntity> MINING_CHARGE = registerTnt("mining_charge", MiningChargeEntity::new);
 
 
     public static final EntityType<DynamiteStickEntity> DYNAMITE_STICK = register(
