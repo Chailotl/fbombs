@@ -49,7 +49,13 @@ public class ExplosionHandler {
                                              @Nullable Double extrusion, Predicate<BlockState> blockExceptions,
                                              float startBlastStrength, float blastStrengthFalloffMultiplier, float scorchedThreshold) {
         BlockAndEntityData output = new BlockAndEntityData();
-        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+
+        BlockingQueue<BlockPos.Mutable> pool = new LinkedBlockingQueue<>();
+        for (int i = 0; i < Runtime.getRuntime().availableProcessors(); i++) {
+            pool.add(new BlockPos.Mutable());
+        }
+        ThreadLocal<BlockPos.Mutable> threadMutablePos = ThreadLocal.withInitial(() ->
+                Optional.ofNullable(pool.poll()).orElse(new BlockPos.Mutable()));
 
         scorchedThreshold = Math.clamp(scorchedThreshold, 0f, startBlastStrength);
         startBlastStrength = Math.max(0, startBlastStrength);
@@ -67,9 +73,8 @@ public class ExplosionHandler {
                         if (!shape.isInsideVolume(radius, extrusion, new Vec3d(x, y, z))) {
                             continue;
                         }
-
-                        mutablePos.set(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
-                        BlockState currentState = blockStateCache.computeIfAbsent(mutablePos.toImmutable(), world::getBlockState);
+                        BlockPos.Mutable currentPos = threadMutablePos.get().set(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
+                        BlockState currentState = blockStateCache.computeIfAbsent(currentPos.toImmutable(), world::getBlockState);
 
                         float finalStartBlastStrength = startBlastStrength;
                         float finalScorchedThreshold = scorchedThreshold;
@@ -78,7 +83,7 @@ public class ExplosionHandler {
                         futures.add(executor.submit(() -> {
                             //FIXME: [ShiroJR] use normalized unit vector? current calculation might skip some BlockPos
                             Vec3d startPos = origin.toCenterPos();
-                            Vec3d direction = mutablePos.toCenterPos().subtract(startPos);
+                            Vec3d direction = currentPos.toCenterPos().subtract(startPos);
                             int steps = (int) MathHelper.absMax(direction.x, MathHelper.absMax(direction.y, direction.z));
                             Vec3d stepSize = new Vec3d(direction.x / steps, direction.y / steps, direction.z / steps);
 
@@ -108,23 +113,29 @@ public class ExplosionHandler {
 
                             if (deterioratingPower > currentState.getBlock().getBlastResistance()) {
                                 if (!currentState.isAir()) LoggerUtil.devLogger("gone");
-                                output.addToAffectedBlocks(new LocatableBlock(mutablePos.toImmutable(), currentState));
+                                output.addToAffectedBlocks(new LocatableBlock(currentPos.toImmutable(), currentState));
                             } else if (deterioratingPower + finalScorchedThreshold > currentState.getBlock().getBlastResistance()) {
-                                output.addToScorchedBlocks(new LocatableBlock(mutablePos.toImmutable(), currentState));
+                                output.addToScorchedBlocks(new LocatableBlock(currentPos.toImmutable(), currentState));
                             } else {
-                                output.addToUnaffectedBlocks(mutablePos.toImmutable());
+                                output.addToUnaffectedBlocks(currentPos.toImmutable());
                             }
+                            threadMutablePos.remove();
                             LoggerUtil.devLogger("ray is done done");
                         }));
                     }
                 }
             }
             for (Future<?> future : futures) {
-                future.get();  // Waits for completion of each task
+                future.get(15, TimeUnit.SECONDS);  // Waits for completion of each task
+            }
+            executor.shutdown();
+            if (executor.awaitTermination(30, TimeUnit.SECONDS)) {
+                executor.shutdownNow();
+                LoggerUtil.devLogger("Forcefully shut down Explosion Data Gathering Executor", LoggerUtil.Type.WARNING, null);
             }
         }
         catch (Exception e) {
-            LoggerUtil.devLogger("Exception while handling an Explosion on multiple threads", LoggerUtil.Type.ERROR, e);
+            LoggerUtil.devLogger("Exception while handling Explosion Data Gathering on multiple threads", LoggerUtil.Type.ERROR, e);
         }
 
         List<Entity> entitiesInRange = world.getEntitiesByClass(Entity.class, new Box(origin).expand(radius),
