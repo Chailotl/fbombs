@@ -1,15 +1,13 @@
 package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
-import com.chailotl.fbombs.block.GenericTntBlock;
-import com.chailotl.fbombs.block.SplitTntBlock;
-import com.chailotl.fbombs.block.TestBlock;
-import com.chailotl.fbombs.block.TntSlabBlock;
+import com.chailotl.fbombs.block.*;
 import com.chailotl.fbombs.entity.*;
 import com.chailotl.fbombs.entity.util.TntEntityProvider;
 import com.chailotl.fbombs.entity.util.TntEntityType;
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -60,6 +58,12 @@ public class FBombsBlocks {
     public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
     public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
     public static final GenericTntBlock MINING_CHARGE = registerTnt("mining_charge", MiningChargeEntity::new);
+    public static final GunpowderTrailBlock GUNPOWDER_TRAIL_BLOCK = register("gunpowder_trail", new GunpowderTrailBlock(
+        AbstractBlock.Settings.create()
+            .noCollision()
+            .breakInstantly()
+            .pistonBehavior(PistonBehavior.DESTROY)
+    ), true);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {

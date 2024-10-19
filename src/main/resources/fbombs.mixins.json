@@ -1,17 +1,18 @@
 {
-  "required": true,
-  "package": "com.chailotl.fbombs.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "AbstractBlockMixin",
-    "BucketItemMixin",
-    "ItemEntityMixin",
-    "StatusEffectInstanceMixin",
-    "TntBlockMixin",
-    "access.StatusEffectInstanceAccessor",
-    "access.StatusEffectInstanceInvoker"
-  ],
-  "injectors": {
-    "defaultRequire": 1
+	"required": true,
+	"package": "com.chailotl.fbombs.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"AbstractBlockMixin",
+		"BucketItemMixin",
+		"ItemEntityMixin",
+		"ItemMixin",
+		"StatusEffectInstanceMixin",
+		"TntBlockMixin",
+		"access.StatusEffectInstanceAccessor",
+		"access.StatusEffectInstanceInvoker"
+	],
+	"injectors": {
+		"defaultRequire": 1
 	}
 }
