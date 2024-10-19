@@ -32,25 +32,29 @@
 						"east": "side|up",
 						"north": "none",
 						"south": "none",
-						"west": "none"
+						"west": "none",
+						"lit": false
 					},
 					{
 						"east": "none",
 						"north": "side|up",
 						"south": "none",
-						"west": "none"
+						"west": "none",
+						"lit": false
 					},
 					{
 						"east": "none",
 						"north": "none",
 						"south": "side|up",
-						"west": "none"
+						"west": "none",
+						"lit": false
 					},
 					{
 						"east": "none",
 						"north": "none",
 						"south": "none",
-						"west": "side|up"
+						"west": "side|up",
+						"lit": false
 					}
 				]
 			}
