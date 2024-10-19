@@ -2,6 +2,7 @@ package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.item.DynamiteStickItem;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -15,6 +16,7 @@ public class FBombsItems {
     private static final List<Item> VALUES = new ArrayList<>();
 
     public static final DynamiteStickItem DYNAMITE_STICK = register("dynamite_stick", new DynamiteStickItem(new Item.Settings()), FBombsItemGroups.ITEMS);
+    public static final BlockItem GUNPOWDER_TRAIL = register("gunpowder_trail", new BlockItem(FBombsBlocks.GUNPOWDER_TRAIL, new Item.Settings()));
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Item> T register(String name, T item, FBombsItemGroups.ItemGroupEntry... itemGroups) {

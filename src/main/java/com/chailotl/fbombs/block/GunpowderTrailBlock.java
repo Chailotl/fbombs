@@ -288,7 +288,7 @@ public class GunpowderTrailBlock extends Block {
     }
 
     protected static boolean connectsTo(BlockState state, @Nullable Direction dir) {
-        return state.isOf(FBombsBlocks.GUNPOWDER_TRAIL_BLOCK)
+        return state.isOf(FBombsBlocks.GUNPOWDER_TRAIL)
             || state.isIn(FBombsTags.Blocks.TNT_VARIANTS);
     }
 
@@ -401,9 +401,9 @@ public class GunpowderTrailBlock extends Block {
         if (!world.isClient) {
             BlockState state = world.getBlockState(pos);
 
-            if (state.isOf(FBombsBlocks.GUNPOWDER_TRAIL_BLOCK)) {
+            if (state.isOf(FBombsBlocks.GUNPOWDER_TRAIL)) {
                 world.setBlockState(pos, state.with(LIT, true), Block.NOTIFY_LISTENERS);
-                world.scheduleBlockTick(pos, FBombsBlocks.GUNPOWDER_TRAIL_BLOCK, 6);
+                world.scheduleBlockTick(pos, FBombsBlocks.GUNPOWDER_TRAIL, 6);
             }
         }
     }

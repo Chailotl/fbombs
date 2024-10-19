@@ -1,6 +1,6 @@
 package com.chailotl.fbombs.mixin;
 
-import com.chailotl.fbombs.init.FBombsBlocks;
+import com.chailotl.fbombs.init.FBombsItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
@@ -21,7 +21,7 @@ public class ItemMixin
     {
         if (ctx.getStack().isOf(Items.GUNPOWDER))
         {
-            cir.setReturnValue(FBombsBlocks.GUNPOWDER_TRAIL_BLOCK.asItem().useOnBlock(ctx));
+            cir.setReturnValue(FBombsItems.GUNPOWDER_TRAIL.useOnBlock(ctx));
         }
     }
 }

@@ -58,12 +58,12 @@ public class FBombsBlocks {
     public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
     public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
     public static final GenericTntBlock MINING_CHARGE = registerTnt("mining_charge", MiningChargeEntity::new);
-    public static final GunpowderTrailBlock GUNPOWDER_TRAIL_BLOCK = register("gunpowder_trail", new GunpowderTrailBlock(
+    public static final GunpowderTrailBlock GUNPOWDER_TRAIL = register("gunpowder_trail", new GunpowderTrailBlock(
         AbstractBlock.Settings.create()
             .noCollision()
             .breakInstantly()
             .pistonBehavior(PistonBehavior.DESTROY)
-    ), true);
+    ), false);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
