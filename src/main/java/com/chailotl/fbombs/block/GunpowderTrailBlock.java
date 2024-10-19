@@ -403,7 +403,7 @@ public class GunpowderTrailBlock extends Block {
 
             if (state.isOf(FBombsBlocks.GUNPOWDER_TRAIL_BLOCK)) {
                 world.setBlockState(pos, state.with(LIT, true), Block.NOTIFY_LISTENERS);
-                world.scheduleBlockTick(pos, FBombsBlocks.GUNPOWDER_TRAIL_BLOCK, 4);
+                world.scheduleBlockTick(pos, FBombsBlocks.GUNPOWDER_TRAIL_BLOCK, 6);
             }
         }
     }
