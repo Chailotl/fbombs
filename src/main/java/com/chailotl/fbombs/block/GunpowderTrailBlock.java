@@ -1,5 +1,6 @@
 package com.chailotl.fbombs.block;
 
+import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.google.common.collect.ImmutableMap;
@@ -17,6 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.*;
@@ -292,31 +295,13 @@ public class GunpowderTrailBlock extends Block {
             || state.isIn(FBombsTags.Blocks.TNT_VARIANTS);
     }
 
-    private void addPoweredParticles(World world, Random random, BlockPos pos, Direction direction, Direction direction2, float f, float g) {
+    private static void addPoweredParticles(ServerWorld world, Random random, BlockPos pos, Direction direction, Direction direction2, float f, float g) {
         float j = f + (g - f) * random.nextFloat();
         double d = 0.5 + (double)(0.4375F * (float)direction.getOffsetX()) + (double)(j * (float)direction2.getOffsetX());
         double e = 0.5 + (double)(0.4375F * (float)direction.getOffsetY()) + (double)(j * (float)direction2.getOffsetY());
         double k = 0.5 + (double)(0.4375F * (float)direction.getOffsetZ()) + (double)(j * (float)direction2.getOffsetZ());
-        world.addParticle(ParticleTypes.FLAME, (double)pos.getX() + d, (double)pos.getY() + e, (double)pos.getZ() + k, 0.0, 0.0, 0.0);
-    }
-
-    @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (state.get(LIT)) {
-            for (Direction direction : Direction.Type.HORIZONTAL) {
-                WireConnection wireConnection = state.get(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction));
-                switch (wireConnection) {
-                    case UP:
-                        this.addPoweredParticles(world, random, pos, direction, Direction.UP, -0.5F, 0.5F);
-                    case SIDE:
-                        this.addPoweredParticles(world, random, pos, Direction.DOWN, direction, 0.0F, 0.5F);
-                        break;
-                    case NONE:
-                    default:
-                        this.addPoweredParticles(world, random, pos, Direction.DOWN, direction, 0.0F, 0.3F);
-                }
-            }
-        }
+        //world.addParticle(ParticleTypes.FLAME, (double)pos.getX() + d, (double)pos.getY() + e, (double)pos.getZ() + k, 0.0, 0.0, 0.0);
+        world.spawnParticles(ParticleTypes.FLAME, (double)pos.getX() + d, (double)pos.getY() + e, (double)pos.getZ() + k, 1, 0.0, 0.0, 0.0, 0.0);
     }
 
     @Override
@@ -359,6 +344,7 @@ public class GunpowderTrailBlock extends Block {
         if (!stack.isOf(Items.FLINT_AND_STEEL) && !stack.isOf(Items.FIRE_CHARGE)) {
             return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
         } else {
+            world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
             lightGunpowder(world, pos);
             Item item = stack.getItem();
             if (stack.isOf(Items.FLINT_AND_STEEL)) {
@@ -404,6 +390,21 @@ public class GunpowderTrailBlock extends Block {
             if (state.isOf(FBombsBlocks.GUNPOWDER_TRAIL)) {
                 world.setBlockState(pos, state.with(LIT, true), Block.NOTIFY_LISTENERS);
                 world.scheduleBlockTick(pos, FBombsBlocks.GUNPOWDER_TRAIL, 6);
+
+                // TODO: we want clients to render these themselves
+                for (Direction direction : Direction.Type.HORIZONTAL) {
+                    WireConnection wireConnection = state.get(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction));
+                    switch (wireConnection) {
+                        case UP:
+                            addPoweredParticles((ServerWorld) world, world.random, pos, direction, Direction.UP, -0.5F, 0.5F);
+                        case SIDE:
+                            addPoweredParticles((ServerWorld) world, world.random, pos, Direction.DOWN, direction, 0.0F, 0.5F);
+                            break;
+                        case NONE:
+                        default:
+                            addPoweredParticles((ServerWorld) world, world.random, pos, Direction.DOWN, direction, 0.0F, 0.3F);
+                    }
+                }
             }
         }
     }

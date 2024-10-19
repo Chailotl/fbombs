@@ -22,7 +22,7 @@ public class FBombsClient implements ClientModInitializer {
         FBombsEntityTypes.streamTntEntityTypes().forEach(entityType -> EntityRendererRegistry.register(entityType, GenericTntEntityRenderer::new));
         EntityRendererRegistry.register(FBombsEntityTypes.DYNAMITE_STICK, DynamiteStickEntityRenderer::new);
 
-        BlockRenderLayerMap.INSTANCE.putBlock(FBombsBlocks.GUNPOWDER_TRAIL_BLOCK, RenderLayer.getCutout());
-        ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> state.get(GunpowderTrailBlock.LIT) ? 0xFCD500 : 0x494949, FBombsBlocks.GUNPOWDER_TRAIL_BLOCK);
+        BlockRenderLayerMap.INSTANCE.putBlock(FBombsBlocks.GUNPOWDER_TRAIL, RenderLayer.getCutout());
+        ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> 0x494949, FBombsBlocks.GUNPOWDER_TRAIL);
     }
 }
