@@ -3,6 +3,7 @@ package com.chailotl.fbombs.entity;
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsEntityTypes;
+import com.chailotl.fbombs.init.FBombsTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -36,7 +37,7 @@ public class WindChargedTntEntity extends AbstractTntEntity {
 
         @Override
         public boolean canDestroyBlock(Explosion explosion, BlockView world, BlockPos pos, BlockState state, float power) {
-            return state.isIn(TagKey.of(RegistryKeys.BLOCK, FBombs.getId("tnt_variants")));
+            return state.isIn(FBombsTags.Blocks.TNT_VARIANTS);
         }
 
         @Override

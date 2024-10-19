@@ -24,7 +24,7 @@ public class TagProvider {
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 
             var tntVariants = getOrCreateTagBuilder(FBombsTags.Blocks.TNT_VARIANTS)
-                    .add(Blocks.TNT);
+                .add(Blocks.TNT);
 
             FBombs.streamEntries(Registries.BLOCK, block -> block instanceof GenericTntBlock).forEach(tntVariants::add);
 

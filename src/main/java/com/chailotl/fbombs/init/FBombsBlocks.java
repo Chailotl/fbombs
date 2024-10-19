@@ -33,21 +33,23 @@ public class FBombsBlocks {
     public static final TestBlock TEST = register("test_block", new TestBlock(AbstractBlock.Settings.create()), true);
     public static final GenericTntBlock INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
     public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(
-                    new TntEntityType("split_tnt", SplitTntEntity::new), AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BRIGHT_RED)
-                    .breakInstantly()
-                    .sounds(BlockSoundGroup.GRASS)
-                    .burnable()
-                    .solidBlock(Blocks::never)),
-            false);
+        new TntEntityType("split_tnt", SplitTntEntity::new),
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BRIGHT_RED)
+            .breakInstantly()
+            .sounds(BlockSoundGroup.GRASS)
+            .burnable()
+            .solidBlock(Blocks::never)
+    ), false);
     public static final TntSlabBlock TNT_SLAB = register("tnt_slab", new TntSlabBlock(
-                    new TntEntityType("tnt_slab", TntSlabEntity::new), AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BRIGHT_RED)
-                    .breakInstantly()
-                    .sounds(BlockSoundGroup.GRASS)
-                    .burnable()
-                    .solidBlock(Blocks::never)),
-            true);
+        new TntEntityType("tnt_slab", TntSlabEntity::new),
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BRIGHT_RED)
+            .breakInstantly()
+            .sounds(BlockSoundGroup.GRASS)
+            .burnable()
+            .solidBlock(Blocks::never)
+    ), true);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
