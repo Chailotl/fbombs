@@ -1,15 +1,16 @@
 package com.chailotl.fbombs.data;
 
-import com.chailotl.fbombs.util.Locatable;
-import com.google.common.collect.Iterators;
-import net.minecraft.server.world.ServerWorld;
+import com.chailotl.fbombs.util.NbtKeys;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.util.Uuids;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class BlockAndEntityData {
     private final List<LocatableBlock> affectedBlocks;
@@ -19,17 +20,30 @@ public class BlockAndEntityData {
     private final List<LocatableEntity<?>> affectedEntities;
     private final List<UUID> unaffectedEntities;
 
-    private final ServerWorld world;
 
-    public BlockAndEntityData(ServerWorld world) {
-        this.affectedBlocks = new ArrayList<>();
-        this.scorchedBlocks = new ArrayList<>();
-        this.unaffectedBlocks = new ArrayList<>();
+    public static final Codec<BlockAndEntityData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            LocatableBlock.CODEC.listOf().fieldOf(NbtKeys.AFFECTED_BLOCKS).forGetter(BlockAndEntityData::getAffectedBlocks),
+            LocatableBlock.CODEC.listOf().fieldOf(NbtKeys.SCORCHED_BLOCKS).forGetter(BlockAndEntityData::getScorchedBlocks),
+            BlockPos.CODEC.listOf().fieldOf(NbtKeys.UNAFFECTED_BLOCKS).forGetter(BlockAndEntityData::getUnaffectedBlocks),
+            LocatableEntity.CODEC.listOf().fieldOf(NbtKeys.AFFECTED_ENTITIES).forGetter(BlockAndEntityData::getAffectedEntities),
+            Uuids.CODEC.listOf().fieldOf(NbtKeys.UNAFFECTED_ENTITIES).forGetter(BlockAndEntityData::getUnaffectedEntities)
+    ).apply(instance, BlockAndEntityData::new));
 
-        this.affectedEntities = new ArrayList<>();
-        this.unaffectedEntities = new ArrayList<>();
 
-        this.world = world;
+    public BlockAndEntityData(List<LocatableBlock> affectedBlocks, List<LocatableBlock> scorchedBlocks, List<BlockPos> unaffectedBlocks,
+                              List<LocatableEntity<?>> affectedEntities, List<UUID> unaffectedEntities) {
+        this.affectedBlocks = Collections.synchronizedList(affectedBlocks);
+        this.scorchedBlocks = Collections.synchronizedList(scorchedBlocks);
+        this.unaffectedBlocks = Collections.synchronizedList(unaffectedBlocks);
+
+        this.affectedEntities = Collections.synchronizedList(affectedEntities);
+        this.unaffectedEntities = Collections.synchronizedList(unaffectedEntities);
+    }
+
+    public BlockAndEntityData() {
+        this(Collections.synchronizedList(new ArrayList<>()), Collections.synchronizedList(new ArrayList<>()),
+                Collections.synchronizedList(new ArrayList<>()), Collections.synchronizedList(new ArrayList<>()),
+                Collections.synchronizedList(new ArrayList<>()));
     }
 
     //region getter & setter
@@ -39,6 +53,10 @@ public class BlockAndEntityData {
 
     public List<BlockPos> getUnaffectedBlocks() {
         return unaffectedBlocks;
+    }
+
+    public List<LocatableBlock> getScorchedBlocks() {
+        return scorchedBlocks;
     }
 
     public List<LocatableEntity<?>> getAffectedEntities() {
@@ -81,20 +99,34 @@ public class BlockAndEntityData {
 
     public Iterator<LocatableEntity<?>> iterateEntities() {
         return this.affectedEntities.stream()
-                .filter(locatableEntity -> !this.unaffectedEntities.contains(locatableEntity.entity().getUuid()))
+                .filter(locatableEntity -> !this.unaffectedEntities.contains(locatableEntity.uuid()))
                 .iterator();
-    }
-
-    public Iterator<Locatable> iterateAffectedTargets() {
-        return Iterators.concat(this.iterateBlocks(), this.iterateEntities());
     }
     //endregion
 
-    public void exclude(BlockPos pos, BlockPos origin) {
-        Vec3d point1 = Vec3d.ofCenter(pos);
-        Vec3d point1ToOrigin = Vec3d.ofCenter(origin).subtract(point1);
+    public void toNbt(NbtCompound nbt) {
+        NbtList nbtList;
+        if (nbt.contains(NbtKeys.EXPLOSION_DATA)) {
+            nbtList = nbt.getList(NbtKeys.EXPLOSION_DATA, NbtElement.LIST_TYPE);
+        } else {
+            nbtList = new NbtList();
+        }
+        nbtList.add(CODEC.encodeStart(NbtOps.INSTANCE, this).getOrThrow());
+        nbt.put(NbtKeys.EXPLOSION_DATA, nbtList);
+    }
 
-        if (point1ToOrigin.lengthSquared() == 0) return;
-        
+    public static void toNbt(List<BlockAndEntityData> explosionData, NbtCompound nbt) {
+        for (BlockAndEntityData entry : explosionData) {
+            entry.toNbt(nbt);
+        }
+    }
+
+    public static List<BlockAndEntityData> fromNbt(NbtCompound nbt) {
+        if (!nbt.contains(NbtKeys.EXPLOSION_DATA)) return List.of();
+        List<BlockAndEntityData> explosionDataList = Collections.synchronizedList(new ArrayList<>());
+        for (NbtElement entry : nbt.getList(NbtKeys.EXPLOSION_DATA, NbtElement.LIST_TYPE)) {
+            explosionDataList.add(CODEC.parse(NbtOps.INSTANCE, entry).getPartialOrThrow());
+        }
+        return explosionDataList;
     }
 }

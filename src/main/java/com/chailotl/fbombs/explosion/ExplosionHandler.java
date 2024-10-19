@@ -1,11 +1,10 @@
 package com.chailotl.fbombs.explosion;
 
-import com.chailotl.fbombs.api.VolumetricExplosion;
 import com.chailotl.fbombs.data.BlockAndEntityData;
 import com.chailotl.fbombs.data.LocatableBlock;
 import com.chailotl.fbombs.init.FBombsGamerules;
+import com.chailotl.fbombs.init.FBombsPersistentState;
 import com.chailotl.fbombs.init.FBombsTags;
-import com.chailotl.fbombs.util.Locatable;
 import com.chailotl.fbombs.util.LoggerUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -19,15 +18,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.chunk.Chunk;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 
 /**
  * Explosions based on Volume instead of Ray casts. There are no performance improvements.
@@ -53,68 +48,85 @@ public class ExplosionHandler {
     public static BlockAndEntityData collect(ServerWorld world, BlockPos origin, int radius, ExplosionShape shape,
                                              @Nullable Double extrusion, Predicate<BlockState> blockExceptions,
                                              float startBlastStrength, float blastStrengthFalloffMultiplier, float scorchedThreshold) {
-        BlockAndEntityData output = new BlockAndEntityData(world);
+        BlockAndEntityData output = new BlockAndEntityData();
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 
         scorchedThreshold = Math.clamp(scorchedThreshold, 0f, startBlastStrength);
         startBlastStrength = Math.max(0, startBlastStrength);
 
-        for (int x = -radius; x < radius; x++) {
-            for (int y = -radius; y < radius; y++) {
-                for (int z = -radius; z < radius; z++) {
-                    if (!shape.isInsideVolume(radius, extrusion, new Vec3d(x, y, z))) {
-                        continue;
-                    }
-                    mutablePos.set(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
-                    BlockState currentState = world.getBlockState(mutablePos.toImmutable());
+        Map<BlockPos, BlockState> blockStateCache = new ConcurrentHashMap<>();
+        Map<BlockPos, FluidState> fluidStateCache = new ConcurrentHashMap<>();
 
-                    // 3D DDA
-                    Vec3d startPos = origin.toCenterPos();
-                    Vec3d direction = mutablePos.toImmutable().toCenterPos().subtract(startPos);
-                    int steps = (int) MathHelper.absMax(direction.x, MathHelper.absMax(direction.y, direction.z));
-                    Vec3d stepSize = new Vec3d(direction.x / steps, direction.y / steps, direction.z / steps);
 
-                    float deterioratingPower = startBlastStrength;
-                    BlockPos.Mutable posWalker = origin.mutableCopy();
+        try(ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())) {
+            List<Future<?>> futures = new ArrayList<>();
 
-                    LoggerUtil.devLogger("For Block: %s | Distance:  %s".formatted(currentState, Vec3d.of(mutablePos.toImmutable()).subtract(Vec3d.of(origin)).length()));
-
-                    for (int i = 0; i < steps; i++) {
-                        BlockPos stepPos = posWalker.toImmutable();
-                        BlockState stepState = world.getBlockState(stepPos);
-                        FluidState stepFluidState = world.getFluidState(stepPos);
-
-                        LoggerUtil.devLogger("currentStep: %s at: %s | stepState : %s | det.Power: %s"
-                                .formatted(i, stepPos, stepState, deterioratingPower));
-
-                        if (stepState.isAir()) continue;
-                        if (blockExceptions.test(stepState)) {
-                            deterioratingPower = 0;
-                            break;
+            for (int x = -radius; x < radius; x++) {
+                for (int y = -radius; y < radius; y++) {
+                    for (int z = -radius; z < radius; z++) {
+                        if (!shape.isInsideVolume(radius, extrusion, new Vec3d(x, y, z))) {
+                            continue;
                         }
 
-                        // https://minecraft.wiki/w/Explosion#Blast_resistance
-                        float blastResistance = stepState.getBlock().getBlastResistance() + stepFluidState.getBlastResistance();
-                        deterioratingPower -= blastResistance * blastStrengthFalloffMultiplier;
-                        if (deterioratingPower <= 0) {
-                            deterioratingPower = 0;
-                            break;
-                        }
-                        posWalker.set(posWalker.add(BlockPos.ofFloored(stepSize)));
-                    }
+                        mutablePos.set(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
+                        BlockState currentState = blockStateCache.computeIfAbsent(mutablePos.toImmutable(), world::getBlockState);
 
-                    if (deterioratingPower > currentState.getBlock().getBlastResistance()) {
-                        if (!currentState.isAir()) LoggerUtil.devLogger("gone");
-                        output.addToAffectedBlocks(new LocatableBlock(mutablePos.toImmutable(), currentState));
-                    } else if (deterioratingPower + scorchedThreshold > currentState.getBlock().getBlastResistance()) {
-                        output.addToScorchedBlocks(new LocatableBlock(mutablePos.toImmutable(), currentState));
-                    } else {
-                        output.addToUnaffectedBlocks(mutablePos.toImmutable());
-                    }
+                        float finalStartBlastStrength = startBlastStrength;
+                        float finalScorchedThreshold = scorchedThreshold;
 
+                        // Parallel Rays for 3D DDA
+                        futures.add(executor.submit(() -> {
+                            //FIXME: [ShiroJR] use normalized unit vector? current calculation might skip some BlockPos
+                            Vec3d startPos = origin.toCenterPos();
+                            Vec3d direction = mutablePos.toCenterPos().subtract(startPos);
+                            int steps = (int) MathHelper.absMax(direction.x, MathHelper.absMax(direction.y, direction.z));
+                            Vec3d stepSize = new Vec3d(direction.x / steps, direction.y / steps, direction.z / steps);
+
+                            float deterioratingPower = finalStartBlastStrength;
+                            BlockPos.Mutable posWalker = origin.mutableCopy();
+
+                            for (int i = 0; i < steps; i++) {
+                                BlockPos stepPos = posWalker.toImmutable();
+                                BlockState stepState = blockStateCache.computeIfAbsent(stepPos, world::getBlockState);
+                                FluidState stepFluidState = fluidStateCache.computeIfAbsent(stepPos, world::getFluidState);
+
+                                if (stepState.isAir()) continue;
+                                if (blockExceptions.test(stepState)) {
+                                    deterioratingPower = 0;
+                                    break;
+                                }
+
+                                // https://minecraft.wiki/w/Explosion#Blast_resistance
+                                float blastResistance = stepState.getBlock().getBlastResistance() + stepFluidState.getBlastResistance();
+                                deterioratingPower -= blastResistance * blastStrengthFalloffMultiplier;
+                                if (deterioratingPower <= 0) {
+                                    deterioratingPower = 0;
+                                    break;
+                                }
+                                posWalker.set(posWalker.add(BlockPos.ofFloored(stepSize)));
+                            }
+
+                            if (deterioratingPower > currentState.getBlock().getBlastResistance()) {
+                                if (!currentState.isAir()) LoggerUtil.devLogger("gone");
+                                output.addToAffectedBlocks(new LocatableBlock(mutablePos.toImmutable(), currentState));
+                            } else if (deterioratingPower + finalScorchedThreshold > currentState.getBlock().getBlastResistance()) {
+                                output.addToScorchedBlocks(new LocatableBlock(mutablePos.toImmutable(), currentState));
+                            } else {
+                                output.addToUnaffectedBlocks(mutablePos.toImmutable());
+                            }
+                            LoggerUtil.devLogger("ray is done done");
+                        }));
+                    }
                 }
             }
+            for (Future<?> future : futures) {
+                future.get();  // Waits for completion of each task
+            }
         }
+        catch (Exception e) {
+            LoggerUtil.devLogger("Exception while handling an Explosion on multiple threads", LoggerUtil.Type.ERROR, e);
+        }
+
         List<Entity> entitiesInRange = world.getEntitiesByClass(Entity.class, new Box(origin).expand(radius),
                 entity -> shape.isInsideVolume(radius, extrusion, entity.getPos()));
 
@@ -132,9 +144,9 @@ public class ExplosionHandler {
             return blockState.isIn(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE);
         };
 
-        CompletableFuture.supplyAsync(() -> collect(world, origin, /*radius*/ 15, ExplosionShape.SPHERE, null,
+        CompletableFuture.supplyAsync(() -> collect(world, origin, /*radius*/ 30, ExplosionShape.SPHERE, null,
                 isImmune, /*strength*/ 8, 0.4f, 4))
-                .thenAccept(blockAndEntityData -> LoggerUtil.devLogger("yup"));
+                .thenAccept(blockAndEntityData -> FBombsPersistentState.fromServer(world).orElseThrow().getExplosions().add(blockAndEntityData));
 
         /*BlockAndEntityData blockAndEntityData = collect(world, origin, *//*radius*//* 15, ExplosionShape.SPHERE, null,
                 isImmune, *//*strength*//* 8, 0.4f, 4);*/
@@ -150,7 +162,7 @@ public class ExplosionHandler {
         spawnParticlesAndSound(world, origin, blockAndEntityData.iterateAffectedTargets());*/
     }
 
-    private static void spawnParticlesAndSound(ServerWorld world, BlockPos origin, Iterator<Locatable> hitBlocks) {
+    private static void spawnParticlesAndSound(ServerWorld world, BlockPos origin, Iterator<LocatableBlock> hitBlocks) {
         //TODO: [ShiroJR] don't only spawn on affected targets but in whole explosion shape with a low chance?
         while (hitBlocks.hasNext()) {
             Vec3d pos = hitBlocks.next().getPos();

@@ -4,6 +4,16 @@ public class NbtKeys {
     public static final String INVENTORY = "test_value";
 
     public static final String RADIATION_DATA = "radiation_data";
-    public static final String BLOCK_POS = "pos";
     public static final String CPS = "cps"; // counts per second (unit for radiation)
+
+    public static final String BLOCK_POS = "pos";
+    public static final String BLOCK_STATE = "state";
+    public static final String EXPLOSION_DATA = "explosion_data";
+
+    public static final String AFFECTED_BLOCKS = "affected_blocks";
+    public static final String SCORCHED_BLOCKS = "scorched_blocks";
+    public static final String UNAFFECTED_BLOCKS = "unaffected_blocks";
+
+    public static final String AFFECTED_ENTITIES = "affected_entities";
+    public static final String UNAFFECTED_ENTITIES = "unaffected_entities";
 }
