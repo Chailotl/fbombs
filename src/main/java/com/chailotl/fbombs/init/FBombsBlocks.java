@@ -58,7 +58,6 @@ public class FBombsBlocks {
     public static final GenericTntBlock WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
     public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
     public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
-    public static final GenericTntBlock MINING_CHARGE = registerTnt("mining_charge", MiningChargeEntity::new);
     public static final GunpowderTrailBlock GUNPOWDER_TRAIL = register("gunpowder_trail", new GunpowderTrailBlock(
         AbstractBlock.Settings.create()
             .noCollision()
@@ -87,6 +86,24 @@ public class FBombsBlocks {
             .instrument(NoteBlockInstrument.BASEDRUM)
             .requiresTool()
             .strength(3.5F)
+    ), true);
+    public static final ShapedChargeBlock SHAPED_CHARGE = register("shaped_charge", new ShapedChargeBlock(
+        new TntEntityType("shaped_charge", ShapedChargeEntity::new),
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BRIGHT_RED)
+            .breakInstantly()
+            .sounds(BlockSoundGroup.GRASS)
+            .burnable()
+            .solidBlock(Blocks::never)
+    ), true);
+    public static final ShapedChargeBlock MINING_CHARGE = register("mining_charge", new ShapedChargeBlock(
+        new TntEntityType("mining_charge", MiningChargeEntity::new),
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BRIGHT_RED)
+            .breakInstantly()
+            .sounds(BlockSoundGroup.GRASS)
+            .burnable()
+            .solidBlock(Blocks::never)
     ), true);
 
     @SuppressWarnings("SameParameterValue")

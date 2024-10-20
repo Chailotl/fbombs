@@ -20,8 +20,6 @@ public class ModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        // TODO: [Chai] unsure if we should assume all TNT blocks will have the same textured model
-        //FBombsBlocks.streamTntBlocks().forEach(block -> blockStateModelGenerator.registerSingleton(block, TexturedModel.CUBE_BOTTOM_TOP));
         blockStateModelGenerator.registerSingleton(FBombsBlocks.INSTANT_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHORT_FUSE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.LONG_FUSE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
@@ -32,6 +30,7 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSingleton(FBombsBlocks.WIND_CHARGED_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.UNDERWATER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SPONGE_BOMB, TexturedModel.CUBE_BOTTOM_TOP);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.SHAPED_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
 
         blockStateModelGenerator.registerBuiltin(FBombs.getId("block/acme_bed"), Blocks.OAK_PLANKS)

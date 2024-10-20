@@ -5,8 +5,6 @@ import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
@@ -21,9 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-// TODO: [Chai] needs directional explosion
-
-public class MiningChargeEntity extends AbstractTntEntity {
+public class MiningChargeEntity extends ShapedChargeEntity {
     private static final ExplosionBehavior EXPLOSION_BEHAVIOR = new ExplosionBehavior() {
         @Override
         public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
