@@ -20,8 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Pattern;
 
 public class TranslationProvider extends FabricLanguageProvider {
+    private static List<String> CAPITALIZED_WORDS = List.of("TNT", "ACME");
+
     public TranslationProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
     }
@@ -56,16 +59,25 @@ public class TranslationProvider extends FabricLanguageProvider {
             throw new NullPointerException("missing Identifier for translation datagen");
         }
         String[] words = List.of(identifier.getPath().split("/")).getLast().split("_");
-        StringBuilder output = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < words.length; i++) {
             String word = words[i];
             char capitalized = Character.toUpperCase(word.charAt(0));
-            output.append(capitalized).append(word.substring(1));
+            stringBuilder.append(capitalized).append(word.substring(1));
             if (i < words.length - 1) {
-                output.append(" ");
+                stringBuilder.append(" ");
             }
         }
-        return output.toString();
+
+        String string = stringBuilder.toString();
+
+        for (String word : CAPITALIZED_WORDS) {
+            string = Pattern.compile("\\b" + word + "\\b", Pattern.CASE_INSENSITIVE)
+                .matcher(string)
+                .replaceAll(word.toUpperCase());
+        }
+
+        return string;
     }
 
     @NotNull
