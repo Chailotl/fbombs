@@ -1,6 +1,5 @@
 package com.chailotl.fbombs;
 
-import com.chailotl.fbombs.block.GunpowderTrailBlock;
 import com.chailotl.fbombs.entity.renderer.AcmeBedBlockEntityRenderer;
 import com.chailotl.fbombs.entity.renderer.DynamiteStickEntityRenderer;
 import com.chailotl.fbombs.entity.renderer.GenericTntEntityRenderer;
@@ -11,13 +10,10 @@ import com.chailotl.fbombs.init.FBombsEntityTypes;
 import com.chailotl.fbombs.network.FBombsS2CNetworking;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.block.entity.BedBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.datafixer.fix.BedBlockEntityFix;
 
 public class FBombsClient implements ClientModInitializer {
     @Override

@@ -29,10 +29,10 @@ public class TagProvider {
             FBombs.streamEntries(Registries.BLOCK, block -> block instanceof GenericTntBlock).forEach(tntVariants::add);
 
             getOrCreateTagBuilder(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE)
-                    .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.BEDROCK, Blocks.END_PORTAL,
-                            Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,
-                            Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW, Blocks.MOVING_PISTON, Blocks.LIGHT,
-                            Blocks.REINFORCED_DEEPSLATE);
+                .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.BEDROCK, Blocks.END_PORTAL,
+                    Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,
+                    Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW, Blocks.MOVING_PISTON, Blocks.LIGHT,
+                    Blocks.REINFORCED_DEEPSLATE);
 
         }
     }
@@ -45,9 +45,9 @@ public class TagProvider {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             getOrCreateTagBuilder(FBombsTags.Items.SPLITS_TNT)
-                    .add(Items.SHEARS);
+                .add(Items.SHEARS);
             getOrCreateTagBuilder(FBombsTags.Items.IGNITES_TNT)
-                    .add(Items.FLINT_AND_STEEL, Items.FIRE_CHARGE);
+                .add(Items.FLINT_AND_STEEL, Items.FIRE_CHARGE);
         }
     }
 

@@ -1,8 +1,11 @@
 package com.chailotl.fbombs.datagen;
 
+import com.chailotl.fbombs.FBombs;
+import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
@@ -14,7 +17,7 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        FBombsBlocks.streamTntBlocks().forEach(this::addDrop);
+        FBombs.streamEntries(Registries.BLOCK, block -> block instanceof GenericTntBlock).forEach(this::addDrop);
         addDrop(FBombsBlocks.TNT_SLAB);
     }
 }

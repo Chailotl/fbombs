@@ -1,13 +1,16 @@
 package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
+import com.chailotl.fbombs.block.AcmeBedBlock;
 import com.chailotl.fbombs.block.SplitTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.client.*;
+import net.minecraft.registry.Registries;
 
 public class ModelProvider extends FabricModelProvider {
 
@@ -30,24 +33,10 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSingleton(FBombsBlocks.UNDERWATER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SPONGE_BOMB, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
+
         blockStateModelGenerator.registerBuiltin(FBombs.getId("block/acme_bed"), Blocks.OAK_PLANKS)
             .includeWithoutItem(
-                FBombsBlocks.WHITE_ACME_BED,
-                FBombsBlocks.ORANGE_ACME_BED,
-                FBombsBlocks.MAGENTA_ACME_BED,
-                FBombsBlocks.LIGHT_BLUE_ACME_BED,
-                FBombsBlocks.YELLOW_ACME_BED,
-                FBombsBlocks.LIME_ACME_BED,
-                FBombsBlocks.PINK_ACME_BED,
-                FBombsBlocks.GRAY_ACME_BED,
-                FBombsBlocks.LIGHT_GRAY_ACME_BED,
-                FBombsBlocks.CYAN_ACME_BED,
-                FBombsBlocks.PURPLE_ACME_BED,
-                FBombsBlocks.BLUE_ACME_BED,
-                FBombsBlocks.BROWN_ACME_BED,
-                FBombsBlocks.GREEN_ACME_BED,
-                FBombsBlocks.RED_ACME_BED,
-                FBombsBlocks.BLACK_ACME_BED
+                FBombs.streamEntries(Registries.BLOCK, block -> block instanceof AcmeBedBlock).toArray(Block[]::new)
             );
         blockStateModelGenerator.registerBed(FBombsBlocks.WHITE_ACME_BED, Blocks.WHITE_WOOL);
         blockStateModelGenerator.registerBed(FBombsBlocks.ORANGE_ACME_BED, Blocks.ORANGE_WOOL);
