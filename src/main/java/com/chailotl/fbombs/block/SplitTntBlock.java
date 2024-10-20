@@ -9,6 +9,7 @@ import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.ItemStackHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.SlabType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -154,10 +155,10 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
     }
 
     @Override
-    public void primeTnt(World world, BlockPos pos) {
+    public void primeTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
             BlockState state = world.getBlockState(pos);
-            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5, null, state);
+            AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5, igniter, state);
             world.spawnEntity(tntEntity);
             if (tntEntity.getFuse() >= 10) {
                 world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);

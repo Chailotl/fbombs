@@ -94,7 +94,7 @@ public class GenericTntBlock extends Block {
         primeTnt(world, pos, null);
     }
 
-    private void primeTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
+    protected void primeTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
             BlockState state = world.getBlockState(pos);
             AbstractTntEntity tntEntity = tntEntityType.tntEntityProvider().spawn(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, igniter, state);
