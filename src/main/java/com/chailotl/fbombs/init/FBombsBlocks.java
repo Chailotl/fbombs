@@ -106,19 +106,17 @@ public class FBombsBlocks {
         DispenserBlock.registerBehavior(block, new ItemDispenserBehavior() {
             @Override
             protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-            World world = pointer.world();
-            BlockPos blockPos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
-            BlockState state = world.getBlockState(blockPos);
-            AbstractTntEntity tntEntity;
-            tntEntity = tntEntityProvider.spawn(world, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, null, state);
+                World world = pointer.world();
+                BlockPos blockPos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
+                AbstractTntEntity tntEntity = tntEntityProvider.spawn(world, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, null, block.getDefaultState());
 
-            world.spawnEntity(tntEntity);
-            if (tntEntity.getFuse() >= 10) {
-                world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            }
-            world.emitGameEvent(null, GameEvent.ENTITY_PLACE, blockPos);
-            stack.decrement(1);
-            return stack;
+                world.spawnEntity(tntEntity);
+                if (tntEntity.getFuse() >= 10) {
+                    world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                }
+                world.emitGameEvent(null, GameEvent.ENTITY_PLACE, blockPos);
+                stack.decrement(1);
+                return stack;
             }
         });
         return block;
