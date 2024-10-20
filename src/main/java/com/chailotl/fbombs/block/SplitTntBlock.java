@@ -42,11 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
-    private final TntEntityType tntEntityType;
-
     public SplitTntBlock(TntEntityType tntEntityType, AbstractBlock.Settings settings) {
         super(tntEntityType, settings);
-        this.tntEntityType = tntEntityType;
         this.setDefaultState(this.getDefaultState()
                 .with(UNSTABLE, false)
                 .with(Split.NE.getProperty(), true)

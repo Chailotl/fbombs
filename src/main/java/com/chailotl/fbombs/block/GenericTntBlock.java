@@ -36,7 +36,7 @@ public class GenericTntBlock extends Block {
     );
     public static final BooleanProperty UNSTABLE;
 
-    private final TntEntityType tntEntityType;
+    protected final TntEntityType tntEntityType;
 
     @Override
     public MapCodec<GenericTntBlock> getCodec() {
