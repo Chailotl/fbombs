@@ -1,4 +1,4 @@
-package com.chailotl.fbombs.entity;
+package com.chailotl.fbombs.block.entity;
 
 import com.chailotl.fbombs.init.FBombsBlockEntities;
 import net.minecraft.block.BedBlock;

@@ -1,14 +1,12 @@
 package com.chailotl.fbombs.entity.renderer;
 
 import com.chailotl.fbombs.block.AcmeBedBlock;
-import com.chailotl.fbombs.entity.AcmeBedBlockEntity;
+import com.chailotl.fbombs.block.entity.AcmeBedBlockEntity;
 import com.chailotl.fbombs.init.FBombsBlockEntities;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.DoubleBlockProperties;
-import net.minecraft.block.entity.BedBlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;

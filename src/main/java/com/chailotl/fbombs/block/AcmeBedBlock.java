@@ -1,6 +1,6 @@
 package com.chailotl.fbombs.block;
 
-import com.chailotl.fbombs.entity.AcmeBedBlockEntity;
+import com.chailotl.fbombs.block.entity.AcmeBedBlockEntity;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

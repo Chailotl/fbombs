@@ -2,9 +2,8 @@ package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.AcmeBedBlock;
-import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.block.entity.TestBlockEntity;
-import com.chailotl.fbombs.entity.AcmeBedBlockEntity;
+import com.chailotl.fbombs.block.entity.AcmeBedBlockEntity;
 import com.chailotl.fbombs.util.HandledInventory;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.Block;
@@ -12,9 +11,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class FBombsBlockEntities {
     public static final BlockEntityType<TestBlockEntity> TEST_BLOCK_ENTITY = register("test_block_entity", TestBlockEntity::new, FBombsBlocks.TEST);
