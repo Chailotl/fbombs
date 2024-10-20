@@ -8,6 +8,7 @@ import com.chailotl.fbombs.entity.util.TntEntityType;
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.block.enums.BedPart;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -80,6 +81,13 @@ public class FBombsBlocks {
     public static final AcmeBedBlock GREEN_ACME_BED = registerAcmeBed("green_acme_bed", DyeColor.GREEN);
     public static final AcmeBedBlock RED_ACME_BED = registerAcmeBed("red_acme_bed", DyeColor.RED);
     public static final AcmeBedBlock BLACK_ACME_BED = registerAcmeBed("black_acme_bed", DyeColor.BLACK);
+    public static final MultiShotDispenserBlock MULTI_SHOT_DISPENSER = register("multi_shot_dispenser", new MultiShotDispenserBlock(
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.STONE_GRAY)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .requiresTool()
+            .strength(3.5F)
+    ), true);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
