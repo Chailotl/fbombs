@@ -29,14 +29,13 @@ public class FBombsEntityTypes {
     public static final EntityType<SpongeBombEntity> SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
     public static final EntityType<MiningChargeEntity> MINING_CHARGE = registerTnt("mining_charge", MiningChargeEntity::new);
 
-
     public static final EntityType<DynamiteStickEntity> DYNAMITE_STICK = register(
-            "dynamite_stick",
-            EntityType.Builder.<DynamiteStickEntity>create(DynamiteStickEntity::new, SpawnGroup.MISC)
-                    .makeFireImmune()
-                    .dimensions(0.25F, 0.25F)
-                    .maxTrackingRange(4)
-                    .trackingTickInterval(10)
+        "dynamite_stick",
+        EntityType.Builder.<DynamiteStickEntity>create(DynamiteStickEntity::new, SpawnGroup.MISC)
+            .makeFireImmune()
+            .dimensions(0.25F, 0.25F)
+            .maxTrackingRange(4)
+            .trackingTickInterval(10)
     );
 
     @SuppressWarnings("SameParameterValue")
@@ -47,12 +46,12 @@ public class FBombsEntityTypes {
 
     private static <T extends AbstractTntEntity> EntityType<T> registerTnt(String name, EntityType.EntityFactory<T> factory) {
         EntityType<T> entityType = EntityType.Builder.create(factory, SpawnGroup.MISC)
-                .makeFireImmune()
-                .dimensions(0.98F, 0.98F)
-                .eyeHeight(0.15F)
-                .maxTrackingRange(10)
-                .trackingTickInterval(10)
-                .build(name);
+            .makeFireImmune()
+            .dimensions(0.98F, 0.98F)
+            .eyeHeight(0.15F)
+            .maxTrackingRange(10)
+            .trackingTickInterval(10)
+            .build(name);
         TNT_ENTITY_TYPES.add(entityType);
         return Registry.register(Registries.ENTITY_TYPE, FBombs.getId(name), entityType);
     }
