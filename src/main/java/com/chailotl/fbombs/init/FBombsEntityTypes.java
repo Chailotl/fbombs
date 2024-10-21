@@ -29,6 +29,7 @@ public class FBombsEntityTypes {
     public static final EntityType<SpongeBombEntity> SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
     public static final EntityType<ShapedChargeEntity> SHAPED_CHARGE = registerTnt("shaped_charge", ShapedChargeEntity::new);
     public static final EntityType<MiningChargeEntity> MINING_CHARGE = registerTnt("mining_charge", MiningChargeEntity::new);
+    public static final EntityType<LevitatingTntEntity> LEVITATING_TNT = registerTnt("levitating_tnt", LevitatingTntEntity::new);
 
     public static final EntityType<DynamiteStickEntity> DYNAMITE_STICK = register(
         "dynamite_stick",
