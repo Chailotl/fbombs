@@ -134,7 +134,7 @@ public class SplitTntBlock extends GenericTntBlock implements Waterloggable {
         } else {
             world.setBlockState(pos, Blocks.AIR.getDefaultState(), NOTIFY_ALL);
         }
-        ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsItems.DYNAMITE_STICK.getDefaultStack());
+        ItemScatterer.spawn(world, pos.getX(), pos.getY() + 1, pos.getZ(), FBombsItems.DYNAMITE_STICK.getDefaultStack().copyWithCount(4));
 
         if (world instanceof ServerWorld serverWorld) {
             serverWorld.playSound(null, pos, SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.BLOCKS, 1f, 1f);
