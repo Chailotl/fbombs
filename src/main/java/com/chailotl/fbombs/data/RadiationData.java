@@ -49,4 +49,12 @@ public record RadiationData(BlockPos pos, float cps) {
         }
         return radiationDataList;
     }
+
+    public static boolean contains(List<RadiationData> radiationData, BlockPos testPos, float minCps) {
+        for (RadiationData entry : radiationData) {
+            if (!entry.pos().equals(testPos)) continue;
+            if (entry.cps() >= minCps) return true;
+        }
+        return false;
+    }
 }
