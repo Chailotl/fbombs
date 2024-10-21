@@ -14,10 +14,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -64,7 +61,7 @@ public class ExplosionHandler {
         Map<BlockPos, FluidState> fluidStateCache = new ConcurrentHashMap<>();
 
 
-        try(ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())) {
+        try (ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())) {
             List<Future<?>> futures = new ArrayList<>();
 
             for (int x = -radius; x < radius; x++) {
@@ -81,72 +78,95 @@ public class ExplosionHandler {
 
                         // Parallel Rays for 3D DDA
                         futures.add(executor.submit(() -> {
-                            //FIXME: [ShiroJR] use normalized unit vector? current calculation might skip some BlockPos
+
                             Vec3d startPos = origin.toCenterPos();
                             Vec3d direction = currentPos.toCenterPos().subtract(startPos);
-                            int steps = (int) MathHelper.absMax(direction.x, MathHelper.absMax(direction.y, direction.z));
-                            Vec3d stepSize = new Vec3d(direction.x / steps, direction.y / steps, direction.z / steps);
+
+                            Vec3i stepDirection = new Vec3i(direction.x > 0 ? 1 : -1, direction.y > 0 ? 1 : -1, direction.z > 0 ? 1 : -1);
+                            Vec3d distanceToFirstBoundary = new Vec3d(
+                                    stepDirection.getX() > 0 ? Math.ceil(startPos.x) - startPos.x : startPos.x - Math.floor(startPos.x),
+                                    stepDirection.getY() > 0 ? Math.ceil(startPos.y) - startPos.y : startPos.y - Math.floor(startPos.y),
+                                    stepDirection.getZ() > 0 ? Math.ceil(startPos.z) - startPos.z : startPos.z - Math.floor(startPos.z)
+                            );
+                            Vec3d distanceToNextStep = new Vec3d(
+                                    Math.abs(1.0 / direction.x),
+                                    Math.abs(1.0 / direction.y),
+                                    Math.abs(1.0 / direction.z)
+                            );
 
                             float deterioratingPower = finalStartBlastStrength;
-                            BlockPos.Mutable posWalker = origin.mutableCopy();
+                            BlockPos.Mutable rayWalker = origin.mutableCopy();
+                            LoggerUtil.devLogger("started ray with power of: " + deterioratingPower);
 
-                            for (int i = 0; i < steps; i++) {
-                                BlockPos stepPos = posWalker.toImmutable();
+                            while (true) {
+                                BlockPos stepPos = rayWalker.toImmutable();
                                 BlockState stepState = blockStateCache.computeIfAbsent(stepPos, world::getBlockState);
                                 FluidState stepFluidState = fluidStateCache.computeIfAbsent(stepPos, world::getFluidState);
-
-                                if (stepState.isAir()) continue;
-                                if (blockExceptions.test(stepState)) {
-                                    deterioratingPower = 0;
-                                    break;
-                                }
 
                                 // https://minecraft.wiki/w/Explosion#Blast_resistance
                                 float blastResistance = stepState.getBlock().getBlastResistance() + stepFluidState.getBlastResistance();
                                 deterioratingPower -= blastResistance * blastStrengthFalloffMultiplier;
-                                if (deterioratingPower <= 0) {
+
+                                if (blockExceptions.test(stepState) || deterioratingPower <= 0) {
                                     deterioratingPower = 0;
                                     break;
                                 }
-                                posWalker.set(posWalker.add(BlockPos.ofFloored(stepSize)));
+                                distanceToFirstBoundary = movePosWalkerAlongSmallestAxis(rayWalker, distanceToFirstBoundary, distanceToNextStep, stepDirection);
+                                LoggerUtil.devLogger("--- at: %s | deterioration: %s | state %s ---".formatted(rayWalker.toShortString(), deterioratingPower, stepState));
+                                if (rayWalker.equals(currentPos)) break;
                             }
+                            LoggerUtil.devLogger("finished ray for : " + currentState + " with final deterioration of: " + deterioratingPower);
+                            finishRayHandling(currentState, output, currentPos.toImmutable(), finalScorchedThreshold, deterioratingPower);
 
-                            if (deterioratingPower > currentState.getBlock().getBlastResistance()) {
-                                if (!currentState.isAir()) LoggerUtil.devLogger("gone");
-                                output.addToAffectedBlocks(new LocatableBlock(currentPos.toImmutable(), currentState));
-                            } else if (deterioratingPower + finalScorchedThreshold > currentState.getBlock().getBlastResistance()) {
-                                output.addToScorchedBlocks(new LocatableBlock(currentPos.toImmutable(), currentState));
-                            } else {
-                                output.addToUnaffectedBlocks(currentPos.toImmutable());
-                            }
                             threadMutablePos.remove();
-                            LoggerUtil.devLogger("ray is done done");
                         }));
                     }
                 }
             }
             for (Future<?> future : futures) {
-                future.get(15, TimeUnit.SECONDS);  // Waits for completion of each task
+                future.get();  // Waits for completion of each task
             }
             executor.shutdown();
-            if (executor.awaitTermination(30, TimeUnit.SECONDS)) {
-                executor.shutdownNow();
-                LoggerUtil.devLogger("Forcefully shut down Explosion Data Gathering Executor", LoggerUtil.Type.WARNING, null);
-            }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LoggerUtil.devLogger("Exception while handling Explosion Data Gathering on multiple threads", LoggerUtil.Type.ERROR, e);
         }
 
         List<Entity> entitiesInRange = world.getEntitiesByClass(Entity.class, new Box(origin).expand(radius),
                 entity -> shape.isInsideVolume(radius, extrusion, entity.getPos()));
 
-        /*StringBuilder sb = new StringBuilder("[%s] Ignored ".formatted(output.getUnaffectedBlocks().size()));
-        output.getAffectedBlocks().forEach(locatableBlock -> sb.append(locatableBlock.state().toString()).append(" | "));
-        LoggerUtil.devLogger(sb.toString());*/
 
         return output;
     }
+
+    private static Vec3d movePosWalkerAlongSmallestAxis(BlockPos.Mutable rayWalker, Vec3d distanceToFirstBoundary, Vec3d distanceToNextStep, Vec3i stepDirection) {
+        if (distanceToFirstBoundary.x < distanceToFirstBoundary.y && distanceToFirstBoundary.x < distanceToFirstBoundary.z) {
+            // towards X axis
+            rayWalker.setX(rayWalker.getX() + stepDirection.getX());
+            distanceToFirstBoundary = new Vec3d(distanceToFirstBoundary.x + distanceToNextStep.x, distanceToFirstBoundary.y, distanceToFirstBoundary.z); // Advance along X
+        } else if (distanceToFirstBoundary.y < distanceToFirstBoundary.z) {
+            // towards Y axis
+            rayWalker.setY(rayWalker.getY() + stepDirection.getY());
+            distanceToFirstBoundary = new Vec3d(distanceToFirstBoundary.x, distanceToFirstBoundary.y + distanceToNextStep.y, distanceToFirstBoundary.z); // Advance along Y
+        } else {
+            // towards Z axis
+            rayWalker.setZ(rayWalker.getZ() + stepDirection.getZ());
+            distanceToFirstBoundary = new Vec3d(distanceToFirstBoundary.x, distanceToFirstBoundary.y, distanceToFirstBoundary.z + distanceToNextStep.z); // Advance along Z
+        }
+        return distanceToFirstBoundary;
+    }
+
+    private static void finishRayHandling(BlockState currentState, BlockAndEntityData output,
+                                          BlockPos currentPos, float finalScorchedThreshold, float deterioratingPower) {
+        // LoggerUtil.devLogger(String.valueOf(deterioratingPower));
+        if (deterioratingPower > currentState.getBlock().getBlastResistance()) {
+            output.addToAffectedBlocks(new LocatableBlock(currentPos, currentState));
+        } else if (deterioratingPower + finalScorchedThreshold > currentState.getBlock().getBlastResistance()) {
+            output.addToScorchedBlocks(new LocatableBlock(currentPos, currentState));
+        } else {
+            output.addToUnaffectedBlocks(currentPos);
+        }
+    }
+
 
     public static void explodeSpherical(ServerWorld world, BlockPos origin, int radius, int strength) {
         Predicate<BlockState> isImmune = blockState -> {
@@ -155,9 +175,12 @@ public class ExplosionHandler {
             return blockState.isIn(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE);
         };
 
-        CompletableFuture.supplyAsync(() -> collect(world, origin, /*radius*/ 30, ExplosionShape.SPHERE, null,
-                isImmune, /*strength*/ 8, 0.4f, 4))
-                .thenAccept(blockAndEntityData -> FBombsPersistentState.fromServer(world).orElseThrow().getExplosions().add(blockAndEntityData));
+        CompletableFuture.supplyAsync(() -> collect(world, origin, /*radius*/ 15, ExplosionShape.SPHERE, null,
+                        isImmune, /*strength*/ 20, 0.1f, 8))
+                .thenAccept(blockAndEntityData -> {
+                    FBombsPersistentState.fromServer(world).orElseThrow().getExplosions().add(blockAndEntityData);
+                    LoggerUtil.devLogger("finished explosion data gathering");
+                });
 
         /*BlockAndEntityData blockAndEntityData = collect(world, origin, *//*radius*//* 15, ExplosionShape.SPHERE, null,
                 isImmune, *//*strength*//* 8, 0.4f, 4);*/
