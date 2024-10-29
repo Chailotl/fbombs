@@ -4,5 +4,11 @@
     "sounds": [
       "fbombs:radioactive_noise"
     ]
+  },
+  "dynamite_explosion": {
+    "subtitle": "sound.fbombs.dynamite_explosion",
+    "sounds": [
+      "fbombs:dynamite_explosion"
+    ]
   }
 }

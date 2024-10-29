@@ -2,7 +2,7 @@
   "parent": "minecraft:fbombs/split_tnt_block",
   "criteria": {
     "explodification": {
-      "trigger": "fbombs:used_dynamite_stick"
+      "trigger": "fbombs:used_dynamite"
     }
   },
   "display": {
@@ -12,7 +12,7 @@
     "hidden": true,
     "icon": {
       "count": 1,
-      "id": "fbombs:dynamite_stick"
+      "id": "fbombs:dynamite"
     },
     "title": {
       "translate": "advancement.fbombs.explodification"

@@ -1,7 +1,7 @@
 package com.chailotl.fbombs.entity.renderer;
 
 import com.chailotl.fbombs.FBombs;
-import com.chailotl.fbombs.entity.DynamiteStickEntity;
+import com.chailotl.fbombs.entity.DynamiteEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -13,31 +13,29 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
 
-public class DynamiteStickEntityRenderer extends EntityRenderer<DynamiteStickEntity> {
-    private static final Identifier TEXTURE = FBombs.getId("textures/item/dynamite_stick.png");
+public class DynamiteEntityRenderer extends EntityRenderer<DynamiteEntity> {
+    private static final Identifier TEXTURE = FBombs.getId("textures/item/dynamite.png");
     private final ItemRenderer itemRenderer;
 
-    public DynamiteStickEntityRenderer(EntityRendererFactory.Context ctx) {
+    public DynamiteEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx);
         this.itemRenderer = ctx.getItemRenderer();
     }
 
     @Override
-    public Identifier getTexture(DynamiteStickEntity entity) {
+    public Identifier getTexture(DynamiteEntity entity) {
         return TEXTURE;
     }
 
     @Override
-    protected int getBlockLight(DynamiteStickEntity entity, BlockPos pos) {
+    protected int getBlockLight(DynamiteEntity entity, BlockPos pos) {
         return 15;
     }
 
     @Override
-    public void render(DynamiteStickEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        float scale = 0.8f;
+    public void render(DynamiteEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         if (entity.age < 2 && this.dispatcher.camera.getFocusedEntity().squaredDistanceTo(entity) < 12.25) return;
         matrices.push();
-        matrices.scale(scale, scale, scale);
         matrices.multiply(this.dispatcher.getRotation());
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
         this.itemRenderer.renderItem(entity.getStack(), ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV,

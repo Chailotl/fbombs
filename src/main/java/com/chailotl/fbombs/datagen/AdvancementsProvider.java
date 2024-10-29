@@ -2,7 +2,7 @@ package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.advancement.SplitTntBlockCriterion;
-import com.chailotl.fbombs.advancement.UsedDynamiteStickCriterion;
+import com.chailotl.fbombs.advancement.UsedDynamiteCriterion;
 import com.chailotl.fbombs.advancement.WaterloggedTntBlockCriterion;
 import com.chailotl.fbombs.init.FBombsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -36,16 +36,16 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 .criterion("split_tnt_block", SplitTntBlockCriterion.Conditions.any()).sendsTelemetryEvent()
                 .build(consumer, "%s/split_tnt_block".formatted(FBombs.MOD_ID));
 
-        AdvancementEntry dynamiteStickAdvancement = Advancement.Builder.create()
+        AdvancementEntry dynamiteAdvancement = Advancement.Builder.create()
                 .parent(splitTntAdvancement)
-                .display(FBombsItems.DYNAMITE_STICK,
+                .display(FBombsItems.DYNAMITE,
                         Text.translatable("advancement.fbombs.explodification"),
                         Text.translatable("advancement.fbombs.explodification.desc"),
                         null,
                         AdvancementFrame.TASK, true, true, true)
-                .criterion("explodification", UsedDynamiteStickCriterion.Conditions.any())
+                .criterion("explodification", UsedDynamiteCriterion.Conditions.any())
                 .rewards(AdvancementRewards.Builder.experience(50))
-                .build(consumer, "%s/dynamite_stick".formatted(FBombs.MOD_ID));
+                .build(consumer, "%s/dynamite".formatted(FBombs.MOD_ID));
 
         AdvancementEntry waterloggedTntBlockAdvancement = Advancement.Builder.create()
                 .parent(splitTntAdvancement)

@@ -31,9 +31,9 @@ public class FBombsEntityTypes {
     public static final EntityType<MiningChargeEntity> MINING_CHARGE = registerTnt("mining_charge", MiningChargeEntity::new);
     public static final EntityType<LevitatingTntEntity> LEVITATING_TNT = registerTnt("levitating_tnt", LevitatingTntEntity::new);
 
-    public static final EntityType<DynamiteStickEntity> DYNAMITE_STICK = register(
-        "dynamite_stick",
-        EntityType.Builder.<DynamiteStickEntity>create(DynamiteStickEntity::new, SpawnGroup.MISC)
+    public static final EntityType<DynamiteEntity> DYNAMITE = register(
+        "dynamite",
+        EntityType.Builder.<DynamiteEntity>create(DynamiteEntity::new, SpawnGroup.MISC)
             .makeFireImmune()
             .dimensions(0.25F, 0.25F)
             .maxTrackingRange(4)

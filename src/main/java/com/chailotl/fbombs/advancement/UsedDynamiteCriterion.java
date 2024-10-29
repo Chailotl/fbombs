@@ -11,10 +11,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Optional;
 
-public class UsedDynamiteStickCriterion extends AbstractCriterion<UsedDynamiteStickCriterion.Conditions> {
+public class UsedDynamiteCriterion extends AbstractCriterion<UsedDynamiteCriterion.Conditions> {
     @Override
-    public Codec<UsedDynamiteStickCriterion.Conditions> getConditionsCodec() {
-        return UsedDynamiteStickCriterion.Conditions.CODEC;
+    public Codec<UsedDynamiteCriterion.Conditions> getConditionsCodec() {
+        return UsedDynamiteCriterion.Conditions.CODEC;
     }
 
     public void trigger(ServerPlayerEntity player) {
@@ -22,19 +22,19 @@ public class UsedDynamiteStickCriterion extends AbstractCriterion<UsedDynamiteSt
     }
 
     public record Conditions(Optional<LootContextPredicate> player) implements AbstractCriterion.Conditions {
-        public static final Codec<UsedDynamiteStickCriterion.Conditions> CODEC = RecordCodecBuilder.create(
+        public static final Codec<UsedDynamiteCriterion.Conditions> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
-                                EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(UsedDynamiteStickCriterion.Conditions::player)
+                                EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(UsedDynamiteCriterion.Conditions::player)
                         )
-                        .apply(instance, UsedDynamiteStickCriterion.Conditions::new)
+                        .apply(instance, UsedDynamiteCriterion.Conditions::new)
         );
 
         public boolean matches() {
             return true;
         }
 
-        public static AdvancementCriterion<UsedDynamiteStickCriterion.Conditions> any() {
-            return FBombsCriteria.USED_DYNAMITE_STICK.create(new UsedDynamiteStickCriterion.Conditions(Optional.empty()));
+        public static AdvancementCriterion<UsedDynamiteCriterion.Conditions> any() {
+            return FBombsCriteria.USED_DYNAMITE.create(new UsedDynamiteCriterion.Conditions(Optional.empty()));
         }
     }
 }
