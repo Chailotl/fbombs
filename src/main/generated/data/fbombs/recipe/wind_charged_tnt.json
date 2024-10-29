@@ -6,11 +6,11 @@
       "item": "minecraft:tnt"
     },
     {
-      "item": "minecraft:sponge"
+      "item": "minecraft:wind_charge"
     }
   ],
   "result": {
     "count": 1,
-    "id": "fbombs:sponge_bomb"
+    "id": "fbombs:wind_charged_tnt"
   }
 }

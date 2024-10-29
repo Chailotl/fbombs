@@ -3,15 +3,15 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fbombs:sponge_bomb"
+        "recipe": "fbombs:yellow_acme_bed"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_tnt": {
+    "has_yellow_bed": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:tnt"
+            "items": "minecraft:yellow_bed"
           }
         ]
       },
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tnt"
+      "has_yellow_bed"
     ]
   ],
   "rewards": {
     "recipes": [
-      "fbombs:sponge_bomb"
+      "fbombs:yellow_acme_bed"
     ]
   }
 }

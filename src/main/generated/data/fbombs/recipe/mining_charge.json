@@ -3,14 +3,14 @@
   "category": "redstone",
   "ingredients": [
     {
-      "item": "minecraft:tnt"
+      "item": "fbombs:shaped_charge"
     },
     {
-      "item": "minecraft:sponge"
+      "item": "minecraft:quartz"
     }
   ],
   "result": {
     "count": 1,
-    "id": "fbombs:sponge_bomb"
+    "id": "fbombs:mining_charge"
   }
 }

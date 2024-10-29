@@ -3,14 +3,14 @@
   "category": "redstone",
   "ingredients": [
     {
-      "item": "minecraft:tnt"
+      "item": "fbombs:short_fuse_tnt"
     },
     {
-      "item": "minecraft:sponge"
+      "item": "minecraft:string"
     }
   ],
   "result": {
     "count": 1,
-    "id": "fbombs:sponge_bomb"
+    "id": "minecraft:tnt"
   }
 }

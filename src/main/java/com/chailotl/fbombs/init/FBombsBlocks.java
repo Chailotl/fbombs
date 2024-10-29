@@ -30,7 +30,37 @@ import java.util.stream.Stream;
 
 public class FBombsBlocks {
     public static final TestBlock TEST = register("test_block", new TestBlock(AbstractBlock.Settings.create()), true);
+
     public static final GenericTntBlock INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
+    public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
+    public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
+    public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
+    public static final GenericTntBlock LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
+    public static final GenericTntBlock FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
+    public static final GenericTntBlock CONCUSSIVE_TNT = registerTnt("concussive_tnt", ConcussiveTntEntity::new);
+    public static final GenericTntBlock WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
+    public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
+    public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
+    public static final GenericTntBlock LEVITATING_TNT = registerTnt("levitating_tnt", LevitatingTntEntity::new);
+    public static final ShapedChargeBlock SHAPED_CHARGE = register("shaped_charge", new ShapedChargeBlock(
+        new TntEntityType("shaped_charge", ShapedChargeEntity::new),
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BRIGHT_RED)
+            .breakInstantly()
+            .sounds(BlockSoundGroup.GRASS)
+            .burnable()
+            .solidBlock(Blocks::never)
+    ), true);
+    public static final ShapedChargeBlock MINING_CHARGE = register("mining_charge", new ShapedChargeBlock(
+        new TntEntityType("mining_charge", MiningChargeEntity::new),
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BRIGHT_RED)
+            .breakInstantly()
+            .sounds(BlockSoundGroup.GRASS)
+            .burnable()
+            .solidBlock(Blocks::never)
+    ), true);
+
     public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(
         new TntEntityType("split_tnt", SplitTntEntity::new),
         AbstractBlock.Settings.create()
@@ -49,22 +79,14 @@ public class FBombsBlocks {
             .burnable()
             .solidBlock(Blocks::never)
     ), true);
-    public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
-    public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
-    public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
-    public static final GenericTntBlock LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
-    public static final GenericTntBlock FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
-    public static final GenericTntBlock CONCUSSIVE_TNT = registerTnt("concussive_tnt", ConcussiveTntEntity::new);
-    public static final GenericTntBlock WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
-    public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
-    public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
-    public static final GenericTntBlock LEVITATING_TNT = registerTnt("levitating_tnt", LevitatingTntEntity::new);
+
     public static final GunpowderTrailBlock GUNPOWDER_TRAIL = register("gunpowder_trail", new GunpowderTrailBlock(
         AbstractBlock.Settings.create()
             .noCollision()
             .breakInstantly()
             .pistonBehavior(PistonBehavior.DESTROY)
     ), false);
+
     public static final AcmeBedBlock WHITE_ACME_BED = registerAcmeBed("white_acme_bed", DyeColor.WHITE);
     public static final AcmeBedBlock ORANGE_ACME_BED = registerAcmeBed("orange_acme_bed", DyeColor.ORANGE);
     public static final AcmeBedBlock MAGENTA_ACME_BED = registerAcmeBed("magenta_acme_bed", DyeColor.MAGENTA);
@@ -81,30 +103,13 @@ public class FBombsBlocks {
     public static final AcmeBedBlock GREEN_ACME_BED = registerAcmeBed("green_acme_bed", DyeColor.GREEN);
     public static final AcmeBedBlock RED_ACME_BED = registerAcmeBed("red_acme_bed", DyeColor.RED);
     public static final AcmeBedBlock BLACK_ACME_BED = registerAcmeBed("black_acme_bed", DyeColor.BLACK);
+
     public static final MultiShotDispenserBlock MULTI_SHOT_DISPENSER = register("multi_shot_dispenser", new MultiShotDispenserBlock(
         AbstractBlock.Settings.create()
             .mapColor(MapColor.STONE_GRAY)
             .instrument(NoteBlockInstrument.BASEDRUM)
             .requiresTool()
             .strength(3.5F)
-    ), true);
-    public static final ShapedChargeBlock SHAPED_CHARGE = register("shaped_charge", new ShapedChargeBlock(
-        new TntEntityType("shaped_charge", ShapedChargeEntity::new),
-        AbstractBlock.Settings.create()
-            .mapColor(MapColor.BRIGHT_RED)
-            .breakInstantly()
-            .sounds(BlockSoundGroup.GRASS)
-            .burnable()
-            .solidBlock(Blocks::never)
-    ), true);
-    public static final ShapedChargeBlock MINING_CHARGE = register("mining_charge", new ShapedChargeBlock(
-        new TntEntityType("mining_charge", MiningChargeEntity::new),
-        AbstractBlock.Settings.create()
-            .mapColor(MapColor.BRIGHT_RED)
-            .breakInstantly()
-            .sounds(BlockSoundGroup.GRASS)
-            .burnable()
-            .solidBlock(Blocks::never)
     ), true);
 
     @SuppressWarnings("SameParameterValue")

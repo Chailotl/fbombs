@@ -1,32 +1,32 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "fbombs:sponge_bomb"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_tnt": {
+    "has_red_bed": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:tnt"
+            "items": "minecraft:red_bed"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fbombs:red_acme_bed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_tnt"
+      "has_red_bed"
     ]
   ],
   "rewards": {
     "recipes": [
-      "fbombs:sponge_bomb"
+      "fbombs:red_acme_bed"
     ]
   }
 }

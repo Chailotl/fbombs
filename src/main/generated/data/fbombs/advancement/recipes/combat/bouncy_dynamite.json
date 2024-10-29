@@ -1,32 +1,32 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "fbombs:sponge_bomb"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_tnt": {
+    "has_dynamite": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:tnt"
+            "items": "fbombs:dynamite"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fbombs:bouncy_dynamite"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_tnt"
+      "has_dynamite"
     ]
   ],
   "rewards": {
     "recipes": [
-      "fbombs:sponge_bomb"
+      "fbombs:bouncy_dynamite"
     ]
   }
 }

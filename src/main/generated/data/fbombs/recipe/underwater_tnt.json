@@ -6,11 +6,11 @@
       "item": "minecraft:tnt"
     },
     {
-      "item": "minecraft:sponge"
+      "item": "minecraft:prismarine_shard"
     }
   ],
   "result": {
     "count": 1,
-    "id": "fbombs:sponge_bomb"
+    "id": "fbombs:underwater_tnt"
   }
 }

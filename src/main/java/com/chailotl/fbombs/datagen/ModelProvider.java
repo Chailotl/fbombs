@@ -10,7 +10,11 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.client.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+
+import java.util.List;
 
 public class ModelProvider extends FabricModelProvider {
 
@@ -63,13 +67,13 @@ public class ModelProvider extends FabricModelProvider {
         });*/
 
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT)
-                .coordinate(createSplitTntBlockState()));
+            .coordinate(createSplitTntBlockState()));
         blockStateModelGenerator.blockStateCollector.accept(
-                BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
-                        FBombs.getId("block/tnt_slab_bottom"),
-                        FBombs.getId("block/tnt_slab_top"),
-                        FBombs.getId("block/tnt_slab_double")
-                )
+            BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
+                FBombs.getId("block/tnt_slab_bottom"),
+                FBombs.getId("block/tnt_slab_top"),
+                FBombs.getId("block/tnt_slab_double")
+            )
         );
 
         //TODO: [ShiroJR] apply proper block item model
@@ -78,23 +82,27 @@ public class ModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        //FBombs.streamEntries(Registries.ITEM).forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
-        itemModelGenerator.register(FBombsItems.DYNAMITE, Models.GENERATED);
-        itemModelGenerator.register(FBombsItems.BOUNCY_DYNAMITE, Models.GENERATED);
-        itemModelGenerator.register(FBombsItems.STICKY_DYNAMITE, Models.GENERATED);
+        List<Item> unsupported = List.of();
+
+        FBombs.streamEntries(Registries.ITEM).forEach(item -> {
+            if (item instanceof BlockItem || unsupported.contains(item)) { return; }
+            itemModelGenerator.register(item, Models.GENERATED);
+        });
     }
 
     private BlockStateVariantMap createSplitTntBlockState() {
-        return BlockStateVariantMap.create(SplitTntBlock.Split.NE.getProperty(), SplitTntBlock.Split.SE.getProperty(),
-                SplitTntBlock.Split.SW.getProperty(), SplitTntBlock.Split.NW.getProperty()
+        return BlockStateVariantMap.create(
+            SplitTntBlock.Split.NE.getProperty(),
+            SplitTntBlock.Split.SE.getProperty(),
+            SplitTntBlock.Split.SW.getProperty(),
+            SplitTntBlock.Split.NW.getProperty()
         ).register((ne, se, sw, nw) -> {
-                    StringBuilder sb = new StringBuilder("block/split_tnt");
-                    if (ne) sb.append("_ne");
-                    if (se) sb.append("_se");
-                    if (sw) sb.append("_sw");
-                    if (nw) sb.append("_nw");
-                    return BlockStateVariant.create().put(VariantSettings.MODEL, FBombs.getId(sb.toString()));
-                }
-        );
+            StringBuilder sb = new StringBuilder("block/split_tnt");
+            if (ne) sb.append("_ne");
+            if (se) sb.append("_se");
+            if (sw) sb.append("_sw");
+            if (nw) sb.append("_nw");
+            return BlockStateVariant.create().put(VariantSettings.MODEL, FBombs.getId(sb.toString()));
+        });
     }
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "g": {
+      "item": "minecraft:gunpowder"
+    },
+    "s": {
+      "tag": "minecraft:sand"
+    }
+  },
+  "pattern": [
+    "gs",
+    "sg"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fbombs:low_power_tnt"
+  }
+}

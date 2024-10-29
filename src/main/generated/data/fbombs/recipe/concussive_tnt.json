@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "n": {
+      "item": "minecraft:iron_nugget"
+    },
+    "t": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "pattern": [
+    "nnn",
+    "ntn",
+    "nnn"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fbombs:concussive_tnt"
+  }
+}

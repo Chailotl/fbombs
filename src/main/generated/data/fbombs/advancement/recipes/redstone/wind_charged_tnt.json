@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fbombs:sponge_bomb"
+        "recipe": "fbombs:wind_charged_tnt"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fbombs:sponge_bomb"
+      "fbombs:wind_charged_tnt"
     ]
   }
 }

@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "redstone",
+  "category": "misc",
   "ingredients": [
     {
       "item": "minecraft:tnt"
     },
     {
-      "item": "minecraft:sponge"
+      "item": "minecraft:white_bed"
     }
   ],
   "result": {
     "count": 1,
-    "id": "fbombs:sponge_bomb"
+    "id": "fbombs:white_acme_bed"
   }
 }

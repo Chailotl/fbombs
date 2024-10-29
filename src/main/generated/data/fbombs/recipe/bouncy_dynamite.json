@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "fbombs:dynamite"
+    },
+    {
+      "item": "fbombs:dynamite"
+    },
+    {
+      "item": "fbombs:dynamite"
+    },
+    {
+      "item": "fbombs:dynamite"
+    },
+    {
+      "item": "minecraft:slime_ball"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "fbombs:bouncy_dynamite"
+  }
+}
