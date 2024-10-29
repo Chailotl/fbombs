@@ -25,6 +25,8 @@ public class FBombsClient implements ClientModInitializer {
 
         FBombsEntityTypes.streamTntEntityTypes().forEach(entityType -> EntityRendererRegistry.register(entityType, GenericTntEntityRenderer::new));
         EntityRendererRegistry.register(FBombsEntityTypes.DYNAMITE, DynamiteEntityRenderer::new);
+        EntityRendererRegistry.register(FBombsEntityTypes.BOUNCY_DYNAMITE, DynamiteEntityRenderer::new);
+        EntityRendererRegistry.register(FBombsEntityTypes.STICKY_DYNAMITE, DynamiteEntityRenderer::new);
         BlockEntityRendererFactories.register(FBombsBlockEntities.ACME_BED, AcmeBedBlockEntityRenderer::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(FBombsBlocks.GUNPOWDER_TRAIL, RenderLayer.getCutout());

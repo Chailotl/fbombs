@@ -31,14 +31,9 @@ public class FBombsEntityTypes {
     public static final EntityType<MiningChargeEntity> MINING_CHARGE = registerTnt("mining_charge", MiningChargeEntity::new);
     public static final EntityType<LevitatingTntEntity> LEVITATING_TNT = registerTnt("levitating_tnt", LevitatingTntEntity::new);
 
-    public static final EntityType<DynamiteEntity> DYNAMITE = register(
-        "dynamite",
-        EntityType.Builder.<DynamiteEntity>create(DynamiteEntity::new, SpawnGroup.MISC)
-            .makeFireImmune()
-            .dimensions(0.25F, 0.25F)
-            .maxTrackingRange(4)
-            .trackingTickInterval(10)
-    );
+    public static final EntityType<DynamiteEntity> DYNAMITE = registerDynamite("dynamite", DynamiteEntity::new);
+    public static final EntityType<BouncyDynamiteEntity> BOUNCY_DYNAMITE = registerDynamite("bouncy_dynamite", BouncyDynamiteEntity::new);
+    public static final EntityType<StickyDynamiteEntity> STICKY_DYNAMITE = registerDynamite("sticky_dynamite", StickyDynamiteEntity::new);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {
@@ -56,6 +51,17 @@ public class FBombsEntityTypes {
             .build(name);
         TNT_ENTITY_TYPES.add(entityType);
         return Registry.register(Registries.ENTITY_TYPE, FBombs.getId(name), entityType);
+    }
+
+    private static <T extends DynamiteEntity> EntityType<T> registerDynamite(String name, EntityType.EntityFactory<T> factory) {
+        return register(
+            name,
+            EntityType.Builder.create(factory, SpawnGroup.MISC)
+                .makeFireImmune()
+                .dimensions(0.25F, 0.25F)
+                .maxTrackingRange(4)
+                .trackingTickInterval(10)
+        );
     }
 
     public static Stream<EntityType<? extends AbstractTntEntity>> streamTntEntityTypes() {

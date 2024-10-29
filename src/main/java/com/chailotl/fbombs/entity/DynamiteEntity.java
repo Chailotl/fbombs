@@ -26,19 +26,24 @@ import java.util.Optional;
 public class DynamiteEntity extends ThrownItemEntity {
     private int fuse = 40;
 
-    private static final double BOUNCE_DAMPENER_VERTICAL = 0.3;
-    private static final double BOUNCE_DAMPENER_HORIZONTAL = 0.5;
-
     public DynamiteEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
 
+    public DynamiteEntity(EntityType<? extends ThrownItemEntity> entityType, LivingEntity owner, World world) {
+        super(entityType, owner, world);
+    }
+
+    public DynamiteEntity(EntityType<? extends ThrownItemEntity> entityType, double x, double y, double z, World world) {
+        super(entityType, x, y, z, world);
+    }
+
     public DynamiteEntity(World world, LivingEntity owner) {
-        super(FBombsEntityTypes.DYNAMITE, owner, world);
+        this(FBombsEntityTypes.DYNAMITE, owner, world);
     }
 
     public DynamiteEntity(World world, double x, double y, double z) {
-        super(FBombsEntityTypes.DYNAMITE, x, y, z, world);
+        this(FBombsEntityTypes.DYNAMITE, x, y, z, world);
     }
 
     public int getFuse() {
@@ -47,6 +52,14 @@ public class DynamiteEntity extends ThrownItemEntity {
 
     public void setFuse(int fuse) {
         this.fuse = fuse;
+    }
+
+    protected double getVerticalBounce() {
+        return 0.3;
+    }
+
+    protected double getHorizontalBounce() {
+        return 0.5;
     }
 
     @Override
@@ -83,25 +96,25 @@ public class DynamiteEntity extends ThrownItemEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
 
+        setPosition(blockHitResult.getPos());
         Vec3d velocity = this.getVelocity();
         boolean grounded = false;
 
         if (Direction.Type.VERTICAL.stream().anyMatch(direction -> direction.equals(blockHitResult.getSide()))) {
             if (velocity.y <= 0 && velocity.y >= -0.2) {
                 velocity = Vec3d.ZERO;
-                setPosition(blockHitResult.getPos());
                 grounded = true;
             } else {
                 velocity = new Vec3d(
-                    velocity.x * BOUNCE_DAMPENER_HORIZONTAL,
-                    (-velocity.y) * BOUNCE_DAMPENER_VERTICAL,
-                    velocity.z * BOUNCE_DAMPENER_HORIZONTAL
+                    velocity.x * getHorizontalBounce(),
+                    (-velocity.y) * getVerticalBounce(),
+                    velocity.z * getHorizontalBounce()
                 );
             }
         } else {
             Vec3d wallVector = Vec3d.of(blockHitResult.getSide().getVector());
             velocity = velocity.subtract(wallVector.multiply(velocity.dotProduct(wallVector) * 2));
-            velocity = velocity.multiply(BOUNCE_DAMPENER_HORIZONTAL);
+            velocity = velocity.multiply(getHorizontalBounce());
         }
 
         if (!this.isOnGround()) {

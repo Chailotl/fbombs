@@ -1,6 +1,7 @@
 package com.chailotl.fbombs.item;
 
 import com.chailotl.fbombs.entity.DynamiteEntity;
+import com.chailotl.fbombs.entity.util.DynamiteEntityProvider;
 import com.chailotl.fbombs.init.FBombsCriteria;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.ItemStackHelper;
@@ -18,8 +19,11 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class DynamiteItem extends Item {
-    public DynamiteItem(Item.Settings settings) {
+    protected final DynamiteEntityProvider dynamiteEntityProvider;
+
+    public DynamiteItem(DynamiteEntityProvider dynamiteEntityProvider, Item.Settings settings) {
         super(settings);
+        this.dynamiteEntityProvider = dynamiteEntityProvider;
     }
 
     @Override
@@ -40,7 +44,7 @@ public class DynamiteItem extends Item {
         }
 
         if (!world.isClient) {
-            DynamiteEntity dynamiteEntity = new DynamiteEntity(world, user);
+            DynamiteEntity dynamiteEntity = dynamiteEntityProvider.spawn(world, user);
             dynamiteEntity.setItem(stack);
             dynamiteEntity.setVelocity(user, user.getPitch(), user.getYaw(), -10.0f, 0.75f, 1.0f);
             world.spawnEntity(dynamiteEntity);

@@ -78,7 +78,10 @@ public class ModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+        //FBombs.streamEntries(Registries.ITEM).forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
         itemModelGenerator.register(FBombsItems.DYNAMITE, Models.GENERATED);
+        itemModelGenerator.register(FBombsItems.BOUNCY_DYNAMITE, Models.GENERATED);
+        itemModelGenerator.register(FBombsItems.STICKY_DYNAMITE, Models.GENERATED);
     }
 
     private BlockStateVariantMap createSplitTntBlockState() {
