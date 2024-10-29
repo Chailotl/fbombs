@@ -1,5 +1,6 @@
 package com.chailotl.fbombs;
 
+import com.chailotl.fbombs.data.ScorchedBlockDataLoader;
 import com.chailotl.fbombs.init.*;
 import com.chailotl.fbombs.network.FBombsC2SNetworking;
 import net.fabricmc.api.ModInitializer;
@@ -27,6 +28,8 @@ public class FBombs implements ModInitializer {
 		FBombsCriteria.initialize();
 		FBombsCommonEvents.initialize();
 		FBombsSoundEvents.initialize();
+
+		ScorchedBlockDataLoader.initialize();
 
 		LOGGER.info("May contain traces of nuclear explosions");
 	}

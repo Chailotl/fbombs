@@ -16,12 +16,10 @@ public interface VolumetricExplosion {
      * which removes the block and distributes the block loot content, so the method itself is running, when the block
      * still exists.
      *
-     * @implNote call the super method, if you want to keep the block loot distribution and removal functionality.
-     *
-     * @param pos currently affected Block
+     * @param pos       currently affected Block
      * @param originPos center of the Volumetric Explosion
-     * @param state BlockState of the currently affected Block
-     * @param explosionStrength strength of the Volumetric Explosion used for e.g. block resistance
+     * @param state     BlockState of the currently affected Block
+     * @implNote call the super method, if you want to keep the block loot distribution and removal functionality.
      */
-    void fbombs$onExploded(ServerWorld world, BlockPos pos, BlockPos originPos, BlockState state, int explosionStrength);
+    void fbombs$onExploded(ServerWorld world, BlockPos pos, boolean replace, BlockPos originPos, BlockState state/*, int explosionStrength*/);
 }

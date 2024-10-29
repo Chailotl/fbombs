@@ -1,6 +1,7 @@
 package com.chailotl.fbombs.explosion;
 
-import com.chailotl.fbombs.data.BlockAndEntityData;
+import com.chailotl.fbombs.api.VolumetricExplosion;
+import com.chailotl.fbombs.data.BlockAndEntityGroup;
 import com.chailotl.fbombs.data.LocatableBlock;
 import com.chailotl.fbombs.init.FBombsGamerules;
 import com.chailotl.fbombs.init.FBombsPersistentState;
@@ -14,10 +15,16 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
 
@@ -42,10 +49,10 @@ public class ExplosionHandler {
      *                                       It can be used to just change blocks into e.g. scorched variants instead of
      *                                       completely removing them
      */
-    public static BlockAndEntityData collect(ServerWorld world, BlockPos origin, int radius, ExplosionShape shape,
-                                             @Nullable Double extrusion, Predicate<BlockState> blockExceptions,
-                                             float startBlastStrength, float blastStrengthFalloffMultiplier, float scorchedThreshold) {
-        BlockAndEntityData output = new BlockAndEntityData();
+    public static BlockAndEntityGroup collect(ServerWorld world, BlockPos origin, int radius, ExplosionShape shape,
+                                              @Nullable Double extrusion, Predicate<BlockState> blockExceptions,
+                                              float startBlastStrength, float blastStrengthFalloffMultiplier, float scorchedThreshold) {
+        BlockAndEntityGroup output = new BlockAndEntityGroup(world.getRegistryKey(), origin);
 
         BlockingQueue<BlockPos.Mutable> pool = new LinkedBlockingQueue<>();
         for (int i = 0; i < Runtime.getRuntime().availableProcessors(); i++) {
@@ -155,7 +162,7 @@ public class ExplosionHandler {
         return distanceToFirstBoundary;
     }
 
-    private static void finishRayHandling(BlockState currentState, BlockAndEntityData output,
+    private static void finishRayHandling(BlockState currentState, BlockAndEntityGroup output,
                                           BlockPos currentPos, float finalScorchedThreshold, float deterioratingPower) {
         // LoggerUtil.devLogger(String.valueOf(deterioratingPower));
         if (deterioratingPower > currentState.getBlock().getBlastResistance()) {
@@ -177,12 +184,12 @@ public class ExplosionHandler {
 
         CompletableFuture.supplyAsync(() -> collect(world, origin, /*radius*/ 15, ExplosionShape.SPHERE, null,
                         isImmune, /*strength*/ 20, 0.1f, 8))
-                .thenAccept(blockAndEntityData -> {
-                    FBombsPersistentState.fromServer(world).orElseThrow().getExplosions().add(blockAndEntityData);
+                .thenAccept(blockAndEntityGroup -> {
+                    FBombsPersistentState.fromServer(world).orElseThrow().getExplosions().add(blockAndEntityGroup);
                     LoggerUtil.devLogger("finished explosion data gathering");
                 });
 
-        /*BlockAndEntityData blockAndEntityData = collect(world, origin, *//*radius*//* 15, ExplosionShape.SPHERE, null,
+        /*BlockAndEntityGroup blockAndEntityData = collect(world, origin, *//*radius*//* 15, ExplosionShape.SPHERE, null,
                 isImmune, *//*strength*//* 8, 0.4f, 4);*/
 
         /*for (Locatable entry : blockAndEntityData.getAffectedBlocks()) {
@@ -196,17 +203,37 @@ public class ExplosionHandler {
         spawnParticlesAndSound(world, origin, blockAndEntityData.iterateAffectedTargets());*/
     }
 
-    private static void spawnParticlesAndSound(ServerWorld world, BlockPos origin, Iterator<LocatableBlock> hitBlocks) {
-        //TODO: [ShiroJR] don't only spawn on affected targets but in whole explosion shape with a low chance?
-        while (hitBlocks.hasNext()) {
-            Vec3d pos = hitBlocks.next().getPos();
-            if (world.getRandom().nextFloat() > 0.5f) continue;
-            world.spawnParticles(ParticleTypes.EXPLOSION, pos.getX(), pos.getY(), pos.getZ(), 1,
-                    world.getRandom().nextGaussian() - 0.5,
-                    world.getRandom().nextGaussian() - 0.5,
-                    world.getRandom().nextGaussian() - 0.5,
-                    0.25);
+    public static int handleExplosion(ServerWorld world, BlockAndEntityGroup group) {
+        int processedBlocks = 0;
+        FBombsPersistentState persistentState = FBombsPersistentState.fromServer(world).orElseThrow();
+        for (LocatableBlock affectedBlockEntry : group.getAffectedBlocks()) {
+            // TODO: [ShiroJR] add radiation even to air blocks
+            ((VolumetricExplosion) affectedBlockEntry.state().getBlock()).fbombs$onExploded(
+                    world, affectedBlockEntry.pos(), false, group.getOrigin(), affectedBlockEntry.state()
+            );
+            spawnParticlesAndSound(world, group.getOrigin(), affectedBlockEntry);
+            processedBlocks++;
         }
+        for (LocatableBlock scorchedBlockEntry : group.getScorchedBlocks()) {
+            // TODO: [ShiroJR] add radiation even to air blocks
+            ((VolumetricExplosion) scorchedBlockEntry.state().getBlock()).fbombs$onExploded(
+                    world, scorchedBlockEntry.pos(), true, group.getOrigin(), scorchedBlockEntry.state()
+            );
+            spawnParticlesAndSound(world, group.getOrigin(), scorchedBlockEntry);
+            processedBlocks++;
+        }
+        return processedBlocks;
+    }
+
+    private static void spawnParticlesAndSound(ServerWorld world, BlockPos origin, LocatableBlock targetPosition) {
+        Vec3d pos = targetPosition.pos().toCenterPos();
+        if (world.getRandom().nextFloat() > 0.3f) return;
+        world.spawnParticles(ParticleTypes.EXPLOSION, pos.getX(), pos.getY(), pos.getZ(), 1,
+                world.getRandom().nextGaussian() - 0.5,
+                world.getRandom().nextGaussian() - 0.5,
+                world.getRandom().nextGaussian() - 0.5,
+                0.25);
+
         world.playSound(null, origin, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.BLOCKS, 1f, 1f);
     }
 }

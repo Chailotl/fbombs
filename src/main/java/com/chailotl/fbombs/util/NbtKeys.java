@@ -1,5 +1,6 @@
 package com.chailotl.fbombs.util;
 
+@SuppressWarnings("unused")
 public class NbtKeys {
     public static final String INVENTORY = "test_value";
 
@@ -9,6 +10,8 @@ public class NbtKeys {
     public static final String BLOCK_POS = "pos";
     public static final String BLOCK_STATE = "state";
     public static final String EXPLOSION_DATA = "explosion_data";
+    public static final String DISTANCE_TO_ORIGIN = "distance_to_origin";
+    public static final String DIMENSION = "dimension";
 
     public static final String AFFECTED_BLOCKS = "affected_blocks";
     public static final String SCORCHED_BLOCKS = "scorched_blocks";
@@ -16,4 +19,5 @@ public class NbtKeys {
 
     public static final String AFFECTED_ENTITIES = "affected_entities";
     public static final String UNAFFECTED_ENTITIES = "unaffected_entities";
+    public static final String EXPLOSION_STRENGTH = "explosion_strength";
 }

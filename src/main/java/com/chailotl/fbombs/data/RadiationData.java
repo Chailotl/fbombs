@@ -13,6 +13,7 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public record RadiationData(BlockPos pos, float cps) {
@@ -22,7 +23,6 @@ public record RadiationData(BlockPos pos, float cps) {
     ).apply(instance, RadiationData::new));
 
     public static final PacketCodec<ByteBuf, RadiationData> PACKET_CODEC = PacketCodecs.codec(CODEC);
-
 
     public void toNbt(NbtCompound nbt) {
         NbtList nbtList;
@@ -50,11 +50,23 @@ public record RadiationData(BlockPos pos, float cps) {
         return radiationDataList;
     }
 
-    public static boolean contains(List<RadiationData> radiationData, BlockPos testPos, float minCps) {
-        for (RadiationData entry : radiationData) {
-            if (!entry.pos().equals(testPos)) continue;
-            if (entry.cps() >= minCps) return true;
+    public static boolean contains(HashMap<BlockPos, Float> radiationData, BlockPos testPos, float minCps) {
+        for (var entry : radiationData.entrySet()) {
+            if (!entry.getKey().equals(testPos)) continue;
+            if (entry.getValue() >= minCps) return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof RadiationData radiationData)) return false;
+        return this.pos().equals(radiationData.pos());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.pos().hashCode();
     }
 }
