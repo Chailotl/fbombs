@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "s": {
+      "item": "minecraft:sponge"
+    },
+    "t": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sts",
+    "sss"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fbombs:sponge_bomb"
+  }
+}

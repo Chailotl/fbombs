@@ -12,6 +12,7 @@ public class FBombsDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(BlockLootTableProvider::new);
         pack.addProvider(TranslationProvider::new);
         pack.addProvider(AdvancementsProvider::new);
+        pack.addProvider(RecipeProvider::new);
         TagProvider.registerAll(pack);
     }
 }
