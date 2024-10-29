@@ -81,19 +81,14 @@ public class DynamiteEntity extends ThrownItemEntity {
         super.tick();
 
         if (getWorld().isClient()) {
-            if (age % 2 == 1) {
-                Vec3d particleVelocity = this.getVelocity().multiply(0);
-                getWorld().addParticle(FBombsParticleTypes.FAST_FLAME,
-                    this.getX(), this.getY(), this.getZ(),
-                    particleVelocity.x, particleVelocity.y, particleVelocity.z);
-            }
+            this.getWorld().addParticle(ParticleTypes.SMOKE, this.getX(), this.getY() + 0.375, this.getZ(), 0.0, 0.0, 0.0);
         } else {
             if (this.getFuse() <= 0 || this.isOnFire()) {
                 if (explode((ServerWorld) getWorld(), this.getBlockPos())) return;
             }
-
-            this.setFuse(this.getFuse() - 1);
         }
+
+        this.setFuse(this.getFuse() - 1);
     }
 
     @Override
