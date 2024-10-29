@@ -1,18 +1,13 @@
 package com.chailotl.fbombs.entity;
 
-import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsEntityTypes;
 import com.chailotl.fbombs.init.FBombsTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -22,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class ConcussiveTntEntity extends AbstractTntEntity {
+public class FragmentationTntEntity extends AbstractTntEntity {
     private static final ExplosionBehavior EXPLOSION_BEHAVIOR = new ExplosionBehavior() {
         @Override
         public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
@@ -40,17 +35,17 @@ public class ConcussiveTntEntity extends AbstractTntEntity {
         }
     };
 
-    public ConcussiveTntEntity(EntityType<ConcussiveTntEntity> entityType, World world) {
+    public FragmentationTntEntity(EntityType<FragmentationTntEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    public ConcussiveTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter, BlockState state) {
+    public FragmentationTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter, BlockState state) {
         super(FBombsEntityTypes.CONCUSSIVE_TNT, world, x, y, z, igniter, state);
     }
 
     @Override
     protected Block getDefaultBlock() {
-        return FBombsBlocks.CONCUSSIVE_TNT;
+        return FBombsBlocks.FRAGMENTATION_TNT;
     }
 
     @Override

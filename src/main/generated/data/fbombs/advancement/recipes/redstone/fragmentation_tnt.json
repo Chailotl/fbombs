@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fbombs:concussive_tnt"
+        "recipe": "fbombs:fragmentation_tnt"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fbombs:concussive_tnt"
+      "fbombs:fragmentation_tnt"
     ]
   }
 }

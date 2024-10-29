@@ -24,10 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 public class FBombsBlocks {
     public static final TestBlock TEST = register("test_block", new TestBlock(AbstractBlock.Settings.create()), true);
 
@@ -37,7 +33,7 @@ public class FBombsBlocks {
     public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
     public static final GenericTntBlock LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
     public static final GenericTntBlock FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
-    public static final GenericTntBlock CONCUSSIVE_TNT = registerTnt("concussive_tnt", ConcussiveTntEntity::new);
+    public static final GenericTntBlock FRAGMENTATION_TNT = registerTnt("fragmentation_tnt", FragmentationTntEntity::new);
     public static final GenericTntBlock WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
     public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
     public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);

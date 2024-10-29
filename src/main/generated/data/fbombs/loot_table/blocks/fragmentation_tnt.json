@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "fbombs:concussive_tnt"
+          "name": "fbombs:fragmentation_tnt"
         }
       ],
       "rolls": 1.0

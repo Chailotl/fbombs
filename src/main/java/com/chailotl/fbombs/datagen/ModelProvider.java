@@ -4,7 +4,6 @@ import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.AcmeBedBlock;
 import com.chailotl.fbombs.block.SplitTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
-import com.chailotl.fbombs.init.FBombsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
@@ -30,7 +29,7 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSingleton(FBombsBlocks.HIGH_POWER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.LOW_POWER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.FIRE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.CONCUSSIVE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.FRAGMENTATION_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.WIND_CHARGED_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.UNDERWATER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SPONGE_BOMB, TexturedModel.CUBE_BOTTOM_TOP);

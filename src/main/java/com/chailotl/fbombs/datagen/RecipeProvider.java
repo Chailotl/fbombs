@@ -58,7 +58,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         offerDynamiteRecipe(exporter, FBombsItems.BOUNCY_DYNAMITE, Items.SLIME_BALL);
         offerDynamiteRecipe(exporter, FBombsItems.STICKY_DYNAMITE, Items.HONEY_BOTTLE);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.CONCUSSIVE_TNT)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.FRAGMENTATION_TNT)
             .pattern("nnn")
             .pattern("ntn")
             .pattern("nnn")
