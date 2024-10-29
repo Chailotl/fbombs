@@ -41,12 +41,17 @@ public class BouncyDynamiteEntity extends DynamiteEntity {
 
     @Override
     protected double getVerticalBounce() {
-        return 0.9;
+        return 0.75;
     }
 
     @Override
     protected double getHorizontalBounce() {
-        return 0.9;
+        return 0.75;
+    }
+
+    @Override
+    protected boolean isBouncy() {
+        return true;
     }
 
     @Override

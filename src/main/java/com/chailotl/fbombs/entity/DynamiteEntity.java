@@ -62,6 +62,10 @@ public class DynamiteEntity extends ThrownItemEntity {
         return 0.5;
     }
 
+    protected boolean isBouncy() {
+        return false;
+    }
+
     @Override
     protected Item getDefaultItem() {
         return FBombsItems.DYNAMITE;
@@ -101,7 +105,7 @@ public class DynamiteEntity extends ThrownItemEntity {
         boolean grounded = false;
 
         if (Direction.Type.VERTICAL.stream().anyMatch(direction -> direction.equals(blockHitResult.getSide()))) {
-            if (velocity.y <= 0 && velocity.y >= -0.2) {
+            if (!this.isBouncy() && velocity.y <= 0 && velocity.y >= -0.2) {
                 velocity = Vec3d.ZERO;
                 grounded = true;
             } else {
