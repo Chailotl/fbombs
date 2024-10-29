@@ -56,14 +56,19 @@ public class StickyDynamiteEntity extends DynamiteEntity {
             if (this.stuckEntity.isAlive()) {
                 Vec3d pos = this.stuckEntity.getPos().add(this.stuckOffset);
                 this.setPos(pos.x, pos.y, pos.z);
-                this.setVelocity(Vec3d.ZERO);
             } else {
-                this.setVelocity(this.stuckEntity.getVelocity());
+                Vec3d velocity = this.stuckEntity.getVelocity();
                 this.stuckEntity = null;
+                this.setVelocity(velocity);
                 this.setNoGravity(false);
             }
-        } else if (this.stuck) {
-            this.setVelocity(Vec3d.ZERO);
+        }
+    }
+
+    @Override
+    public void setVelocity(Vec3d velocity) {
+        if (!this.stuck && this.stuckEntity == null) {
+            super.setVelocity(velocity);
         }
     }
 
@@ -71,8 +76,9 @@ public class StickyDynamiteEntity extends DynamiteEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
         if (this.stuckEntity == null) {
-            this.stuck = true;
+            this.setVelocity(Vec3d.ZERO);
             this.setNoGravity(true);
+            this.stuck = true;
         }
     }
 
@@ -80,10 +86,10 @@ public class StickyDynamiteEntity extends DynamiteEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         if (this.stuckEntity == null && entityHitResult.getEntity() instanceof LivingEntity entity) {
+            this.setVelocity(Vec3d.ZERO);
+            this.setNoGravity(true);
             this.stuckEntity = entity;
             this.stuckOffset = this.getPos().subtract(entity.getPos()).multiply(0.5, 1, 0.5);
-            this.setNoGravity(true);
-            this.setVelocity(Vec3d.ZERO);
         }
     }
 }
