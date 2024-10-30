@@ -66,8 +66,9 @@ public class ModelProvider extends FabricModelProvider {
             blockStateModelGenerator.registerSingleton(block, TexturedModel.CUBE_BOTTOM_TOP);
         });*/
 
-        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT)
-            .coordinate(createSplitTntBlockState()));
+        blockStateModelGenerator.blockStateCollector.accept(
+            VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT).coordinate(createSplitTntBlockState())
+        );
         blockStateModelGenerator.blockStateCollector.accept(
             BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
                 FBombs.getId("block/tnt_slab_bottom"),
@@ -75,9 +76,7 @@ public class ModelProvider extends FabricModelProvider {
                 FBombs.getId("block/tnt_slab_double")
             )
         );
-
-        //TODO: [ShiroJR] apply proper block item model
-        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.TNT_SLAB.asItem(), FBombs.getId("block/tnt_slab_bottom"));
+        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.TNT_SLAB, FBombs.getId("block/tnt_slab_bottom"));
     }
 
     @Override
