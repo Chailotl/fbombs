@@ -30,10 +30,10 @@ public class FBombsBlocks {
     public static final GenericTntBlock INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
-    public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
     public static final GenericTntBlock LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
-    public static final GenericTntBlock FIRE_CHARGED_TNT = registerTnt("fire_charged_tnt", FireChargedTntEntity::new);
+    public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
     public static final GenericTntBlock FRAGMENTATION_TNT = registerTnt("fragmentation_tnt", FragmentationTntEntity::new);
+    public static final GenericTntBlock FIRE_CHARGED_TNT = registerTnt("fire_charged_tnt", FireChargedTntEntity::new);
     public static final GenericTntBlock WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
     public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
     public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
@@ -84,21 +84,21 @@ public class FBombsBlocks {
     ), false);
 
     public static final AcmeBedBlock WHITE_ACME_BED = registerAcmeBed("white_acme_bed", DyeColor.WHITE);
+    public static final AcmeBedBlock LIGHT_GRAY_ACME_BED = registerAcmeBed("light_gray_acme_bed", DyeColor.LIGHT_GRAY);
+    public static final AcmeBedBlock GRAY_ACME_BED = registerAcmeBed("gray_acme_bed", DyeColor.GRAY);
+    public static final AcmeBedBlock BLACK_ACME_BED = registerAcmeBed("black_acme_bed", DyeColor.BLACK);
+    public static final AcmeBedBlock BROWN_ACME_BED = registerAcmeBed("brown_acme_bed", DyeColor.BROWN);
+    public static final AcmeBedBlock RED_ACME_BED = registerAcmeBed("red_acme_bed", DyeColor.RED);
     public static final AcmeBedBlock ORANGE_ACME_BED = registerAcmeBed("orange_acme_bed", DyeColor.ORANGE);
-    public static final AcmeBedBlock MAGENTA_ACME_BED = registerAcmeBed("magenta_acme_bed", DyeColor.MAGENTA);
-    public static final AcmeBedBlock LIGHT_BLUE_ACME_BED = registerAcmeBed("light_blue_acme_bed", DyeColor.LIGHT_BLUE);
     public static final AcmeBedBlock YELLOW_ACME_BED = registerAcmeBed("yellow_acme_bed", DyeColor.YELLOW);
     public static final AcmeBedBlock LIME_ACME_BED = registerAcmeBed("lime_acme_bed", DyeColor.LIME);
-    public static final AcmeBedBlock PINK_ACME_BED = registerAcmeBed("pink_acme_bed", DyeColor.PINK);
-    public static final AcmeBedBlock GRAY_ACME_BED = registerAcmeBed("gray_acme_bed", DyeColor.GRAY);
-    public static final AcmeBedBlock LIGHT_GRAY_ACME_BED = registerAcmeBed("light_gray_acme_bed", DyeColor.LIGHT_GRAY);
-    public static final AcmeBedBlock CYAN_ACME_BED = registerAcmeBed("cyan_acme_bed", DyeColor.CYAN);
-    public static final AcmeBedBlock PURPLE_ACME_BED = registerAcmeBed("purple_acme_bed", DyeColor.PURPLE);
-    public static final AcmeBedBlock BLUE_ACME_BED = registerAcmeBed("blue_acme_bed", DyeColor.BLUE);
-    public static final AcmeBedBlock BROWN_ACME_BED = registerAcmeBed("brown_acme_bed", DyeColor.BROWN);
     public static final AcmeBedBlock GREEN_ACME_BED = registerAcmeBed("green_acme_bed", DyeColor.GREEN);
-    public static final AcmeBedBlock RED_ACME_BED = registerAcmeBed("red_acme_bed", DyeColor.RED);
-    public static final AcmeBedBlock BLACK_ACME_BED = registerAcmeBed("black_acme_bed", DyeColor.BLACK);
+    public static final AcmeBedBlock CYAN_ACME_BED = registerAcmeBed("cyan_acme_bed", DyeColor.CYAN);
+    public static final AcmeBedBlock BLUE_ACME_BED = registerAcmeBed("blue_acme_bed", DyeColor.BLUE);
+    public static final AcmeBedBlock LIGHT_BLUE_ACME_BED = registerAcmeBed("light_blue_acme_bed", DyeColor.LIGHT_BLUE);
+    public static final AcmeBedBlock PURPLE_ACME_BED = registerAcmeBed("purple_acme_bed", DyeColor.PURPLE);
+    public static final AcmeBedBlock MAGENTA_ACME_BED = registerAcmeBed("magenta_acme_bed", DyeColor.MAGENTA);
+    public static final AcmeBedBlock PINK_ACME_BED = registerAcmeBed("pink_acme_bed", DyeColor.PINK);
 
     public static final MultiShotDispenserBlock MULTI_SHOT_DISPENSER = register("multi_shot_dispenser", new MultiShotDispenserBlock(
         AbstractBlock.Settings.create()
