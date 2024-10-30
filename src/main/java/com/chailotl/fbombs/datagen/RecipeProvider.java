@@ -30,7 +30,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         offerTntRecipe(exporter, Blocks.TNT, FBombsBlocks.SHORT_FUSE_TNT, Items.STRING);
         offerTntRecipe(exporter, FBombsBlocks.LONG_FUSE_TNT, Items.STRING);
         //offerTntRecipe(exporter, FBombsBlocks.HIGH_POWER_TNT, Blocks.TNT);
-        offerTntRecipe(exporter, FBombsBlocks.FIRE_TNT, Items.FIRE_CHARGE);
+        offerTntRecipe(exporter, FBombsBlocks.FIRE_CHARGED_TNT, Items.FIRE_CHARGE);
         offerTntRecipe(exporter, FBombsBlocks.WIND_CHARGED_TNT, Items.WIND_CHARGE);
         offerTntRecipe(exporter, FBombsBlocks.UNDERWATER_TNT, Items.PRISMARINE_SHARD);
         offerTntRecipe(exporter, FBombsBlocks.SPONGE_BOMB, Blocks.SPONGE);

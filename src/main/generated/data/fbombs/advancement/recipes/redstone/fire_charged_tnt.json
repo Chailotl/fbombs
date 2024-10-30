@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fbombs:fire_tnt"
+        "recipe": "fbombs:fire_charged_tnt"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fbombs:fire_tnt"
+      "fbombs:fire_charged_tnt"
     ]
   }
 }

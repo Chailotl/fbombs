@@ -32,7 +32,7 @@ public class FBombsBlocks {
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
     public static final GenericTntBlock LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
-    public static final GenericTntBlock FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
+    public static final GenericTntBlock FIRE_CHARGED_TNT = registerTnt("fire_charged_tnt", FireChargedTntEntity::new);
     public static final GenericTntBlock FRAGMENTATION_TNT = registerTnt("fragmentation_tnt", FragmentationTntEntity::new);
     public static final GenericTntBlock WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
     public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);

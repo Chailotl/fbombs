@@ -20,7 +20,7 @@ public class FBombsEntityTypes {
     public static final EntityType<LongFuseTntEntity> LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final EntityType<HighPowerTntEntity> HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
     public static final EntityType<LowPowerTntEntity> LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
-    public static final EntityType<FireTntEntity> FIRE_TNT = registerTnt("fire_tnt", FireTntEntity::new);
+    public static final EntityType<FireChargedTntEntity> FIRE_CHARGED_TNT = registerTnt("fire_charged_tnt", FireChargedTntEntity::new);
     public static final EntityType<SplitTntEntity> SPLIT_TNT = registerTnt("split_tnt", SplitTntEntity::new);
     public static final EntityType<TntSlabEntity> TNT_SLAB = registerTnt("tnt_slab", TntSlabEntity::new);
     public static final EntityType<FragmentationTntEntity> CONCUSSIVE_TNT = registerTnt("concussive_tnt", FragmentationTntEntity::new);

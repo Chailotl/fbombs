@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "fbombs:block/fire_tnt_bottom",
-    "side": "fbombs:block/fire_tnt_side",
-    "top": "fbombs:block/fire_tnt_top"
-  }
-}

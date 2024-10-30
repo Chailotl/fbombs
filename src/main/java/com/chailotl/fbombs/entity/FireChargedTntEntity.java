@@ -9,18 +9,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class FireTntEntity extends AbstractTntEntity {
-    public FireTntEntity(EntityType<FireTntEntity> entityType, World world) {
+public class FireChargedTntEntity extends AbstractTntEntity {
+    public FireChargedTntEntity(EntityType<FireChargedTntEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    public FireTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter, BlockState state) {
-        super(FBombsEntityTypes.FIRE_TNT, world, x, y, z, igniter, state);
+    public FireChargedTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter, BlockState state) {
+        super(FBombsEntityTypes.FIRE_CHARGED_TNT, world, x, y, z, igniter, state);
     }
 
     @Override
     protected Block getDefaultBlock() {
-        return FBombsBlocks.FIRE_TNT;
+        return FBombsBlocks.FIRE_CHARGED_TNT;
     }
 
     @Override
