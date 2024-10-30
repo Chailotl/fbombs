@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "fbombs:block/firework_tnt_bottom",
+    "east": "fbombs:block/firework_tnt_side",
+    "north": "fbombs:block/firework_tnt_front",
+    "particle": "fbombs:block/firework_tnt_front",
+    "south": "fbombs:block/firework_tnt_front",
+    "up": "fbombs:block/firework_tnt_top",
+    "west": "fbombs:block/firework_tnt_side"
+  }
+}

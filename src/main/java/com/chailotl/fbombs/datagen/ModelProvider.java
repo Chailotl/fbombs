@@ -28,7 +28,8 @@ public class ModelProvider extends FabricModelProvider {
             FBombsBlocks.TNT_SLAB,
             FBombsBlocks.SPLIT_TNT,
             FBombsBlocks.SHAPED_CHARGE,
-            FBombsBlocks.MINING_CHARGE
+            FBombsBlocks.MINING_CHARGE,
+            FBombsBlocks.FIREWORK_TNT
         );
 
         FBombs.streamEntries(Registries.BLOCK).forEach(block -> {
@@ -38,11 +39,12 @@ public class ModelProvider extends FabricModelProvider {
 
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHAPED_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
+        registerFireworkTnt(blockStateModelGenerator);
 
         blockStateModelGenerator.blockStateCollector.accept(
             VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT).coordinate(createSplitTntBlockState())
         );
-        
+
         blockStateModelGenerator.blockStateCollector.accept(
             BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
                 FBombs.getId("block/tnt_slab_bottom"),
@@ -98,5 +100,19 @@ public class ModelProvider extends FabricModelProvider {
             if (nw) sb.append("_nw");
             return BlockStateVariant.create().put(VariantSettings.MODEL, FBombs.getId(sb.toString()));
         });
+    }
+
+    private void registerFireworkTnt(BlockStateModelGenerator blockStateModelGenerator) {
+        TextureMap textureMap = new TextureMap()
+            .put(TextureKey.PARTICLE, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
+            .put(TextureKey.DOWN, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_bottom"))
+            .put(TextureKey.UP, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_top"))
+            .put(TextureKey.NORTH, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
+            .put(TextureKey.SOUTH, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
+            .put(TextureKey.EAST, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_side"))
+            .put(TextureKey.WEST, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_side"));
+        blockStateModelGenerator.blockStateCollector.accept(
+            BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.FIREWORK_TNT, Models.CUBE.upload(FBombsBlocks.FIREWORK_TNT, textureMap, blockStateModelGenerator.modelCollector))
+        );
     }
 }
