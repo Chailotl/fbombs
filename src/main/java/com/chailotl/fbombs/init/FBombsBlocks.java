@@ -57,6 +57,7 @@ public class FBombsBlocks {
             .solidBlock(Blocks::never)
     ), true);
     public static final GenericTntBlock FIREWORK_TNT = registerTnt("firework_tnt", FireworkTntEntity::new);
+    public static final GenericTntBlock CLUSTER_TNT = registerTnt("cluster_tnt", ClusterTntEntity::new);
     public static final GenericTntBlock ADAPTIVE_TNT = registerTnt("adaptive_tnt", FragmentationTntEntity::new);
 
     public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(

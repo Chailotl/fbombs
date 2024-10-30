@@ -149,21 +149,20 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
             this.discard();
             return;
         }
-        this.getWorld()
-            .createExplosion(
-                this,
-                Explosion.createDamageSource(this.getWorld(), this),
-                getExplosionBehavior(),
-                this.getX(),
-                this.getBodyY(0.0625),
-                this.getZ(),
-                getPower(),
-                shouldCreateFire(),
-                World.ExplosionSourceType.TNT,
-                getParticle(),
-                getEmitterParticle(),
-                getSoundEvent()
-            );
+        this.getWorld().createExplosion(
+            this,
+            Explosion.createDamageSource(this.getWorld(), this),
+            getExplosionBehavior(),
+            this.getX(),
+            this.getBodyY(0.0625),
+            this.getZ(),
+            getPower(),
+            shouldCreateFire(),
+            World.ExplosionSourceType.TNT,
+            getParticle(),
+            getEmitterParticle(),
+            getSoundEvent()
+        );
     }
 
     @Override

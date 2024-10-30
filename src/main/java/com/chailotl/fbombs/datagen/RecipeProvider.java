@@ -38,6 +38,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         offerTntRecipe(exporter, FBombsBlocks.SHAPED_CHARGE, Items.BOWL);
         offerTntRecipe(exporter, FBombsBlocks.MINING_CHARGE, FBombsBlocks.SHAPED_CHARGE, Items.QUARTZ);
         offerTntRecipe(exporter, FBombsBlocks.FIREWORK_TNT, Items.FIREWORK_ROCKET);
+        offerTntRecipe(exporter, FBombsBlocks.CLUSTER_TNT, Items.SHEARS);
 
         offerAcmeBedRecipe(exporter, FBombsBlocks.WHITE_ACME_BED, Blocks.WHITE_BED);
         offerAcmeBedRecipe(exporter, FBombsBlocks.LIGHT_GRAY_ACME_BED, Blocks.LIGHT_GRAY_BED);

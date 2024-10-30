@@ -15,6 +15,7 @@
     "fbombs:shaped_charge",
     "fbombs:mining_charge",
     "fbombs:firework_tnt",
+    "fbombs:cluster_tnt",
     "fbombs:adaptive_tnt",
     "fbombs:split_tnt",
     "fbombs:tnt_slab"
