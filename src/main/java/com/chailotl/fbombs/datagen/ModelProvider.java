@@ -2,6 +2,7 @@ package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.AcmeBedBlock;
+import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.block.SplitTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -23,20 +24,33 @@ public class ModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.INSTANT_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.SHORT_FUSE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.LONG_FUSE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.HIGH_POWER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.LOW_POWER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.FIRE_CHARGED_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.FRAGMENTATION_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.WIND_CHARGED_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.UNDERWATER_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.SPONGE_BOMB, TexturedModel.CUBE_BOTTOM_TOP);
+        List<Block> unsupported = List.of(
+            FBombsBlocks.TNT_SLAB,
+            FBombsBlocks.SPLIT_TNT,
+            FBombsBlocks.SHAPED_CHARGE,
+            FBombsBlocks.MINING_CHARGE
+        );
+
+        FBombs.streamEntries(Registries.BLOCK).forEach(block -> {
+            if (!(block instanceof GenericTntBlock) || unsupported.contains(block)) { return; }
+            blockStateModelGenerator.registerSingleton(block, TexturedModel.CUBE_BOTTOM_TOP);
+        });
+
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHAPED_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.LEVITATING_TNT, TexturedModel.CUBE_BOTTOM_TOP);
-        blockStateModelGenerator.registerSingleton(FBombsBlocks.ADAPTIVE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
+
+        blockStateModelGenerator.blockStateCollector.accept(
+            VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT).coordinate(createSplitTntBlockState())
+        );
+        
+        blockStateModelGenerator.blockStateCollector.accept(
+            BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
+                FBombs.getId("block/tnt_slab_bottom"),
+                FBombs.getId("block/tnt_slab_top"),
+                FBombs.getId("block/tnt_slab_double")
+            )
+        );
+        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.TNT_SLAB, FBombs.getId("block/tnt_slab_bottom"));
 
         blockStateModelGenerator.registerBuiltin(FBombs.getId("block/acme_bed"), Blocks.OAK_PLANKS)
             .includeWithoutItem(
@@ -58,25 +72,6 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerBed(FBombsBlocks.GREEN_ACME_BED, Blocks.GREEN_WOOL);
         blockStateModelGenerator.registerBed(FBombsBlocks.RED_ACME_BED, Blocks.RED_WOOL);
         blockStateModelGenerator.registerBed(FBombsBlocks.BLACK_ACME_BED, Blocks.BLACK_WOOL);
-
-        //TODO: [ShiroJR] we could assume that all will use it by default and select the ones, which don't while streaming it
-        /*FBombsBlocks.streamTntBlocks().forEach(block -> {
-            var unsupported = List.of(FBombsBlocks.FIRE_TNT, FBombsBlocks.INSTANT_TNT);
-            if (unsupported.contains(block)) return;
-            blockStateModelGenerator.registerSingleton(block, TexturedModel.CUBE_BOTTOM_TOP);
-        });*/
-
-        blockStateModelGenerator.blockStateCollector.accept(
-            VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT).coordinate(createSplitTntBlockState())
-        );
-        blockStateModelGenerator.blockStateCollector.accept(
-            BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
-                FBombs.getId("block/tnt_slab_bottom"),
-                FBombs.getId("block/tnt_slab_top"),
-                FBombs.getId("block/tnt_slab_double")
-            )
-        );
-        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.TNT_SLAB, FBombs.getId("block/tnt_slab_bottom"));
     }
 
     @Override
