@@ -1,6 +1,7 @@
 package com.chailotl.fbombs;
 
-import com.chailotl.fbombs.entity.renderer.AcmeBedBlockEntityRenderer;
+import com.chailotl.fbombs.block.entity.renderer.AcmeBedBlockEntityRenderer;
+import com.chailotl.fbombs.block.entity.renderer.SirenBlockEntityRenderer;
 import com.chailotl.fbombs.entity.renderer.DynamiteEntityRenderer;
 import com.chailotl.fbombs.entity.renderer.GenericTntEntityRenderer;
 import com.chailotl.fbombs.init.*;
