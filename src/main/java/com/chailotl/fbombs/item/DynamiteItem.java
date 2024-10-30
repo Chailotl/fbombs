@@ -1,5 +1,6 @@
 package com.chailotl.fbombs.item;
 
+import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.entity.DynamiteEntity;
 import com.chailotl.fbombs.entity.util.DynamiteEntityProvider;
 import com.chailotl.fbombs.init.FBombsCriteria;
@@ -9,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
@@ -52,6 +54,11 @@ public class DynamiteItem extends Item {
             FBombsCriteria.USED_DYNAMITE.trigger((ServerPlayerEntity) user);
         }
 
+        FBombs.streamEntries(Registries.ITEM).forEach(item -> {
+            if (item instanceof DynamiteItem) {
+                user.getItemCooldownManager().set(item, 10);
+            }
+        });
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         ItemStackHelper.decrementOrDamageInNonCreative(stack, 1, user);
         ItemStackHelper.decrementOrDamageInNonCreative(offStack, 1, user);
