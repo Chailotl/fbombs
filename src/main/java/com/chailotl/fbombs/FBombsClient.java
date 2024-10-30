@@ -24,11 +24,14 @@ public class FBombsClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.FAST_SMALL_FLAME, FastFlameParticle.SmallFactory::new);
 
         FBombsEntityTypes.streamTntEntityTypes().forEach(entityType -> EntityRendererRegistry.register(entityType, GenericTntEntityRenderer::new));
+
         EntityRendererRegistry.register(FBombsEntityTypes.DYNAMITE, DynamiteEntityRenderer::new);
         EntityRendererRegistry.register(FBombsEntityTypes.BOUNCY_DYNAMITE, DynamiteEntityRenderer::new);
         EntityRendererRegistry.register(FBombsEntityTypes.STICKY_DYNAMITE, DynamiteEntityRenderer::new);
         EntityRendererRegistry.register(FBombsEntityTypes.DYNAMITE_BUNDLE, DynamiteEntityRenderer::new);
+
         BlockEntityRendererFactories.register(FBombsBlockEntities.ACME_BED, AcmeBedBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(FBombsBlockEntities.SIREN, SirenBlockEntityRenderer::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(FBombsBlocks.GUNPOWDER_TRAIL, RenderLayer.getCutout());
         ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> 0x494949, FBombsBlocks.GUNPOWDER_TRAIL);

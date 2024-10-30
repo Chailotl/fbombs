@@ -2,6 +2,7 @@ package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.GenericTntBlock;
+import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -27,6 +28,9 @@ public class TagProvider {
                 .add(Blocks.TNT);
 
             FBombs.streamEntries(Registries.BLOCK, block -> block instanceof GenericTntBlock).forEach(tntVariants::add);
+
+            getOrCreateTagBuilder(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)
+                    .add(FBombsBlocks.SIREN_BASE, FBombsBlocks.SIREN_POLE, FBombsBlocks.SIREN_HEAD, Blocks.IRON_BARS);
 
             getOrCreateTagBuilder(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE)
                 .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.BEDROCK, Blocks.END_PORTAL,

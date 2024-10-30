@@ -34,6 +34,9 @@
   "block.fbombs.red_acme_bed": "Red ACME Bed",
   "block.fbombs.shaped_charge": "Shaped Charge",
   "block.fbombs.short_fuse_tnt": "Short Fuse TNT",
+  "block.fbombs.siren_base": "Siren Base",
+  "block.fbombs.siren_head": "Siren Head",
+  "block.fbombs.siren_pole": "Siren Pole",
   "block.fbombs.split_tnt": "Split TNT",
   "block.fbombs.sponge_bomb": "Sponge Bomb",
   "block.fbombs.test_block": "Test Block",
@@ -72,6 +75,7 @@
   "itemgroup.fbombs.blocks": "FBombs Blocks",
   "itemgroup.fbombs.items": "FBombs Items",
   "tag.block.fbombs.tnt_variants": "TNT Variants",
+  "tag.block.fbombs.transmits_redstone_power": "Transmits Redstone Power for Sirens",
   "tag.block.fbombs.volumetric_explosion_immune": "Volumetric Explosion Immune",
   "tag.item.fbombs.ignites_tnt": "Ignites TNT",
   "tag.item.fbombs.splits_tnt": "Splits TNT"

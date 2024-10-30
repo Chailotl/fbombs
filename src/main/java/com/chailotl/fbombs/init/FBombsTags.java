@@ -15,5 +15,6 @@ public class FBombsTags {
     public static class Blocks {
         public static final TagKey<Block> TNT_VARIANTS = TagKey.of(RegistryKeys.BLOCK, FBombs.getId("tnt_variants"));
         public static final TagKey<Block> VOLUMETRIC_EXPLOSION_IMMUNE = TagKey.of(RegistryKeys.BLOCK, FBombs.getId("volumetric_explosion_immune"));
+        public static final TagKey<Block> TRANSMITS_REDSTONE_POWER = TagKey.of(RegistryKeys.BLOCK, FBombs.getId("transmits_redstone_power"));
     }
 }
