@@ -56,6 +56,7 @@ public class FBombsBlocks {
             .burnable()
             .solidBlock(Blocks::never)
     ), true);
+    public static final GenericTntBlock ADAPTIVE_TNT = registerTnt("adaptive_tnt", FragmentationTntEntity::new);
 
     public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(
         new TntEntityType("split_tnt", SplitTntEntity::new),

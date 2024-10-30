@@ -36,6 +36,7 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHAPED_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.LEVITATING_TNT, TexturedModel.CUBE_BOTTOM_TOP);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.ADAPTIVE_TNT, TexturedModel.CUBE_BOTTOM_TOP);
 
         blockStateModelGenerator.registerBuiltin(FBombs.getId("block/acme_bed"), Blocks.OAK_PLANKS)
             .includeWithoutItem(
