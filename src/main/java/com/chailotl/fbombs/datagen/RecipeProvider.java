@@ -81,6 +81,13 @@ public class RecipeProvider extends FabricRecipeProvider {
             .input('s', ItemTags.SAND)
             .criterion(FabricRecipeProvider.hasItem(Items.GUNPOWDER), FabricRecipeProvider.conditionsFromItem(Items.GUNPOWDER))
             .offerTo(exporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, FBombsItems.DYNAMITE_BUNDLE)
+            .pattern("dd")
+            .pattern("dd")
+            .input('d', FBombsItems.DYNAMITE)
+            .criterion(FabricRecipeProvider.hasItem(FBombsItems.DYNAMITE), FabricRecipeProvider.conditionsFromItem(FBombsItems.DYNAMITE))
+            .offerTo(exporter);
     }
 
     private void offerTntRecipe(RecipeExporter exporter, ItemConvertible output, ItemConvertible input) {

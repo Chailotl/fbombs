@@ -66,6 +66,10 @@ public class DynamiteEntity extends ThrownItemEntity {
         return false;
     }
 
+    protected int getPower() {
+        return 2;
+    }
+
     @Override
     protected Item getDefaultItem() {
         return FBombsItems.DYNAMITE;
@@ -152,7 +156,7 @@ public class DynamiteEntity extends ThrownItemEntity {
             this.getX(),
             this.getY() + 0.05,
             this.getZ(),
-            2,
+            getPower(),
             false,
             World.ExplosionSourceType.TNT,
             ParticleTypes.EXPLOSION,

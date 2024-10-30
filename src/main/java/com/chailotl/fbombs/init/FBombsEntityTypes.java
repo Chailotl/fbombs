@@ -36,6 +36,7 @@ public class FBombsEntityTypes {
     public static final EntityType<DynamiteEntity> DYNAMITE = registerDynamite("dynamite", DynamiteEntity::new);
     public static final EntityType<BouncyDynamiteEntity> BOUNCY_DYNAMITE = registerDynamite("bouncy_dynamite", BouncyDynamiteEntity::new);
     public static final EntityType<StickyDynamiteEntity> STICKY_DYNAMITE = registerDynamite("sticky_dynamite", StickyDynamiteEntity::new);
+    public static final EntityType<DynamiteBundleEntity> DYNAMITE_BUNDLE = registerDynamite("dynamite_bundle", DynamiteBundleEntity::new);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {
