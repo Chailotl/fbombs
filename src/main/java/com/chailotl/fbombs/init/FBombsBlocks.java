@@ -27,6 +27,10 @@ import net.minecraft.world.event.GameEvent;
 public class FBombsBlocks {
     public static final TestBlock TEST = register("test_block", new TestBlock(AbstractBlock.Settings.create()), true);
 
+    public static final SirenHeadBlock SIREN_HEAD = register("siren_head", new SirenHeadBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
+    public static final SirenPoleBlock SIREN_POLE = register("siren_pole", new SirenPoleBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
+    public static final SirenBaseBlock SIREN_BASE = register("siren_base", new SirenBaseBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
+
     public static final GenericTntBlock INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);

@@ -2,10 +2,10 @@ package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.AcmeBedBlock;
-import com.chailotl.fbombs.block.MultiShotDispenserBlock;
-import com.chailotl.fbombs.block.entity.MultiShotDispenserBlockEntity;
-import com.chailotl.fbombs.block.entity.TestBlockEntity;
 import com.chailotl.fbombs.block.entity.AcmeBedBlockEntity;
+import com.chailotl.fbombs.block.entity.MultiShotDispenserBlockEntity;
+import com.chailotl.fbombs.block.entity.SirenBlockEntity;
+import com.chailotl.fbombs.block.entity.TestBlockEntity;
 import com.chailotl.fbombs.util.HandledInventory;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.Block;
@@ -17,14 +17,15 @@ import net.minecraft.registry.Registry;
 public class FBombsBlockEntities {
     public static final BlockEntityType<TestBlockEntity> TEST_BLOCK_ENTITY = register("test_block_entity", TestBlockEntity::new, FBombsBlocks.TEST);
     public static final BlockEntityType<AcmeBedBlockEntity> ACME_BED = register("acme_bed", AcmeBedBlockEntity::new,
-        FBombs.streamEntries(Registries.BLOCK, block -> block instanceof AcmeBedBlock).toArray(Block[]::new)
+            FBombs.streamEntries(Registries.BLOCK, block -> block instanceof AcmeBedBlock).toArray(Block[]::new)
     );
     public static final BlockEntityType<MultiShotDispenserBlockEntity> MULTI_SHOT_DISPENSER = register("multi_shot_dispenser", MultiShotDispenserBlockEntity::new, FBombsBlocks.MULTI_SHOT_DISPENSER);
+    public static final BlockEntityType<SirenBlockEntity> SIREN = register("siren", SirenBlockEntity::new, FBombsBlocks.SIREN_HEAD);
 
     private static <T extends BlockEntity> BlockEntityType<T> register(
             String name, BlockEntityType.BlockEntityFactory<? extends T> entityFactory, Block... blocks) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, FBombs.getId(name),
-            BlockEntityType.Builder.<T>create(entityFactory, blocks).build(null));
+                BlockEntityType.Builder.<T>create(entityFactory, blocks).build(null));
     }
 
     @SuppressWarnings({"SameParameterValue", "unused"})

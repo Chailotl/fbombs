@@ -35,6 +35,7 @@ public class TranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(FBombsTags.Items.IGNITES_TNT, "Ignites TNT");
         translationBuilder.add(FBombsTags.Blocks.TNT_VARIANTS, "TNT Variants");
         translationBuilder.add(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE, "Volumetric Explosion Immune");
+        translationBuilder.add(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER, "Transmits Redstone Power for Sirens");
 
         FBombsItemGroups.ItemGroupEntry.ALL_GROUPS.forEach(itemGroupEntry ->
                 translationBuilder.add(itemGroupEntry.getTranslationKey(), "FBombs " + cleanString(itemGroupEntry.get())));

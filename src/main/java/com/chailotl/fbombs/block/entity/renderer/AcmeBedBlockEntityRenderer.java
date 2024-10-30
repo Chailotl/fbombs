@@ -1,4 +1,4 @@
-package com.chailotl.fbombs.entity.renderer;
+package com.chailotl.fbombs.block.entity.renderer;
 
 import com.chailotl.fbombs.block.AcmeBedBlock;
 import com.chailotl.fbombs.block.entity.AcmeBedBlockEntity;
