@@ -11,8 +11,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
@@ -67,5 +72,20 @@ public class WindChargedTntEntity extends AbstractTntEntity {
     @Override
     protected ExplosionBehavior getExplosionBehavior() {
         return EXPLOSION_BEHAVIOR;
+    }
+
+    @Override
+    protected ParticleEffect getParticle() {
+        return ParticleTypes.GUST_EMITTER_SMALL;
+    }
+
+    @Override
+    protected ParticleEffect getEmitterParticle() {
+        return ParticleTypes.GUST_EMITTER_LARGE;
+    }
+
+    @Override
+    protected RegistryEntry<SoundEvent> getSoundEvent() {
+        return SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST;
     }
 }

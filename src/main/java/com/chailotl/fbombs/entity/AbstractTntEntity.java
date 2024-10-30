@@ -11,8 +11,13 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.TeleportTarget;
@@ -81,6 +86,18 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
         return this.teleported ? TELEPORTED_EXPLOSION_BEHAVIOR : null;
     }
 
+    protected ParticleEffect getParticle() {
+        return ParticleTypes.EXPLOSION;
+    }
+
+    protected ParticleEffect getEmitterParticle() {
+        return ParticleTypes.EXPLOSION_EMITTER;
+    }
+
+    protected RegistryEntry<SoundEvent> getSoundEvent() {
+        return SoundEvents.ENTITY_GENERIC_EXPLODE;
+    }
+
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         builder.add(FUSE, getDefaultFuse());
@@ -142,7 +159,10 @@ public abstract class AbstractTntEntity extends Entity implements Ownable {
                 this.getZ(),
                 getPower(),
                 shouldCreateFire(),
-                World.ExplosionSourceType.TNT
+                World.ExplosionSourceType.TNT,
+                getParticle(),
+                getEmitterParticle(),
+                getSoundEvent()
             );
     }
 
