@@ -5,7 +5,10 @@ import com.chailotl.fbombs.entity.BouncyDynamiteEntity;
 import com.chailotl.fbombs.entity.DynamiteBundleEntity;
 import com.chailotl.fbombs.entity.DynamiteEntity;
 import com.chailotl.fbombs.entity.StickyDynamiteEntity;
+import com.chailotl.fbombs.item.AdaptiveTntItem;
 import com.chailotl.fbombs.item.DynamiteItem;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -24,6 +27,7 @@ public class FBombsItems {
     public static final DynamiteItem STICKY_DYNAMITE = register("sticky_dynamite", new DynamiteItem(StickyDynamiteEntity::new, new Item.Settings()), FBombsItemGroups.ITEMS);
     public static final DynamiteItem DYNAMITE_BUNDLE = register("dynamite_bundle", new DynamiteItem(DynamiteBundleEntity::new, new Item.Settings()), FBombsItemGroups.ITEMS);
     public static final BlockItem GUNPOWDER_TRAIL = register("gunpowder_trail", new BlockItem(FBombsBlocks.GUNPOWDER_TRAIL, new Item.Settings()));
+    public static final AdaptiveTntItem ADAPTIVE_TNT = register("adaptive_tnt", new AdaptiveTntItem(FBombsBlocks.ADAPTIVE_TNT, new Item.Settings()), FBombsItemGroups.BLOCKS);
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Item> T register(String name, T item, FBombsItemGroups.ItemGroupEntry... itemGroups) {

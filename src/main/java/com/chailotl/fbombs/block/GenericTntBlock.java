@@ -28,7 +28,7 @@ import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 public class GenericTntBlock extends Block {
-    public static final MapCodec<GenericTntBlock> CODEC =  RecordCodecBuilder.mapCodec(
+    public static final MapCodec<GenericTntBlock> CODEC = RecordCodecBuilder.mapCodec(
         instance -> instance.group(
                 TntEntityType.CODEC.fieldOf("tnt_entity_type").forGetter(GenericTntBlock::getTntEntityType), createSettingsCodec()
             )
@@ -39,7 +39,7 @@ public class GenericTntBlock extends Block {
     protected final TntEntityType tntEntityType;
 
     @Override
-    public MapCodec<GenericTntBlock> getCodec() {
+    public MapCodec<? extends GenericTntBlock> getCodec() {
         return CODEC;
     }
 

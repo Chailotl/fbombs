@@ -1,6 +1,5 @@
 package com.chailotl.fbombs.entity;
 
-import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsEntityTypes;
 import net.minecraft.block.Block;

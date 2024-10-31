@@ -46,6 +46,7 @@
   "block.fbombs.wind_charged_tnt": "Wind Charged TNT",
   "block.fbombs.yellow_acme_bed": "Yellow ACME Bed",
   "effect.fbombs.radiation_poisoning": "Radiation Poisoning",
+  "entity.fbombs.adaptive_tnt": "Adaptive TNT",
   "entity.fbombs.bouncy_dynamite": "Bouncy Dynamite",
   "entity.fbombs.cluster_tnt": "Cluster TNT",
   "entity.fbombs.concussive_tnt": "Concussive TNT",

@@ -11,7 +11,6 @@ import net.minecraft.registry.Registry;
 public class FBombsItemComponents {
     public static final ComponentType<Float> CONTAMINATION = register("contamination", PrimitiveCodec.FLOAT);
 
-
     private static <T> ComponentType<T> register(String name, Codec<T> codec) {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, FBombs.getId(name),
                 ComponentType.<T>builder().codec(codec).build());

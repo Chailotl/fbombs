@@ -43,7 +43,7 @@ public class FBombsBlocks {
     public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
     public static final GenericTntBlock LEVITATING_TNT = registerTnt("levitating_tnt", LevitatingTntEntity::new);
     public static final ShapedChargeBlock SHAPED_CHARGE = register("shaped_charge", new ShapedChargeBlock(
-        new TntEntityType("shaped_charge", ShapedChargeEntity::new),
+        TntEntityType.register("shaped_charge", ShapedChargeEntity::new),
         AbstractBlock.Settings.create()
             .mapColor(MapColor.BRIGHT_RED)
             .breakInstantly()
@@ -52,7 +52,7 @@ public class FBombsBlocks {
             .solidBlock(Blocks::never)
     ), true);
     public static final ShapedChargeBlock MINING_CHARGE = register("mining_charge", new ShapedChargeBlock(
-        new TntEntityType("mining_charge", MiningChargeEntity::new),
+        TntEntityType.register("mining_charge", MiningChargeEntity::new),
         AbstractBlock.Settings.create()
             .mapColor(MapColor.BRIGHT_RED)
             .breakInstantly()
@@ -62,7 +62,14 @@ public class FBombsBlocks {
     ), true);
     public static final GenericTntBlock FIREWORK_TNT = registerTnt("firework_tnt", FireworkTntEntity::new);
     public static final GenericTntBlock CLUSTER_TNT = registerTnt("cluster_tnt", ClusterTntEntity::new);
-    public static final GenericTntBlock ADAPTIVE_TNT = registerTnt("adaptive_tnt", FragmentationTntEntity::new);
+    public static final AdaptiveTntBlock ADAPTIVE_TNT = register("adaptive_tnt", new AdaptiveTntBlock(
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.IRON_GRAY)
+            .breakInstantly()
+            .sounds(BlockSoundGroup.METAL)
+            .burnable()
+            .solidBlock(Blocks::never)
+    ), false);
 
     public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(
         new TntEntityType("split_tnt", SplitTntEntity::new),
