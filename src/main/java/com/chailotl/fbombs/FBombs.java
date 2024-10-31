@@ -19,6 +19,7 @@ public class FBombs implements ModInitializer {
     @Override
     public void onInitialize() {
         FBombsBlocks.initialize();
+        FBombsArmorMaterials.initialize();
         FBombsItems.initialize();
         FBombsItemGroups.initialize();
         FBombsBlockEntities.initialize();
