@@ -47,7 +47,7 @@ public class SirenBlockEntity extends BlockEntity {
     }
 
     private static int getStrengthFromStructure(World world, BlockPos pos) {
-        BlockPos.Mutable posWalker = pos.mutableCopy();
+        BlockPos.Mutable posWalker = pos.down().mutableCopy();
         while (world.getBlockState(posWalker).isIn(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)) {
             if (world.getBlockState(posWalker).getBlock() instanceof SirenPoleWalker) break;
             posWalker.move(Direction.DOWN);
