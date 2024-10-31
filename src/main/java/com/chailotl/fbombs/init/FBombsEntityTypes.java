@@ -33,6 +33,7 @@ public class FBombsEntityTypes {
     public static final EntityType<FireworkTntEntity> FIREWORK_TNT = registerTnt("firework_tnt", FireworkTntEntity::new);
     public static final EntityType<ClusterTntEntity> CLUSTER_TNT = registerTnt("cluster_tnt", ClusterTntEntity::new);
     public static final EntityType<AdaptiveTntEntity> ADAPTIVE_TNT = registerTnt("adaptive_tnt", AdaptiveTntEntity::new);
+    public static final EntityType<DetonatorEntity> DETONATOR = registerTnt("detonator", DetonatorEntity::new);
 
     public static final EntityType<DynamiteEntity> DYNAMITE = registerDynamite("dynamite", DynamiteEntity::new);
     public static final EntityType<BouncyDynamiteEntity> BOUNCY_DYNAMITE = registerDynamite("bouncy_dynamite", BouncyDynamiteEntity::new);

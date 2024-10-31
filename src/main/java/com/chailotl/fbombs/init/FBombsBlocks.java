@@ -91,6 +91,14 @@ public class FBombsBlocks {
             .solidBlock(Blocks::never)
     ), true);
 
+    public static final DetonatorBlock DETONATOR = register("detonator", new DetonatorBlock(
+            new TntEntityType("detonator", DetonatorEntity::new),
+            AbstractBlock.Settings.create()
+                    .mapColor(MapColor.BROWN)
+                    .sounds(BlockSoundGroup.WOOD)
+                    .burnable()
+                    .solidBlock(Blocks::never)
+    ), true);
     public static final GunpowderTrailBlock GUNPOWDER_TRAIL = register("gunpowder_trail", new GunpowderTrailBlock(
         AbstractBlock.Settings.create()
             .noCollision()
@@ -123,7 +131,7 @@ public class FBombsBlocks {
             .strength(3.5F)
     ), true);
 
-    @SuppressWarnings("SameParameterValue")
+
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
         Registry.register(Registries.BLOCK, FBombs.getId(name), block);
         if (hasDefaultItem) {

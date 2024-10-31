@@ -18,6 +18,7 @@
     "fbombs:cluster_tnt",
     "fbombs:adaptive_tnt",
     "fbombs:split_tnt",
-    "fbombs:tnt_slab"
+    "fbombs:tnt_slab",
+    "fbombs:detonator"
   ]
 }

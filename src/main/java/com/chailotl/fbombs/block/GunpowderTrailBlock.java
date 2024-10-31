@@ -1,13 +1,10 @@
 package com.chailotl.fbombs.block;
 
-import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.MapCodec;
-import java.util.Map;
-
 import net.minecraft.block.*;
 import net.minecraft.block.enums.WireConnection;
 import net.minecraft.entity.LivingEntity;
@@ -20,9 +17,11 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.*;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
@@ -39,6 +38,8 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 public class GunpowderTrailBlock extends Block {
     public static final MapCodec<GunpowderTrailBlock> CODEC = createCodec(GunpowderTrailBlock::new);
     public static final EnumProperty<WireConnection> WIRE_CONNECTION_NORTH = Properties.NORTH_WIRE_CONNECTION;
@@ -47,34 +48,34 @@ public class GunpowderTrailBlock extends Block {
     public static final EnumProperty<WireConnection> WIRE_CONNECTION_WEST = Properties.WEST_WIRE_CONNECTION;
     public static final BooleanProperty LIT = Properties.LIT;
     public static final Map<Direction, EnumProperty<WireConnection>> DIRECTION_TO_WIRE_CONNECTION_PROPERTY = Maps.newEnumMap(
-        ImmutableMap.of(
-            Direction.NORTH, WIRE_CONNECTION_NORTH, Direction.EAST, WIRE_CONNECTION_EAST, Direction.SOUTH, WIRE_CONNECTION_SOUTH, Direction.WEST, WIRE_CONNECTION_WEST
-        )
+            ImmutableMap.of(
+                    Direction.NORTH, WIRE_CONNECTION_NORTH, Direction.EAST, WIRE_CONNECTION_EAST, Direction.SOUTH, WIRE_CONNECTION_SOUTH, Direction.WEST, WIRE_CONNECTION_WEST
+            )
     );
     private static final VoxelShape DOT_SHAPE = Block.createCuboidShape(3.0, 0.0, 3.0, 13.0, 1.0, 13.0);
     private static final Map<Direction, VoxelShape> DIRECTION_TO_SIDE_SHAPE = Maps.newEnumMap(
-        ImmutableMap.of(
-            Direction.NORTH,
-            Block.createCuboidShape(3.0, 0.0, 0.0, 13.0, 1.0, 13.0),
-            Direction.SOUTH,
-            Block.createCuboidShape(3.0, 0.0, 3.0, 13.0, 1.0, 16.0),
-            Direction.EAST,
-            Block.createCuboidShape(3.0, 0.0, 3.0, 16.0, 1.0, 13.0),
-            Direction.WEST,
-            Block.createCuboidShape(0.0, 0.0, 3.0, 13.0, 1.0, 13.0)
-        )
+            ImmutableMap.of(
+                    Direction.NORTH,
+                    Block.createCuboidShape(3.0, 0.0, 0.0, 13.0, 1.0, 13.0),
+                    Direction.SOUTH,
+                    Block.createCuboidShape(3.0, 0.0, 3.0, 13.0, 1.0, 16.0),
+                    Direction.EAST,
+                    Block.createCuboidShape(3.0, 0.0, 3.0, 16.0, 1.0, 13.0),
+                    Direction.WEST,
+                    Block.createCuboidShape(0.0, 0.0, 3.0, 13.0, 1.0, 13.0)
+            )
     );
     private static final Map<Direction, VoxelShape> DIRECTION_TO_UP_SHAPE = Maps.newEnumMap(
-        ImmutableMap.of(
-            Direction.NORTH,
-            VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.NORTH), Block.createCuboidShape(3.0, 0.0, 0.0, 13.0, 16.0, 1.0)),
-            Direction.SOUTH,
-            VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.SOUTH), Block.createCuboidShape(3.0, 0.0, 15.0, 13.0, 16.0, 16.0)),
-            Direction.EAST,
-            VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.EAST), Block.createCuboidShape(15.0, 0.0, 3.0, 16.0, 16.0, 13.0)),
-            Direction.WEST,
-            VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.WEST), Block.createCuboidShape(0.0, 0.0, 3.0, 1.0, 16.0, 13.0))
-        )
+            ImmutableMap.of(
+                    Direction.NORTH,
+                    VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.NORTH), Block.createCuboidShape(3.0, 0.0, 0.0, 13.0, 16.0, 1.0)),
+                    Direction.SOUTH,
+                    VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.SOUTH), Block.createCuboidShape(3.0, 0.0, 15.0, 13.0, 16.0, 16.0)),
+                    Direction.EAST,
+                    VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.EAST), Block.createCuboidShape(15.0, 0.0, 3.0, 16.0, 16.0, 13.0)),
+                    Direction.WEST,
+                    VoxelShapes.union(DIRECTION_TO_SIDE_SHAPE.get(Direction.WEST), Block.createCuboidShape(0.0, 0.0, 3.0, 1.0, 16.0, 13.0))
+            )
     );
     private static final Map<BlockState, VoxelShape> SHAPES = Maps.newHashMap();
 
@@ -86,13 +87,13 @@ public class GunpowderTrailBlock extends Block {
     public GunpowderTrailBlock(AbstractBlock.Settings settings) {
         super(settings);
         this.setDefaultState(
-            this.stateManager
-                .getDefaultState()
-                .with(WIRE_CONNECTION_NORTH, WireConnection.NONE)
-                .with(WIRE_CONNECTION_EAST, WireConnection.NONE)
-                .with(WIRE_CONNECTION_SOUTH, WireConnection.NONE)
-                .with(WIRE_CONNECTION_WEST, WireConnection.NONE)
-                .with(LIT, false)
+                this.stateManager
+                        .getDefaultState()
+                        .with(WIRE_CONNECTION_NORTH, WireConnection.NONE)
+                        .with(WIRE_CONNECTION_EAST, WireConnection.NONE)
+                        .with(WIRE_CONNECTION_SOUTH, WireConnection.NONE)
+                        .with(WIRE_CONNECTION_WEST, WireConnection.NONE)
+                        .with(LIT, false)
         );
 
         for (BlockState blockState : this.getStateManager().getStates()) {
@@ -135,7 +136,7 @@ public class GunpowderTrailBlock extends Block {
         boolean bl = !world.getBlockState(pos.up()).isSolidBlock(world, pos);
 
         for (Direction direction : Direction.Type.HORIZONTAL) {
-            if (!((WireConnection)state.get((Property)DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction))).isConnected()) {
+            if (!((WireConnection) state.get((Property) DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction))).isConnected()) {
                 WireConnection wireConnection = this.getRenderConnectionType(world, pos, direction, bl);
                 state = state.with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), wireConnection);
             }
@@ -146,7 +147,7 @@ public class GunpowderTrailBlock extends Block {
 
     @Override
     protected BlockState getStateForNeighborUpdate(
-        BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos
+            BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos
     ) {
         if (direction == Direction.DOWN) {
             return !this.canRunOnTop(world, neighborPos, neighborState) ? Blocks.AIR.getDefaultState() : state;
@@ -154,20 +155,20 @@ public class GunpowderTrailBlock extends Block {
             return this.getPlacementState(world, state, pos);
         } else {
             WireConnection wireConnection = this.getRenderConnectionType(world, pos, direction);
-            return wireConnection.isConnected() == ((WireConnection)state.get((Property)DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction))).isConnected()
-                && !isFullyConnected(state)
-                ? state.with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), wireConnection)
-                : this.getPlacementState(
-                world, this.getDefaultState().with(LIT, state.get(LIT)).with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), wireConnection), pos
+            return wireConnection.isConnected() == ((WireConnection) state.get((Property) DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction))).isConnected()
+                    && !isFullyConnected(state)
+                    ? state.with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), wireConnection)
+                    : this.getPlacementState(
+                    world, this.getDefaultState().with(LIT, state.get(LIT)).with(DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction), wireConnection), pos
             );
         }
     }
 
     private static boolean isFullyConnected(BlockState state) {
         return state.get(WIRE_CONNECTION_NORTH).isConnected()
-            && state.get(WIRE_CONNECTION_SOUTH).isConnected()
-            && state.get(WIRE_CONNECTION_EAST).isConnected()
-            && state.get(WIRE_CONNECTION_WEST).isConnected();
+                && state.get(WIRE_CONNECTION_SOUTH).isConnected()
+                && state.get(WIRE_CONNECTION_EAST).isConnected()
+                && state.get(WIRE_CONNECTION_WEST).isConnected();
     }
 
     @Override
@@ -213,8 +214,8 @@ public class GunpowderTrailBlock extends Block {
         }
 
         return !connectsTo(blockState, direction) && (blockState.isSolidBlock(world, blockPos) || !connectsTo(world.getBlockState(blockPos.down())))
-            ? WireConnection.NONE
-            : WireConnection.SIDE;
+                ? WireConnection.NONE
+                : WireConnection.SIDE;
     }
 
     @Override
@@ -280,7 +281,7 @@ public class GunpowderTrailBlock extends Block {
 
     @Override
     protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        if (!world.isClient &&!state.canPlaceAt(world, pos)) {
+        if (!world.isClient && !state.canPlaceAt(world, pos)) {
             dropStacks(state, world, pos);
             world.removeBlock(pos, false);
         }
@@ -292,33 +293,34 @@ public class GunpowderTrailBlock extends Block {
 
     protected static boolean connectsTo(BlockState state, @Nullable Direction dir) {
         return state.isOf(FBombsBlocks.GUNPOWDER_TRAIL)
-            || state.isIn(FBombsTags.Blocks.TNT_VARIANTS);
+                || state.isIn(FBombsTags.Blocks.TNT_VARIANTS)
+                || state.isOf(FBombsBlocks.DETONATOR);
     }
 
     private static void addPoweredParticles(ServerWorld world, Random random, BlockPos pos, Direction direction, Direction direction2, float f, float g) {
         float j = f + (g - f) * random.nextFloat();
-        double d = 0.5 + (double)(0.4375F * (float)direction.getOffsetX()) + (double)(j * (float)direction2.getOffsetX());
-        double e = 0.5 + (double)(0.4375F * (float)direction.getOffsetY()) + (double)(j * (float)direction2.getOffsetY());
-        double k = 0.5 + (double)(0.4375F * (float)direction.getOffsetZ()) + (double)(j * (float)direction2.getOffsetZ());
+        double d = 0.5 + (double) (0.4375F * (float) direction.getOffsetX()) + (double) (j * (float) direction2.getOffsetX());
+        double e = 0.5 + (double) (0.4375F * (float) direction.getOffsetY()) + (double) (j * (float) direction2.getOffsetY());
+        double k = 0.5 + (double) (0.4375F * (float) direction.getOffsetZ()) + (double) (j * (float) direction2.getOffsetZ());
         //world.addParticle(ParticleTypes.FLAME, (double)pos.getX() + d, (double)pos.getY() + e, (double)pos.getZ() + k, 0.0, 0.0, 0.0);
-        world.spawnParticles(ParticleTypes.FLAME, (double)pos.getX() + d, (double)pos.getY() + e, (double)pos.getZ() + k, 1, 0.0, 0.0, 0.0, 0.0);
+        world.spawnParticles(ParticleTypes.FLAME, (double) pos.getX() + d, (double) pos.getY() + e, (double) pos.getZ() + k, 1, 0.0, 0.0, 0.0, 0.0);
     }
 
     @Override
     protected BlockState rotate(BlockState state, BlockRotation rotation) {
         return switch (rotation) {
             case CLOCKWISE_180 -> state.with(WIRE_CONNECTION_NORTH, state.get(WIRE_CONNECTION_SOUTH))
-                .with(WIRE_CONNECTION_EAST, state.get(WIRE_CONNECTION_WEST))
-                .with(WIRE_CONNECTION_SOUTH, state.get(WIRE_CONNECTION_NORTH))
-                .with(WIRE_CONNECTION_WEST, state.get(WIRE_CONNECTION_EAST));
+                    .with(WIRE_CONNECTION_EAST, state.get(WIRE_CONNECTION_WEST))
+                    .with(WIRE_CONNECTION_SOUTH, state.get(WIRE_CONNECTION_NORTH))
+                    .with(WIRE_CONNECTION_WEST, state.get(WIRE_CONNECTION_EAST));
             case COUNTERCLOCKWISE_90 -> state.with(WIRE_CONNECTION_NORTH, state.get(WIRE_CONNECTION_EAST))
-                .with(WIRE_CONNECTION_EAST, state.get(WIRE_CONNECTION_SOUTH))
-                .with(WIRE_CONNECTION_SOUTH, state.get(WIRE_CONNECTION_WEST))
-                .with(WIRE_CONNECTION_WEST, state.get(WIRE_CONNECTION_NORTH));
+                    .with(WIRE_CONNECTION_EAST, state.get(WIRE_CONNECTION_SOUTH))
+                    .with(WIRE_CONNECTION_SOUTH, state.get(WIRE_CONNECTION_WEST))
+                    .with(WIRE_CONNECTION_WEST, state.get(WIRE_CONNECTION_NORTH));
             case CLOCKWISE_90 -> state.with(WIRE_CONNECTION_NORTH, state.get(WIRE_CONNECTION_WEST))
-                .with(WIRE_CONNECTION_EAST, state.get(WIRE_CONNECTION_NORTH))
-                .with(WIRE_CONNECTION_SOUTH, state.get(WIRE_CONNECTION_EAST))
-                .with(WIRE_CONNECTION_WEST, state.get(WIRE_CONNECTION_SOUTH));
+                    .with(WIRE_CONNECTION_EAST, state.get(WIRE_CONNECTION_NORTH))
+                    .with(WIRE_CONNECTION_SOUTH, state.get(WIRE_CONNECTION_EAST))
+                    .with(WIRE_CONNECTION_WEST, state.get(WIRE_CONNECTION_SOUTH));
             default -> state;
         };
     }
@@ -327,9 +329,9 @@ public class GunpowderTrailBlock extends Block {
     protected BlockState mirror(BlockState state, BlockMirror mirror) {
         return switch (mirror) {
             case LEFT_RIGHT -> state.with(WIRE_CONNECTION_NORTH, state.get(WIRE_CONNECTION_SOUTH))
-                .with(WIRE_CONNECTION_SOUTH, state.get(WIRE_CONNECTION_NORTH));
+                    .with(WIRE_CONNECTION_SOUTH, state.get(WIRE_CONNECTION_NORTH));
             case FRONT_BACK -> state.with(WIRE_CONNECTION_EAST, state.get(WIRE_CONNECTION_WEST))
-                .with(WIRE_CONNECTION_WEST, state.get(WIRE_CONNECTION_EAST));
+                    .with(WIRE_CONNECTION_WEST, state.get(WIRE_CONNECTION_EAST));
             default -> super.mirror(state, mirror);
         };
     }
@@ -352,8 +354,6 @@ public class GunpowderTrailBlock extends Block {
             } else {
                 stack.decrementUnlessCreative(1, player);
             }
-
-            player.incrementStat(Stats.USED.getOrCreateStat(item));
             return ItemActionResult.success(world.isClient);
         }
     }
@@ -414,15 +414,14 @@ public class GunpowderTrailBlock extends Block {
         if (block == Blocks.TNT) {
             TntBlock.primeTnt(world, pos);
             world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL_AND_REDRAW);
-        } else if (block instanceof GenericTntBlock genericTntBlock) {
+        } else if (block instanceof GenericTntBlock genericTntBlock && !world.getBlockState(pos).isOf(FBombsBlocks.DETONATOR)) {
             genericTntBlock.primeTnt(world, pos);
             world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL_AND_REDRAW);
         }
     }
 
     @Override
-    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state)
-    {
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         return new ItemStack(Items.GUNPOWDER);
     }
 }

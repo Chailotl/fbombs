@@ -10,6 +10,10 @@ public class FBombsGamerules {
             register("allowVolumetricExplosionDamage", GameRules.Category.MISC,
                     GameRuleFactory.createBooleanRule(true));
 
+    public static GameRules.Key<GameRules.BooleanRule> SELF_DESTRUCTING_DETONATOR =
+            register("selfDestructingDetonator", GameRules.Category.MISC,
+                    GameRuleFactory.createBooleanRule(true));
+
 
     private static <T extends GameRules.Rule<T>> GameRules.Key<T> register(String name, GameRules.Category category, GameRules.Type<T> test) {
         return GameRuleRegistry.register(name, category, test);
