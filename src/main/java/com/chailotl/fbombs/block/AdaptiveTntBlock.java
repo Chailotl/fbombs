@@ -12,6 +12,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -111,7 +113,7 @@ public class AdaptiveTntBlock extends GenericTntBlock implements BlockEntityProv
         }
     }
 
-    private void configureAdaptiveTnt(AdaptiveTntEntity tntEntity, AdaptiveTntBlockEntity blockEntity) {
+    private static void configureAdaptiveTnt(AdaptiveTntEntity tntEntity, AdaptiveTntBlockEntity blockEntity) {
         tntEntity.power = blockEntity.power;
         tntEntity.setFuse(blockEntity.fuse);
         boolean damage = blockEntity.damage;
@@ -163,5 +165,70 @@ public class AdaptiveTntBlock extends GenericTntBlock implements BlockEntityProv
                 return damage ? super.calculateDamage(explosion, entity) : 0;
             }
         };
+    }
+
+    public static void configureAdaptiveTnt(AdaptiveTntEntity tntEntity, ItemStack stack) {
+        NbtComponent nbtComponent = stack.getComponents().get(DataComponentTypes.BLOCK_ENTITY_DATA);
+        NbtCompound nbt = nbtComponent != null ? nbtComponent.getNbt() : new NbtCompound();
+
+        tntEntity.power = getIntOrDefault(nbt, "power", 0);
+        tntEntity.setFuse(getIntOrDefault(nbt, "fuse", 0));
+        boolean damage = getBooleanOrDefault(nbt, "damage", true);
+        boolean blockDamage = getBooleanOrDefault(nbt, "block_damage", true);
+        boolean underwater = getBooleanOrDefault(nbt, "underwater", false);
+        boolean sponge = getBooleanOrDefault(nbt, "sponge", false);
+        tntEntity.fireCharged = getBooleanOrDefault(nbt, "fire_charged", false);
+        float knockbackModifier = getBooleanOrDefault(nbt, "wind_charged", false) ? 2 : 1;
+        if (getBooleanOrDefault(nbt, "levitating", false)) { tntEntity.enableLevitating(); }
+        if (getBooleanOrDefault(nbt, "firework", false)) { tntEntity.enableFirework(); }
+
+        tntEntity.explosionBehavior = new ExplosionBehavior() {
+            @Override
+            public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+                if (blockState.isAir() && fluidState.isEmpty()) {
+                    return Optional.empty();
+                } else if (underwater && blockState.isOf(Blocks.WATER)) {
+                    return Optional.of(0f);
+                } else if (blockDamage) {
+                    return super.getBlastResistance(explosion, world, pos, blockState, fluidState);
+                } else {
+                    float blastResistance = blockState.getBlock().getBlastResistance();
+                    return Optional.of(blastResistance <= 0.1f ? blastResistance : 3600000f);
+                }
+            }
+
+            @Override
+            public boolean canDestroyBlock(Explosion explosion, BlockView world, BlockPos pos, BlockState state, float power) {
+                if (state.isIn(FBombsTags.Blocks.TNT_VARIANTS)) {
+                    return true;
+                } else if (sponge && state.isOf(Blocks.WATER)) {
+                    return true;
+                } else if (underwater && state.isOf(Blocks.WATER)) {
+                    return false;
+                } else if (blockDamage) {
+                    return super.canDestroyBlock(explosion, world, pos, state, power);
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public float getKnockbackModifier(Entity entity) {
+                return knockbackModifier;
+            }
+
+            @Override
+            public float calculateDamage(Explosion explosion, Entity entity) {
+                return damage ? super.calculateDamage(explosion, entity) : 0;
+            }
+        };
+    }
+
+    private static int getIntOrDefault(NbtCompound nbt, String key, int defaultValue) {
+        return nbt.contains(key) ? nbt.getInt(key) : defaultValue;
+    }
+
+    private static boolean getBooleanOrDefault(NbtCompound nbt, String key, boolean defaultValue) {
+        return nbt.contains(key) ? nbt.getBoolean(key) : defaultValue;
     }
 }

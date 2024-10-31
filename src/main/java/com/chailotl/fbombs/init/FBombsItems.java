@@ -1,18 +1,25 @@
 package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
-import com.chailotl.fbombs.entity.BouncyDynamiteEntity;
-import com.chailotl.fbombs.entity.DynamiteBundleEntity;
-import com.chailotl.fbombs.entity.DynamiteEntity;
-import com.chailotl.fbombs.entity.StickyDynamiteEntity;
+import com.chailotl.fbombs.block.AdaptiveTntBlock;
+import com.chailotl.fbombs.entity.*;
 import com.chailotl.fbombs.item.AdaptiveTntItem;
 import com.chailotl.fbombs.item.DynamiteItem;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPointer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
 public class FBombsItems {
 
@@ -35,5 +42,22 @@ public class FBombsItems {
 
     public static void initialize() {
         // static initialisation
+        DispenserBlock.registerBehavior(ADAPTIVE_TNT, new ItemDispenserBehavior() {
+            @Override
+            protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+                World world = pointer.world();
+                BlockPos blockPos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
+                AdaptiveTntEntity tntEntity = new AdaptiveTntEntity(world, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, null, ADAPTIVE_TNT.getBlock().getDefaultState());
+                AdaptiveTntBlock.configureAdaptiveTnt(tntEntity, stack);
+
+                world.spawnEntity(tntEntity);
+                if (tntEntity.getFuse() >= 10) {
+                    world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                }
+                world.emitGameEvent(null, GameEvent.ENTITY_PLACE, blockPos);
+                stack.decrement(1);
+                return stack;
+            }
+        });
     }
 }
