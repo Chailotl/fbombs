@@ -15,35 +15,25 @@ import net.minecraft.world.World;
 import java.util.Optional;
 
 public class SirenBlockEntity extends BlockEntity {
+    public static final int MIN_POLE_LENGTH = 6;    // size at which power reduction starts
+    public static final int MAX_POLE_LENGTH = 30;
 
-    // used for reducing power over long vertical poles
-    private static final float POLE_POWER_SIZE_FACTOR = 0.8f;
-
-    private int tick = 0;
-    private float redstoneStrength = 0;
-
-    private int angle = 0;
+    private int tick;
+    private float normalizedRedstoneStrength;
 
     public SirenBlockEntity(BlockPos pos, BlockState state) {
         super(FBombsBlockEntities.SIREN, pos, state);
+        this.tick = 0;
+        this.normalizedRedstoneStrength = 0f;
     }
-
-    public int getAngle() {
-        return angle;
-    }
-
-    public void setAngle(int angle) {
-        this.angle = angle;
-    }
-
 
     public static void tick(World world, BlockPos pos, BlockState state, SirenBlockEntity blockEntity) {
         blockEntity.tick++;
-        blockEntity.angle = blockEntity.tick % 360;
         if (blockEntity.tick % 40 != 0) return;
-        float calculatedStrength = getStrengthFromStructure(world, pos);
-        calculatedStrength *= getPoleCountBelow(world, pos) * POLE_POWER_SIZE_FACTOR;
-        blockEntity.redstoneStrength = calculatedStrength;
+
+        float normalizedRedstonePower = (float) getStrengthFromStructure(world, pos) / 15;
+        float normalizedPoleSizePower = (float) (MAX_POLE_LENGTH - Math.max(0, getPoleCountBelow(world, pos) - MIN_POLE_LENGTH)) / MAX_POLE_LENGTH;
+        blockEntity.normalizedRedstoneStrength = normalizedRedstonePower * normalizedPoleSizePower;
     }
 
     private static int getStrengthFromStructure(World world, BlockPos pos) {
@@ -65,6 +55,11 @@ public class SirenBlockEntity extends BlockEntity {
         return 0;
     }
 
+    public static boolean isPartOfPole(World world, BlockPos pos) {
+        return world.getBlockState(pos).isIn(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)
+                || world.getBlockState(pos).getBlock() instanceof SirenPoleWalker;
+    }
+
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
@@ -72,7 +67,7 @@ public class SirenBlockEntity extends BlockEntity {
             this.tick = nbt.getInt(NbtKeys.TICK);
         }
         if (nbt.contains(NbtKeys.REDSTONE_STRENGTH)) {
-            this.redstoneStrength = nbt.getFloat(NbtKeys.REDSTONE_STRENGTH);
+            this.normalizedRedstoneStrength = nbt.getFloat(NbtKeys.REDSTONE_STRENGTH);
         }
     }
 
@@ -80,6 +75,6 @@ public class SirenBlockEntity extends BlockEntity {
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
         nbt.putInt(NbtKeys.TICK, this.tick);
-        nbt.putFloat(NbtKeys.REDSTONE_STRENGTH, this.redstoneStrength);
+        nbt.putFloat(NbtKeys.REDSTONE_STRENGTH, this.normalizedRedstoneStrength);
     }
 }
