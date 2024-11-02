@@ -1,14 +1,20 @@
 {
-  "radioactive_noise": {
-    "subtitle": "sound.fbombs.radioactive_noise",
-    "sounds": [
-      "fbombs:radioactive_noise"
-    ]
-  },
-  "dynamite_explosion": {
-    "subtitle": "sound.fbombs.dynamite_explosion",
-    "sounds": [
-      "fbombs:dynamite_explosion"
-    ]
-  }
+	"radioactive_noise": {
+		"subtitle": "sound.fbombs.radioactive_noise",
+		"sounds": [
+			"fbombs:radioactive_noise"
+		]
+	},
+	"dynamite_explosion": {
+		"subtitle": "sound.fbombs.dynamite_explosion",
+		"sounds": [
+			"fbombs:dynamite_explosion"
+		]
+	},
+	"nuclear_explosion": {
+		"subtitle": "sound.fbombs.nuclear_explosion",
+		"sounds": [
+			"fbombs:nuclear_explosion"
+		]
+	}
 }

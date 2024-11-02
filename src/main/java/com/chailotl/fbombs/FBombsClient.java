@@ -6,9 +6,9 @@ import com.chailotl.fbombs.entity.renderer.DynamiteEntityRenderer;
 import com.chailotl.fbombs.entity.renderer.GenericTntEntityRenderer;
 import com.chailotl.fbombs.init.*;
 import com.chailotl.fbombs.network.FBombsS2CNetworking;
-import com.chailotl.fbombs.particles.MushroomCloudCapParticle;
 import com.chailotl.fbombs.particles.MushroomCloudEmitterParticle;
-import com.chailotl.fbombs.particles.MushroomCloudStemParticle;
+import com.chailotl.fbombs.particles.MushroomCloudSmokeParticle;
+import com.chailotl.fbombs.particles.GroundSmokeParticle;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -24,8 +24,8 @@ public class FBombsClient implements ClientModInitializer {
         FBombsClientEvents.initialize();
 
         ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.MUSHROOM_CLOUD_EMITTER, MushroomCloudEmitterParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.MUSHROOM_CLOUD_STEM, MushroomCloudStemParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.MUSHROOM_CLOUD_CAP, MushroomCloudCapParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.MUSHROOM_CLOUD_SMOKE, MushroomCloudSmokeParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.GROUND_SMOKE, GroundSmokeParticle.Factory::new);
 
         FBombsEntityTypes.streamTntEntityTypes().forEach(entityType -> EntityRendererRegistry.register(entityType, GenericTntEntityRenderer::new));
 
