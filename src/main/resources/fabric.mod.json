@@ -3,13 +3,15 @@
 	"id": "fbombs",
 	"version": "${version}",
 	"name": "FBombs",
-	"description": "A silly Fabric mod inspired by old-school Forge nuke mods",
+	"description": "Inspired by old-school Forge nuke mods, this has everything that goes boom!",
 	"authors": [
-		"DEV - Chai",
-		"DEV - ShiroJR"
+		"Dev - Chai",
+		"Dev - ShiroJR",
+		"Artist - Milky",
+		"Artist - Lufurrius"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
+		"homepage": "https://modrinth.com/mod/fbombs",
 		"sources": "https://github.com/Chailotl/fbombs",
 		"issues": "https://github.com/Chailotl/fbombs/issues"
 	},
