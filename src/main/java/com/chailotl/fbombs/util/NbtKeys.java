@@ -20,4 +20,7 @@ public class NbtKeys {
     public static final String AFFECTED_ENTITIES = "affected_entities";
     public static final String UNAFFECTED_ENTITIES = "unaffected_entities";
     public static final String EXPLOSION_STRENGTH = "explosion_strength";
+    public static final String RADIUS = "radius";
+
+    public static final String UUID = "uuid";
 }

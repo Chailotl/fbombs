@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ScorchedBlockDataLoader implements SimpleSynchronousResourceReloadListener {
-    public static final HashMap<List<Block>, List<Block>> SCORCHED_VARIANT_HOLDER = new HashMap<>();
+    private static final HashMap<List<Block>, List<Block>> SCORCHED_VARIANT_HOLDER = new HashMap<>();
 
     @Override
     public Identifier getFabricId() {

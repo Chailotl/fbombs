@@ -1,5 +1,7 @@
 package com.chailotl.fbombs.mixin;
 
+import com.chailotl.fbombs.FBombs;
+import com.chailotl.fbombs.data.RadiationCategory;
 import com.chailotl.fbombs.data.RadiationData;
 import com.chailotl.fbombs.init.FBombsPersistentState;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -37,8 +39,10 @@ public class SpreadableBlockMixin {
 
     @Unique
     private static boolean isContaminated(ServerWorld world, BlockPos pos) {
-        var serverData = FBombsPersistentState.fromServer(world).orElseThrow();
-        //TODO: [ShiroJR] add more dead soil variants?
-        return RadiationData.contains(serverData.getRadiation(), pos, 0);
+        FBombsPersistentState state = FBombs.getCachedPersistentState(world);
+        if (state != null) {
+            return RadiationData.getRadiationLevel(state.getRadiationSources(), pos) > RadiationCategory.SAFE.getMaxCps();
+        }
+        return false;
     }
 }

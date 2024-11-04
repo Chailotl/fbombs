@@ -1,34 +1,39 @@
 package com.chailotl.fbombs.explosion;
 
+import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.data.BlockAndEntityGroup;
-import com.chailotl.fbombs.init.FBombsPersistentState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class ExplosionScheduler {
-    private final Queue<BlockAndEntityGroup> blockGroupQueue;
+    private final Queue<BlockAndEntityGroup> explosions;
     private final ArrayDeque<Double> recentTickTimes;
 
-    private int blocksPerTick = 100;
+    private int blocksPerTick = 90;
 
     public ExplosionScheduler(List<BlockAndEntityGroup> blockGroups) {
-        this.blockGroupQueue = new PriorityQueue<>(blockGroups.size(), Comparator.comparingDouble(BlockAndEntityGroup::getDistanceToOrigin));
-        this.blockGroupQueue.addAll(blockGroups);
+        this.explosions = new LinkedList<>(blockGroups);
         this.recentTickTimes = new ArrayDeque<>();
     }
 
     public void processNextTick(MinecraftServer server, double currentTime) {
         adjustBlocksPerTick(currentTime);
 
-        int groupsProcessed = 0;
-        while (!this.blockGroupQueue.isEmpty() && groupsProcessed < this.blocksPerTick) {
-            BlockAndEntityGroup group = this.blockGroupQueue.poll();
-            groupsProcessed += group.applyChanges(server);
-            ServerWorld groupWorld = server.getWorld(group.getDimension());
+        int blocksProcessed = 0;
+        while (!this.explosions.isEmpty() && blocksProcessed < this.blocksPerTick) {
+            BlockAndEntityGroup explosionPartition = this.explosions.peek();
+
+
+            blocksProcessed += explosionPartition.applyChanges(server, blocksPerTick);
+            ServerWorld groupWorld = server.getWorld(explosionPartition.getDimension());
             if (isComplete() && groupWorld != null) {
-                FBombsPersistentState.fromServer(groupWorld).ifPresent(state -> state.getExplosions().remove(group));
+                FBombs.modifyCachedPersistentState(groupWorld, state -> state.getExplosions().remove(explosionPartition));
+                this.explosions.poll();
             }
         }
     }
@@ -39,7 +44,7 @@ public class ExplosionScheduler {
             this.recentTickTimes.poll();
         }
 
-        int minBlocksPerTick = 10;
+        int minBlocksPerTick = 2;
         int maxBlocksPerTick = 200;
         int adjustmentFactor = 5;
         double tickTimeThreshold = 50.0;        // Threshold in milliseconds
@@ -53,6 +58,6 @@ public class ExplosionScheduler {
     }
 
     public boolean isComplete() {
-        return this.blockGroupQueue.isEmpty();
+        return this.explosions.isEmpty();
     }
 }

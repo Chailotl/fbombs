@@ -2,6 +2,7 @@ package com.chailotl.fbombs.data;
 
 import com.chailotl.fbombs.explosion.ExplosionHandler;
 import com.chailotl.fbombs.util.NbtKeys;
+import com.google.common.collect.Queues;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.NbtCompound;
@@ -15,54 +16,75 @@ import net.minecraft.util.Uuids;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.stream.Collectors;
 
 public class BlockAndEntityGroup {
     private final RegistryKey<World> dimension;
     private final BlockPos origin;
-    private BlockPos center;
 
-    private final List<LocatableBlock> affectedBlocks;
-    private final List<LocatableBlock> scorchedBlocks;
-    private final List<BlockPos> unaffectedBlocks;
+    private final PriorityBlockingQueue<LocatableBlock> affectedBlocks;
+    private final PriorityBlockingQueue<LocatableBlock> scorchedBlocks;
+    private final PriorityBlockingQueue<LocatableBlock> unaffectedBlocks;
 
-    private final List<LocatableEntity<?>> affectedEntities;
-    private final List<UUID> unaffectedEntities;
+    private final PriorityBlockingQueue<LocatableEntity<?>> affectedEntities;
+    private final PriorityBlockingQueue<LocatableEntity<?>> unaffectedEntities;
 
     public static final Codec<BlockAndEntityGroup> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             RegistryKey.createCodec(RegistryKeys.WORLD).fieldOf(NbtKeys.DIMENSION).forGetter(BlockAndEntityGroup::getDimension),
-            BlockPos.CODEC.fieldOf(NbtKeys.BLOCK_POS + "_origin").forGetter(BlockAndEntityGroup::getOrigin),
-            BlockPos.CODEC.fieldOf(NbtKeys.BLOCK_POS + "_center").forGetter(BlockAndEntityGroup::getCenter),
-            LocatableBlock.CODEC.listOf().fieldOf(NbtKeys.AFFECTED_BLOCKS).forGetter(BlockAndEntityGroup::getAffectedBlocks),
-            LocatableBlock.CODEC.listOf().fieldOf(NbtKeys.SCORCHED_BLOCKS).forGetter(BlockAndEntityGroup::getScorchedBlocks),
-            BlockPos.CODEC.listOf().fieldOf(NbtKeys.UNAFFECTED_BLOCKS).forGetter(BlockAndEntityGroup::getUnaffectedBlocks),
-            LocatableEntity.CODEC.listOf().fieldOf(NbtKeys.AFFECTED_ENTITIES).forGetter(BlockAndEntityGroup::getAffectedEntities),
-            Uuids.CODEC.listOf().fieldOf(NbtKeys.UNAFFECTED_ENTITIES).forGetter(BlockAndEntityGroup::getUnaffectedEntities)
-    ).apply(instance, BlockAndEntityGroup::new));
+            BlockPos.CODEC.fieldOf(NbtKeys.BLOCK_POS).forGetter(BlockAndEntityGroup::getOrigin),
 
+            LocatableBlock.CODEC.listOf().fieldOf(NbtKeys.AFFECTED_BLOCKS).forGetter(group -> new LinkedList<>(group.affectedBlocks)),
+            LocatableBlock.CODEC.listOf().fieldOf(NbtKeys.SCORCHED_BLOCKS).forGetter(group -> new LinkedList<>(group.scorchedBlocks)),
+            LocatableBlock.CODEC.listOf().fieldOf(NbtKeys.UNAFFECTED_BLOCKS).forGetter(group -> new LinkedList<>(group.unaffectedBlocks)),
 
-    public BlockAndEntityGroup(RegistryKey<World> dimension, BlockPos origin, BlockPos center, List<LocatableBlock> affectedBlocks,
-                               List<LocatableBlock> scorchedBlocks, List<BlockPos> unaffectedBlocks,
-                               List<LocatableEntity<?>> affectedEntities, List<UUID> unaffectedEntities) {
+            LocatableEntity.CODEC.listOf().fieldOf(NbtKeys.AFFECTED_ENTITIES).forGetter(group -> new LinkedList<>(group.affectedEntities)),
+            LocatableEntity.CODEC.listOf().fieldOf(NbtKeys.UNAFFECTED_ENTITIES).forGetter(group -> new LinkedList<>(group.unaffectedEntities))
+    ).apply(instance, BlockAndEntityGroup::fromCodec));
+
+    public BlockAndEntityGroup(RegistryKey<World> dimension, BlockPos origin,
+                               PriorityBlockingQueue<LocatableBlock> affectedBlocks,
+                               PriorityBlockingQueue<LocatableBlock> scorchedBlocks,
+                               PriorityBlockingQueue<LocatableBlock> unaffectedBlocks,
+                               PriorityBlockingQueue<LocatableEntity<?>> affectedEntities,
+                               PriorityBlockingQueue<LocatableEntity<?>> unaffectedEntities) {
         this.dimension = dimension;
         this.origin = origin;
-        this.center = center;
 
-        this.affectedBlocks = Collections.synchronizedList(affectedBlocks);
-        this.scorchedBlocks = Collections.synchronizedList(scorchedBlocks);
-        this.unaffectedBlocks = Collections.synchronizedList(unaffectedBlocks);
+        this.affectedBlocks = affectedBlocks;
+        this.scorchedBlocks = scorchedBlocks;
+        this.unaffectedBlocks = unaffectedBlocks;
 
-        this.affectedEntities = Collections.synchronizedList(affectedEntities);
-        this.unaffectedEntities = Collections.synchronizedList(unaffectedEntities);
+        this.affectedEntities = affectedEntities;
+        this.unaffectedEntities = unaffectedEntities;
     }
 
     public BlockAndEntityGroup(RegistryKey<World> dimension, BlockPos origin) {
-        this(dimension, origin, BlockPos.ORIGIN, Collections.synchronizedList(new ArrayList<>()), Collections.synchronizedList(new ArrayList<>()),
-                Collections.synchronizedList(new ArrayList<>()), Collections.synchronizedList(new ArrayList<>()),
-                Collections.synchronizedList(new ArrayList<>()));
+        this(dimension, origin, Queues.newPriorityBlockingQueue(), Queues.newPriorityBlockingQueue(),
+                Queues.newPriorityBlockingQueue(), Queues.newPriorityBlockingQueue(),
+                Queues.newPriorityBlockingQueue());
+    }
+
+    private static BlockAndEntityGroup fromCodec(RegistryKey<World> worldRegistryKey, BlockPos pos,
+                                                 List<LocatableBlock> locatableBlocks,
+                                                 List<LocatableBlock> locatableBlocks1,
+                                                 List<LocatableBlock> locatableBlocks2,
+                                                 List<LocatableEntity<?>> locatableEntities,
+                                                 List<LocatableEntity<?>> locatableEntities1) {
+
+        return new BlockAndEntityGroup(worldRegistryKey, pos,
+                locatableBlocks.isEmpty() ? Queues.newPriorityBlockingQueue()
+                        : new PriorityBlockingQueue<>(locatableBlocks.size(), Comparator.comparingDouble(LocatableBlock::sqDistanceToOrigin)),
+                locatableBlocks1.isEmpty() ? Queues.newPriorityBlockingQueue()
+                        : new PriorityBlockingQueue<>(locatableBlocks1.size(), Comparator.comparingDouble(LocatableBlock::sqDistanceToOrigin)),
+                locatableBlocks2.isEmpty() ? Queues.newPriorityBlockingQueue()
+                        : new PriorityBlockingQueue<>(locatableBlocks2.size(), Comparator.comparingDouble(LocatableBlock::sqDistanceToOrigin)),
+                locatableEntities.isEmpty() ? Queues.newPriorityBlockingQueue()
+                        : new PriorityBlockingQueue<>(locatableEntities.size(), Comparator.comparingDouble(LocatableEntity::sqDistanceToOrigin)),
+                locatableEntities1.isEmpty() ? Queues.newPriorityBlockingQueue()
+                        : new PriorityBlockingQueue<>(locatableEntities1.size(), Comparator.comparingDouble(LocatableEntity::sqDistanceToOrigin))
+        );
     }
 
     //region getter & setter
@@ -74,89 +96,60 @@ public class BlockAndEntityGroup {
         return origin;
     }
 
-    public BlockPos getCenter() {
-        return center;
-    }
-
-    public void setCenter(BlockPos center) {
-        this.center = center;
-    }
-
-    public List<LocatableBlock> getAffectedBlocks() {
+    public PriorityBlockingQueue<LocatableBlock> getAffectedBlocks() {
         return affectedBlocks;
     }
 
-    public List<BlockPos> getUnaffectedBlocks() {
-        return unaffectedBlocks;
-    }
-
-    public List<LocatableBlock> getScorchedBlocks() {
+    public PriorityBlockingQueue<LocatableBlock> getScorchedBlocks() {
         return scorchedBlocks;
     }
 
-    public List<LocatableEntity<?>> getAffectedEntities() {
+    public PriorityBlockingQueue<LocatableBlock> getUnaffectedBlocks() {
+        return unaffectedBlocks;
+    }
+
+    public PriorityBlockingQueue<LocatableEntity<?>> getAffectedEntities() {
         return affectedEntities;
     }
 
-    public List<UUID> getUnaffectedEntities() {
+    public PriorityBlockingQueue<LocatableEntity<?>> getUnaffectedEntities() {
         return unaffectedEntities;
     }
-    //endregion
 
-    //region adder
-    public void addToAffectedBlocks(LocatableBlock... locatableBlocks) {
-        this.affectedBlocks.addAll(List.of(locatableBlocks));
+    public int getCollectedBlocksSize() {
+        return this.affectedBlocks.size() + this.scorchedBlocks.size() + this.unaffectedBlocks.size();
     }
 
-    public void addToScorchedBlocks(LocatableBlock... locatableBlocks) {
-        this.scorchedBlocks.addAll(List.of(locatableBlocks));
-    }
-
-    public void addToUnaffectedBlocks(BlockPos... pos) {
-        this.unaffectedBlocks.addAll(List.of(pos));
-    }
-
-    public void addToAffectedEntities(LocatableEntity<?>... locatableEntities) {
-        this.affectedEntities.addAll(List.of(locatableEntities));
-    }
-
-    public void addToUnaffectedEntities(UUID... uuid) {
-        this.unaffectedEntities.addAll(List.of(uuid));
+    public int getCollectedEntitiesSize() {
+        return this.affectedEntities.size() + this.unaffectedEntities.size();
     }
     //endregion
 
-    public double getDistanceToOrigin() {
-        return this.center.getManhattanDistance(this.origin);
+
+    public void toNbt(NbtCompound nbt, int index) {
+        NbtCompound listEntryNbt = nbt.contains(NbtKeys.EXPLOSION_DATA) ? nbt.getCompound(NbtKeys.EXPLOSION_DATA) : new NbtCompound();
+        NbtElement data = CODEC.encodeStart(NbtOps.INSTANCE, this).getOrThrow();
+        listEntryNbt.put(String.valueOf(index), data);
+        nbt.put(NbtKeys.EXPLOSION_DATA, listEntryNbt);
     }
 
-
-    public void toNbt(NbtCompound nbt) {
-        NbtList nbtList;
-        if (nbt.contains(NbtKeys.EXPLOSION_DATA)) {
-            nbtList = nbt.getList(NbtKeys.EXPLOSION_DATA, NbtElement.LIST_TYPE);
-        } else {
-            nbtList = new NbtList();
-        }
-        nbtList.add(CODEC.encodeStart(NbtOps.INSTANCE, this).getOrThrow());
-        nbt.put(NbtKeys.EXPLOSION_DATA, nbtList);
-    }
-
-    public static void toNbt(List<BlockAndEntityGroup> explosionData, NbtCompound nbt) {
-        for (BlockAndEntityGroup entry : explosionData) {
-            entry.toNbt(nbt);
+    public static void toNbt(List<BlockAndEntityGroup> explosions, NbtCompound nbt) {
+        for (int i = 0; i < explosions.size(); i++) {
+            explosions.get(i).toNbt(nbt, i);
         }
     }
 
     public static List<BlockAndEntityGroup> fromNbt(NbtCompound nbt) {
-        if (!nbt.contains(NbtKeys.EXPLOSION_DATA)) return List.of();
-        List<BlockAndEntityGroup> explosionDataList = Collections.synchronizedList(new ArrayList<>());
-        for (NbtElement entry : nbt.getList(NbtKeys.EXPLOSION_DATA, NbtElement.LIST_TYPE)) {
-            explosionDataList.add(CODEC.parse(NbtOps.INSTANCE, entry).getPartialOrThrow());
+        if (!nbt.contains(NbtKeys.EXPLOSION_DATA)) return new ArrayList<>();
+        List<BlockAndEntityGroup> explosions = new ArrayList<>();
+        for (String index : nbt.getCompound(NbtKeys.EXPLOSION_DATA).getKeys()) {
+            NbtCompound explosionNbt = nbt.getCompound(NbtKeys.EXPLOSION_DATA).getCompound(index);
+            explosions.add(CODEC.parse(NbtOps.INSTANCE, explosionNbt).getPartialOrThrow());
         }
-        return explosionDataList;
+        return explosions;
     }
 
-    public int applyChanges(MinecraftServer server) {
-        return ExplosionHandler.handleExplosion(server.getWorld(this.dimension), this);
+    public int applyChanges(MinecraftServer server, int blocksPerTick) {
+        return ExplosionHandler.handleExplosion(server.getWorld(this.dimension), this, blocksPerTick);
     }
 }

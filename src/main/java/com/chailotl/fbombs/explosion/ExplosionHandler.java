@@ -1,19 +1,19 @@
 package com.chailotl.fbombs.explosion;
 
+import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.api.VolumetricExplosion;
 import com.chailotl.fbombs.data.BlockAndEntityGroup;
 import com.chailotl.fbombs.data.LocatableBlock;
+import com.chailotl.fbombs.data.ScorchedBlockDataLoader;
 import com.chailotl.fbombs.init.FBombsGamerules;
 import com.chailotl.fbombs.init.FBombsPersistentState;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.LoggerUtil;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -28,10 +28,6 @@ import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
 
-/**
- * Explosions based on Volume instead of Ray casts. There are no performance improvements.
- * Implement custom performance gaining methods as needed
- */
 public class ExplosionHandler {
     /**
      * @param radius                         specifies Radius of the explosion perimeter. Define the shape further with {@link ExplosionShape}
@@ -52,10 +48,11 @@ public class ExplosionHandler {
     public static BlockAndEntityGroup collect(ServerWorld world, BlockPos origin, int radius, ExplosionShape shape,
                                               @Nullable Double extrusion, Predicate<BlockState> blockExceptions,
                                               float startBlastStrength, float blastStrengthFalloffMultiplier, float scorchedThreshold) {
+
         BlockAndEntityGroup output = new BlockAndEntityGroup(world.getRegistryKey(), origin);
 
         BlockingQueue<BlockPos.Mutable> pool = new LinkedBlockingQueue<>();
-        for (int i = 0; i < Runtime.getRuntime().availableProcessors(); i++) {
+        for (int i = 0; i < Runtime.getRuntime().availableProcessors() / 2; i++) {
             pool.add(new BlockPos.Mutable());
         }
         ThreadLocal<BlockPos.Mutable> threadMutablePos = ThreadLocal.withInitial(() ->
@@ -67,7 +64,6 @@ public class ExplosionHandler {
         Map<BlockPos, BlockState> blockStateCache = new ConcurrentHashMap<>();
         Map<BlockPos, FluidState> fluidStateCache = new ConcurrentHashMap<>();
 
-
         try (ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())) {
             List<Future<?>> futures = new ArrayList<>();
 
@@ -77,6 +73,7 @@ public class ExplosionHandler {
                         if (!shape.isInsideVolume(radius, extrusion, new Vec3d(x, y, z))) {
                             continue;
                         }
+
                         BlockPos.Mutable currentPos = threadMutablePos.get().set(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
                         BlockState currentState = blockStateCache.computeIfAbsent(currentPos.toImmutable(), world::getBlockState);
 
@@ -119,11 +116,16 @@ public class ExplosionHandler {
                                     break;
                                 }
                                 distanceToFirstBoundary = movePosWalkerAlongSmallestAxis(rayWalker, distanceToFirstBoundary, distanceToNextStep, stepDirection);
-                                LoggerUtil.devLogger("--- at: %s | deterioration: %s | state %s ---".formatted(rayWalker.toShortString(), deterioratingPower, stepState));
-                                if (rayWalker.equals(currentPos)) break;
+                                if (rayWalker.equals(currentPos)) {
+                                    break;
+                                }
+                                if (!new Box(origin).expand(radius).contains(rayWalker.toCenterPos())) {
+                                    break;
+                                }
                             }
-                            LoggerUtil.devLogger("finished ray for : " + currentState + " with final deterioration of: " + deterioratingPower);
-                            finishRayHandling(currentState, output, currentPos.toImmutable(), finalScorchedThreshold, deterioratingPower);
+
+
+                            finishRayHandling(currentState, output, origin.getSquaredDistance(currentPos), currentPos.toImmutable(), finalScorchedThreshold, deterioratingPower);
 
                             threadMutablePos.remove();
                         }));
@@ -162,15 +164,17 @@ public class ExplosionHandler {
         return distanceToFirstBoundary;
     }
 
-    private static void finishRayHandling(BlockState currentState, BlockAndEntityGroup output,
+    private static void finishRayHandling(BlockState currentState, BlockAndEntityGroup output, double distanceToOrigin,
                                           BlockPos currentPos, float finalScorchedThreshold, float deterioratingPower) {
-        // LoggerUtil.devLogger(String.valueOf(deterioratingPower));
         if (deterioratingPower > currentState.getBlock().getBlastResistance()) {
-            output.addToAffectedBlocks(new LocatableBlock(currentPos, currentState));
+            output.getAffectedBlocks().add(new LocatableBlock(currentPos, currentState, distanceToOrigin));
+            LoggerUtil.devLogger("Added Ray to affected at %s".formatted(currentPos));
         } else if (deterioratingPower + finalScorchedThreshold > currentState.getBlock().getBlastResistance()) {
-            output.addToScorchedBlocks(new LocatableBlock(currentPos, currentState));
+            output.getScorchedBlocks().add(new LocatableBlock(currentPos, currentState, distanceToOrigin));
+            LoggerUtil.devLogger("Added Ray to scorched at %s".formatted(currentPos));
         } else {
-            output.addToUnaffectedBlocks(currentPos);
+            output.getUnaffectedBlocks().add(new LocatableBlock(currentPos, currentState, distanceToOrigin));
+            LoggerUtil.devLogger("Added Ray to unaffected at %s".formatted(currentPos));
         }
     }
 
@@ -184,48 +188,61 @@ public class ExplosionHandler {
 
         CompletableFuture.supplyAsync(() -> collect(world, origin, /*radius*/ 15, ExplosionShape.SPHERE, null,
                         isImmune, /*strength*/ 20, 0.1f, 8))
-                .thenAccept(blockAndEntityGroup -> {
-                    FBombsPersistentState.fromServer(world).orElseThrow().getExplosions().add(blockAndEntityGroup);
+                .thenAccept(blockAndEntityGroup -> world.getServer().execute(() -> {
+                    FBombs.modifyCachedPersistentState(world, state -> {
+                        state.getExplosions().add(blockAndEntityGroup);
+                    });
                     LoggerUtil.devLogger("finished explosion data gathering");
-                });
+                }));
+    }
 
-        /*BlockAndEntityGroup blockAndEntityData = collect(world, origin, *//*radius*//* 15, ExplosionShape.SPHERE, null,
-                isImmune, *//*strength*//* 8, 0.4f, 4);*/
+    public static int handleExplosion(ServerWorld world, BlockAndEntityGroup group, int blocksPerTick) {
+        int processedAffectedBlocks = 0;
+        int processedScorchedBlocks = 0;
+        int processedUnaffectedBlocks = 0;
 
-        /*for (Locatable entry : blockAndEntityData.getAffectedBlocks()) {
-            if (entry instanceof LocatableBlock block) {
-                if (block.state().isAir()) continue;
-                BlockPos pos = block.pos();
-                BlockState state = block.state();
-                ((VolumetricExplosion) state.getBlock()).fbombs$onExploded(world, pos, origin, state, strength);
+        while (processedAffectedBlocks < blocksPerTick / 3) {
+            // TODO: [ShiroJR] add radiation even to air blocks
+
+            processedAffectedBlocks++;
+            LocatableBlock entry = group.getAffectedBlocks().poll();
+            if (entry == null) continue;
+            ((VolumetricExplosion) entry.state().getBlock()).fbombs$onExploded(
+                    world, entry.pos(), false, group.getOrigin(), entry.state()
+            );
+            // spawnParticlesAndSound(world, group.getOrigin(), entry);
+        }
+        while (processedScorchedBlocks < blocksPerTick / 3) {
+            // TODO: [ShiroJR] add radiation even to air blocks
+
+            processedScorchedBlocks++;
+            LocatableBlock entry = group.getScorchedBlocks().poll();
+            if (entry == null) continue;
+            if (world.getRandom().nextFloat() > 0.2) continue;
+            var scorchedVariant = ScorchedBlockDataLoader.getEntry(entry.state().getBlock());
+            if (scorchedVariant == null) {
+                ((VolumetricExplosion) entry.state().getBlock()).fbombs$onExploded(
+                        world, entry.pos(), true, group.getOrigin(), entry.state()
+                );
+            } else {
+                Block chosenBlock = scorchedVariant.getValue().get(world.getRandom().nextInt(scorchedVariant.getValue().size()));
+                world.setBlockState(entry.pos(), chosenBlock.getDefaultState());
             }
+            // spawnParticlesAndSound(world, group.getOrigin(), scorchedBlockEntry);
         }
-        spawnParticlesAndSound(world, origin, blockAndEntityData.iterateAffectedTargets());*/
+
+        while (processedUnaffectedBlocks < blocksPerTick / 3) {
+            processedUnaffectedBlocks++;
+            LocatableBlock entry = group.getAffectedBlocks().poll();
+            if (entry == null) continue;
+            // TODO: [ShiroJR] add radiation even to air blocks
+
+            // spawnParticlesAndSound(world, group.getOrigin(), entry);
+        }
+        return processedAffectedBlocks + processedScorchedBlocks + processedUnaffectedBlocks;
     }
 
-    public static int handleExplosion(ServerWorld world, BlockAndEntityGroup group) {
-        int processedBlocks = 0;
-        FBombsPersistentState persistentState = FBombsPersistentState.fromServer(world).orElseThrow();
-        for (LocatableBlock affectedBlockEntry : group.getAffectedBlocks()) {
-            // TODO: [ShiroJR] add radiation even to air blocks
-            ((VolumetricExplosion) affectedBlockEntry.state().getBlock()).fbombs$onExploded(
-                    world, affectedBlockEntry.pos(), false, group.getOrigin(), affectedBlockEntry.state()
-            );
-            spawnParticlesAndSound(world, group.getOrigin(), affectedBlockEntry);
-            processedBlocks++;
-        }
-        for (LocatableBlock scorchedBlockEntry : group.getScorchedBlocks()) {
-            // TODO: [ShiroJR] add radiation even to air blocks
-            ((VolumetricExplosion) scorchedBlockEntry.state().getBlock()).fbombs$onExploded(
-                    world, scorchedBlockEntry.pos(), true, group.getOrigin(), scorchedBlockEntry.state()
-            );
-            spawnParticlesAndSound(world, group.getOrigin(), scorchedBlockEntry);
-            processedBlocks++;
-        }
-        return processedBlocks;
-    }
-
-    private static void spawnParticlesAndSound(ServerWorld world, BlockPos origin, LocatableBlock targetPosition) {
+    /*private static void spawnParticlesAndSound(ServerWorld world, BlockPos origin, LocatableBlock targetPosition) {
         Vec3d pos = targetPosition.pos().toCenterPos();
         if (world.getRandom().nextFloat() > 0.3f) return;
         world.spawnParticles(ParticleTypes.EXPLOSION, pos.getX(), pos.getY(), pos.getZ(), 1,
@@ -235,5 +252,5 @@ public class ExplosionHandler {
                 0.25);
 
         world.playSound(null, origin, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.BLOCKS, 1f, 1f);
-    }
+    }*/
 }
