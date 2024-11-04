@@ -20,8 +20,9 @@ import java.util.function.Supplier;
 @SuppressWarnings("Convert2MethodRef")
 // method references instead of lambdas cause issues when lazy initialisation
 public class FBombsItemGroups {
-    public static final ItemGroupEntry ITEMS = new ItemGroupEntry("items", () -> FBombsItems.DYNAMITE);
-    public static final ItemGroupEntry BLOCKS = new ItemGroupEntry("blocks", () -> FBombsBlocks.INSTANT_TNT.asItem());
+    //public static final ItemGroupEntry ITEMS = new ItemGroupEntry("items", () -> FBombsItems.DYNAMITE);
+    //public static final ItemGroupEntry BLOCKS = new ItemGroupEntry("blocks", () -> FBombsBlocks.INSTANT_TNT.asItem());
+    public static final ItemGroupEntry GROUP = new ItemGroupEntry("group", () -> FBombsItems.DYNAMITE_BUNDLE.asItem());
 
     public static void initialize() {
         ItemGroupEntry.ALL_GROUPS.forEach(entry -> entry.register());

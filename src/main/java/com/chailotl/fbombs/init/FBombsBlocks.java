@@ -152,7 +152,7 @@ public class FBombsBlocks {
         if (hasDefaultItem) {
             BlockItem blockItem = new BlockItem(block, new Item.Settings());
             Registry.register(Registries.ITEM, FBombs.getId(name), blockItem);
-            FBombsItemGroups.BLOCKS.addItems(blockItem);
+            FBombsItemGroups.GROUP.addItems(blockItem);
         }
         return block;
     }

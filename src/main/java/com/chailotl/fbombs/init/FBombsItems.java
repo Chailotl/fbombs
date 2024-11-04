@@ -22,12 +22,12 @@ import net.minecraft.world.event.GameEvent;
 
 @SuppressWarnings("unused")
 public class FBombsItems {
-    public static final DynamiteItem DYNAMITE = register("dynamite", new DynamiteItem(DynamiteEntity::new, new Item.Settings()), FBombsItemGroups.ITEMS);
-    public static final DynamiteItem BOUNCY_DYNAMITE = register("bouncy_dynamite", new DynamiteItem(BouncyDynamiteEntity::new, new Item.Settings()), FBombsItemGroups.ITEMS);
-    public static final DynamiteItem STICKY_DYNAMITE = register("sticky_dynamite", new DynamiteItem(StickyDynamiteEntity::new, new Item.Settings()), FBombsItemGroups.ITEMS);
-    public static final DynamiteItem DYNAMITE_BUNDLE = register("dynamite_bundle", new DynamiteItem(DynamiteBundleEntity::new, new Item.Settings()), FBombsItemGroups.ITEMS);
+    public static final DynamiteItem DYNAMITE = register("dynamite", new DynamiteItem(DynamiteEntity::new, new Item.Settings()), FBombsItemGroups.GROUP);
+    public static final DynamiteItem BOUNCY_DYNAMITE = register("bouncy_dynamite", new DynamiteItem(BouncyDynamiteEntity::new, new Item.Settings()), FBombsItemGroups.GROUP);
+    public static final DynamiteItem STICKY_DYNAMITE = register("sticky_dynamite", new DynamiteItem(StickyDynamiteEntity::new, new Item.Settings()), FBombsItemGroups.GROUP);
+    public static final DynamiteItem DYNAMITE_BUNDLE = register("dynamite_bundle", new DynamiteItem(DynamiteBundleEntity::new, new Item.Settings()), FBombsItemGroups.GROUP);
     public static final BlockItem GUNPOWDER_TRAIL = register("gunpowder_trail", new BlockItem(FBombsBlocks.GUNPOWDER_TRAIL, new Item.Settings()));
-    public static final AdaptiveTntItem ADAPTIVE_TNT = register("adaptive_tnt", new AdaptiveTntItem(FBombsBlocks.ADAPTIVE_TNT, new Item.Settings()), FBombsItemGroups.BLOCKS);
+    public static final AdaptiveTntItem ADAPTIVE_TNT = register("adaptive_tnt", new AdaptiveTntItem(FBombsBlocks.ADAPTIVE_TNT, new Item.Settings()), FBombsItemGroups.GROUP);
 
     public static final HazmatArmor HAZMAT_HELMET = register("hazmat_helmet", new HazmatArmor(ArmorItem.Type.HELMET, new Item.Settings()));
     public static final HazmatArmor HAZMAT_CHESTPLATE = register("hazmat_chestplate", new HazmatArmor(ArmorItem.Type.CHESTPLATE, new Item.Settings()));
