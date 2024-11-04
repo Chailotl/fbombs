@@ -1,0 +1,13 @@
+{
+  "minecraft:stone": [
+    "minecraft:tuff",
+    "minecraft:andesite",
+    "minecraft:magma_block",
+    "minecraft:lava"
+  ],
+  "minecraft:dirt": [
+    "minecraft:rooted_dirt",
+    "minecraft:tuff",
+    "minecraft:magma_block"
+  ]
+}
