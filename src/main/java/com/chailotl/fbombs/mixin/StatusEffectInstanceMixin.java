@@ -1,6 +1,6 @@
 package com.chailotl.fbombs.mixin;
 
-import com.chailotl.fbombs.data.RadiationData;
+import com.chailotl.fbombs.data.RadiationCategory;
 import com.chailotl.fbombs.init.FBombsItemComponents;
 import com.chailotl.fbombs.init.FBombsStatusEffects;
 import com.chailotl.fbombs.item.HazmatArmor;
@@ -47,7 +47,8 @@ public abstract class StatusEffectInstanceMixin {
         //TODO: [ShiroJR] consider other types of LivingEntities too?
         if (!(entityRef.get() instanceof PlayerEntity player)) return original.call(instance);
         if (HazmatArmor.hasFullSetEquipped(player)) return original.call(instance);
-        if (getMaxContaminationInInventory(player) <= RadiationData.SAFE_CPS_LEVEL) return original.call(instance);
+        if (getMaxContaminationInInventory(player) <= RadiationCategory.SAFE.getMaxCps())
+            return original.call(instance);
 
         if (this.hiddenEffect != null) {
             ((StatusEffectInstanceInvoker) this.hiddenEffect).invokeUpdateDuration();

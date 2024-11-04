@@ -1,6 +1,6 @@
 package com.chailotl.fbombs.mixin;
 
-import com.chailotl.fbombs.data.RadiationData;
+import com.chailotl.fbombs.data.RadiationCategory;
 import com.chailotl.fbombs.init.FBombsItemComponents;
 import com.chailotl.fbombs.init.FBombsStatusEffects;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -17,7 +17,7 @@ public class ItemEntityMixin {
     @WrapOperation(method = "onPlayerCollision", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z"))
     private boolean applyContaminatedEffect(PlayerInventory instance, ItemStack stack, Operation<Boolean> original) {
         boolean insertedStack = original.call(instance, stack);
-        boolean isContaminated = stack.getOrDefault(FBombsItemComponents.CONTAMINATION, 0f) > RadiationData.SAFE_CPS_LEVEL;
+        boolean isContaminated = stack.getOrDefault(FBombsItemComponents.CONTAMINATION, 0f) > RadiationCategory.SAFE.getMaxCps();
         if (insertedStack && isContaminated) {
             instance.player.addStatusEffect(new StatusEffectInstance(FBombsStatusEffects.RADIATION_POISONING, 5), (ItemEntity) (Object) this);
         }
