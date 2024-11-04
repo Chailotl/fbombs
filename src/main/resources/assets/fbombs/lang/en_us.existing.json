@@ -5,5 +5,7 @@
   "advancement.fbombs.split_tnt_block": "Precision Explosion",
   "advancement.fbombs.split_tnt_block.desc": "\"I just sawed this TNT Block in half!\"",
   "advancement.fbombs.waterlogged_tnt_block": "Waterlogged a TNT Block",
-  "advancement.fbombs.waterlogged_tnt_block.desc": "But why?"
+  "advancement.fbombs.waterlogged_tnt_block.desc": "But why?",
+  "advancement.fbombs.bottle_cap_quest": "The Power of the Atom",
+  "advancement.fbombs.bottle_cap_quest.desc": "Collect all the bottle caps"
 }

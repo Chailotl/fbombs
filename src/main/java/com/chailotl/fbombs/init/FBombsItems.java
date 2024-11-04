@@ -3,9 +3,7 @@ package com.chailotl.fbombs.init;
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.AdaptiveTntBlock;
 import com.chailotl.fbombs.entity.*;
-import com.chailotl.fbombs.item.AdaptiveTntItem;
-import com.chailotl.fbombs.item.DynamiteItem;
-import com.chailotl.fbombs.item.HazmatArmor;
+import com.chailotl.fbombs.item.*;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.item.ArmorItem;
@@ -16,6 +14,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -35,6 +34,16 @@ public class FBombsItems {
     public static final HazmatArmor HAZMAT_LEGGINGS = register("hazmat_leggings", new HazmatArmor(ArmorItem.Type.LEGGINGS, new Item.Settings()));
     public static final HazmatArmor HAZMAT_BOOTS = register("hazmat_boots", new HazmatArmor(ArmorItem.Type.BOOTS, new Item.Settings()));
 
+    public static final Item NUCLEAR_LAUNCH_KEY = register("nuclear_launch_key", new NuclearLaunchKeyItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC)));
+    public static final BottleCapItem COLA_BOTTLE_CAP = registerBottleCap("cola_bottle_cap", 1);
+    public static final BottleCapItem ROOT_BEER_BOTTLE_CAP = registerBottleCap("root_beer_bottle_cap", 2);
+    public static final BottleCapItem CREAM_SODA_BOTTLE_CAP = registerBottleCap("cream_soda_bottle_cap", 3);
+    public static final BottleCapItem GINGER_ALE_BOTTLE_CAP = registerBottleCap("ginger_ale_bottle_cap", 4);
+    public static final BottleCapItem LEMON_LIME_SODA_BOTTLE_CAP = registerBottleCap("lemon_lime_soda_bottle_cap", 5);
+    public static final BottleCapItem BLUEBERRY_SODA_BOTTLE_CAP = registerBottleCap("blueberry_soda_bottle_cap", 6);
+    public static final BottleCapItem CHERRY_SODA_BOTTLE_CAP = registerBottleCap("cherry_soda_bottle_cap", 7);
+    public static final BottleCapItem ORANGE_SODA_BOTTLE_CAP = registerBottleCap("orange_soda_bottle_cap", 8);
+    public static final BottleCapItem SARSPARILLA_BOTTLE_CAP = registerBottleCap("sarsparilla_bottle_cap", 9);
 
     private static <T extends Item> T register(String name, T item, FBombsItemGroups.ItemGroupEntry... itemGroups) {
         Registry.register(Registries.ITEM, FBombs.getId(name), item);
@@ -44,6 +53,10 @@ public class FBombsItems {
             }
         }
         return item;
+    }
+
+    private static BottleCapItem registerBottleCap(String name, int serialNumber) {
+        return register(name, new BottleCapItem(serialNumber, new Item.Settings().maxCount(1).rarity(Rarity.RARE)));
     }
 
     public static void initialize() {

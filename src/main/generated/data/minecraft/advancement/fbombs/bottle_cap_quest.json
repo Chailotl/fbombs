@@ -1,0 +1,144 @@
+{
+  "parent": "minecraft:fbombs/split_tnt_block",
+  "criteria": {
+    "1": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:cola_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "2": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:root_beer_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "3": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:cream_soda_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "4": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:ginger_ale_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "5": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:lemon_lime_soda_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "6": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:blueberry_soda_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "7": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:cherry_soda_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "8": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:orange_soda_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "9": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fbombs:sarsparilla_bottle_cap"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.fbombs.bottle_cap_quest.desc"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "fbombs:nuclear_launch_key"
+    },
+    "title": {
+      "translate": "advancement.fbombs.bottle_cap_quest"
+    }
+  },
+  "requirements": [
+    [
+      "1"
+    ],
+    [
+      "2"
+    ],
+    [
+      "3"
+    ],
+    [
+      "4"
+    ],
+    [
+      "5"
+    ],
+    [
+      "6"
+    ],
+    [
+      "7"
+    ],
+    [
+      "8"
+    ],
+    [
+      "9"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fbombs:nuclear_launch_key"
+    ]
+  },
+  "sends_telemetry_event": true
+}

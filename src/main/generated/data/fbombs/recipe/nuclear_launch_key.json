@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "fbombs:cola_bottle_cap"
+    },
+    {
+      "item": "fbombs:root_beer_bottle_cap"
+    },
+    {
+      "item": "fbombs:cream_soda_bottle_cap"
+    },
+    {
+      "item": "fbombs:ginger_ale_bottle_cap"
+    },
+    {
+      "item": "fbombs:lemon_lime_soda_bottle_cap"
+    },
+    {
+      "item": "fbombs:blueberry_soda_bottle_cap"
+    },
+    {
+      "item": "fbombs:cherry_soda_bottle_cap"
+    },
+    {
+      "item": "fbombs:orange_soda_bottle_cap"
+    },
+    {
+      "item": "fbombs:sarsparilla_bottle_cap"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fbombs:nuclear_launch_key"
+  }
+}

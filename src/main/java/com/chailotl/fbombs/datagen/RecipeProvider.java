@@ -4,6 +4,7 @@ import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
@@ -11,6 +12,7 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 
@@ -87,6 +89,19 @@ public class RecipeProvider extends FabricRecipeProvider {
             .pattern("dd")
             .input('d', FBombsItems.DYNAMITE)
             .criterion(FabricRecipeProvider.hasItem(FBombsItems.DYNAMITE), FabricRecipeProvider.conditionsFromItem(FBombsItems.DYNAMITE))
+            .offerTo(exporter);
+
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, FBombsItems.NUCLEAR_LAUNCH_KEY)
+            .input(FBombsItems.COLA_BOTTLE_CAP)
+            .input(FBombsItems.ROOT_BEER_BOTTLE_CAP)
+            .input(FBombsItems.CREAM_SODA_BOTTLE_CAP)
+            .input(FBombsItems.GINGER_ALE_BOTTLE_CAP)
+            .input(FBombsItems.LEMON_LIME_SODA_BOTTLE_CAP)
+            .input(FBombsItems.BLUEBERRY_SODA_BOTTLE_CAP)
+            .input(FBombsItems.CHERRY_SODA_BOTTLE_CAP)
+            .input(FBombsItems.ORANGE_SODA_BOTTLE_CAP)
+            .input(FBombsItems.SARSPARILLA_BOTTLE_CAP)
+            .criterion("has_the_recipe2", RecipeUnlockedCriterion.create(Registries.ITEM.getId(FBombsItems.NUCLEAR_LAUNCH_KEY)))
             .offerTo(exporter);
     }
 
