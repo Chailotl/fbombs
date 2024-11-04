@@ -44,7 +44,6 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 null,
                 AdvancementFrame.TASK, true, false, true)
             .criterion("explodification", UsedDynamiteCriterion.Conditions.any())
-            .rewards(AdvancementRewards.Builder.experience(50))
             .build(consumer, "%s/dynamite".formatted(FBombs.MOD_ID));
 
         AdvancementEntry waterloggedTntBlockAdvancement = Advancement.Builder.create()
@@ -55,7 +54,6 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 null,
                 AdvancementFrame.TASK, true, false, true)
             .criterion("waterlogged_tnt_block", WaterloggedTntBlockCriterion.Conditions.any())
-            .rewards(AdvancementRewards.Builder.experience(50))
             .build(consumer, "%s/waterlogged_tnt_block".formatted(FBombs.MOD_ID));
 
         AdvancementEntry bottleCapQuest = Advancement.Builder.create()

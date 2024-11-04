@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "fbombs:block/exposed_iron_plate"
+  }
+}

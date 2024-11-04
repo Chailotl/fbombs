@@ -23,8 +23,6 @@ public class FBombsClient implements ClientModInitializer {
         FBombsS2CNetworking.initialize();
         FBombsClientEvents.initialize();
 
-        BlockRenderLayerMap.INSTANCE.putBlock(FBombsBlocks.RUSTY_CHAINLINK, RenderLayer.getCutout());
-
         ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.MUSHROOM_CLOUD_EMITTER, MushroomCloudEmitterParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.MUSHROOM_CLOUD_SMOKE, MushroomCloudSmokeParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.GROUND_SMOKE, GroundSmokeParticle.Factory::new);
@@ -39,6 +37,7 @@ public class FBombsClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(FBombsBlockEntities.ACME_BED, AcmeBedBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(FBombsBlockEntities.SIREN, SirenBlockEntityRenderer::new);
 
+        BlockRenderLayerMap.INSTANCE.putBlock(FBombsBlocks.EXPOSED_CHAINLINK, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(FBombsBlocks.GUNPOWDER_TRAIL, RenderLayer.getCutout());
         ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> 0x494949, FBombsBlocks.GUNPOWDER_TRAIL);
     }

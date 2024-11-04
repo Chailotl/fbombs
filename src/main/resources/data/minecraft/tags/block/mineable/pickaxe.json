@@ -1,0 +1,8 @@
+{
+	"replace": false,
+	"values": [
+		"fbombs:exposed_corrugated_iron",
+		"fbombs:exposed_iron_plate",
+		"fbombs:exposed_chainlink"
+	]
+}

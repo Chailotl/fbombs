@@ -7,9 +7,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.data.client.Models;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
@@ -38,6 +35,9 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider {
 
         addDrop(FBombsBlocks.TNT_SLAB);
         addDrop(FBombsBlocks.GUNPOWDER_TRAIL, Items.GUNPOWDER);
+        addDrop(FBombsBlocks.EXPOSED_CORRUGATED_IRON);
+        addDrop(FBombsBlocks.EXPOSED_IRON_PLATE);
+        addDrop(FBombsBlocks.EXPOSED_CHAINLINK);
 
         addDrop(FBombsBlocks.ADAPTIVE_TNT, LootTable.builder()
             .pool(

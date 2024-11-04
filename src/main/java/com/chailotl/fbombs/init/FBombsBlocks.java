@@ -131,9 +131,21 @@ public class FBombsBlocks {
             .strength(3.5F)
     ), true);
 
-    public static final Block RUSTY_CORRUGATED_METAL = register("rusty_corrugated_metal", new Block(AbstractBlock.Settings.create()), true);
-    public static final Block RUSTY_PLATE_METAL = register("rusty_plate_metal", new Block(AbstractBlock.Settings.create()), true);
-    public static final Block RUSTY_CHAINLINK = register("rusty_chainlink", new Block(AbstractBlock.Settings.create()), true);
+    public static final Block EXPOSED_CORRUGATED_IRON = register("exposed_corrugated_iron", new PillarBlock(AbstractBlock.Settings.create()
+        .mapColor(MapColor.IRON_GRAY)
+        .requiresTool()
+        .strength(3.0F, 6.0F)
+        .sounds(BlockSoundGroup.COPPER)
+    ), true);
+    public static final Block EXPOSED_IRON_PLATE = register("exposed_iron_plate", new Block(AbstractBlock.Settings.copy(EXPOSED_CORRUGATED_IRON)), true);
+    public static final Block EXPOSED_CHAINLINK = register("exposed_chainlink", new GrateBlock(AbstractBlock.Settings.copy(EXPOSED_CORRUGATED_IRON)
+        .sounds(BlockSoundGroup.COPPER_GRATE)
+        .nonOpaque()
+        .allowsSpawning(Blocks::never)
+        .solidBlock(Blocks::never)
+        .suffocates(Blocks::never)
+        .blockVision(Blocks::never)
+    ), true);
 
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
         Registry.register(Registries.BLOCK, FBombs.getId(name), block);

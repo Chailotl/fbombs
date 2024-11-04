@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "fbombs:block/exposed_corrugated_iron",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "fbombs:block/exposed_corrugated_iron"
+    },
+    "axis=z": {
+      "model": "fbombs:block/exposed_corrugated_iron",
+      "x": 90
+    }
+  }
+}

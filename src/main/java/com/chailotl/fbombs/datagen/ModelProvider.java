@@ -74,6 +74,10 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerBed(FBombsBlocks.GREEN_ACME_BED, Blocks.GREEN_WOOL);
         blockStateModelGenerator.registerBed(FBombsBlocks.RED_ACME_BED, Blocks.RED_WOOL);
         blockStateModelGenerator.registerBed(FBombsBlocks.BLACK_ACME_BED, Blocks.BLACK_WOOL);
+
+        blockStateModelGenerator.registerAxisRotated(FBombsBlocks.EXPOSED_CORRUGATED_IRON, TexturedModel.CUBE_ALL);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.EXPOSED_IRON_PLATE, TexturedModel.CUBE_ALL);
+        blockStateModelGenerator.registerSingleton(FBombsBlocks.EXPOSED_CHAINLINK, TexturedModel.CUBE_ALL);
     }
 
     @Override
