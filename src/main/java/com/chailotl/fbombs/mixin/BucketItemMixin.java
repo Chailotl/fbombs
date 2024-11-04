@@ -1,5 +1,7 @@
 package com.chailotl.fbombs.mixin;
 
+import com.chailotl.fbombs.block.GenericTntBlock;
+import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsCriteria;
 import com.chailotl.fbombs.util.LoggerUtil;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -27,11 +29,12 @@ public class BucketItemMixin {
                                                         BlockState state, FluidState fluidState, Operation<Boolean> original,
                                                         @Local(argsOnly = true) LocalRef<PlayerEntity> player) {
         boolean waterlogged = original.call(instance, worldAccess, pos, state, fluidState);
-        if (!waterlogged) return false;
-        if (player.get() instanceof ServerPlayerEntity serverPlayer) {
+        if (waterlogged
+            && state.getBlock() instanceof GenericTntBlock
+            && player.get() instanceof ServerPlayerEntity serverPlayer) {
             LoggerUtil.devLogger("isServer");
             FBombsCriteria.WATERLOGGED_TNT_BLOCK.trigger(serverPlayer);
         }
-        return true;
+        return waterlogged;
     }
 }
