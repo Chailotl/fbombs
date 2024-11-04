@@ -7,5 +7,8 @@
   "advancement.fbombs.waterlogged_tnt_block": "Waterlogged a TNT Block",
   "advancement.fbombs.waterlogged_tnt_block.desc": "But why?",
   "advancement.fbombs.bottle_cap_quest": "The Power of the Atom",
-  "advancement.fbombs.bottle_cap_quest.desc": "Collect all the bottle caps"
+  "advancement.fbombs.bottle_cap_quest.desc": "Collect all the bottle caps",
+  "death.attack.nuclear_explosion": "%1$s perished in nuclear fire",
+  "death.attack.nuclear_explosion.player": "%1$s was vaporized by %2$s",
+  "death.attack.nuclear_explosion.player.item": "%1$s was vaporized by %2$s using %3$s"
 }

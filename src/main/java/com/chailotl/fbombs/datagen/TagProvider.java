@@ -3,14 +3,16 @@ package com.chailotl.fbombs.datagen;
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
+import com.chailotl.fbombs.init.FBombsDamageTypes;
 import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.*;
+import net.minecraft.registry.tag.DamageTypeTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -55,8 +57,23 @@ public class TagProvider {
         }
     }
 
+    public static class DamageTypeTagProvider extends FabricTagProvider<DamageType> {
+        public DamageTypeTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(output, RegistryKeys.DAMAGE_TYPE, registriesFuture);
+        }
+
+        @Override
+        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+            getOrCreateTagBuilder(DamageTypeTags.IS_EXPLOSION).add(FBombsDamageTypes.NUCLEAR_EXPLOSION);
+            getOrCreateTagBuilder(DamageTypeTags.BYPASSES_ARMOR).add(FBombsDamageTypes.NUCLEAR_EXPLOSION);
+            getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK).add(FBombsDamageTypes.NUCLEAR_EXPLOSION);
+            getOrCreateTagBuilder(DamageTypeTags.PANIC_CAUSES).add(FBombsDamageTypes.NUCLEAR_EXPLOSION);
+        }
+    }
+
     public static void registerAll(FabricDataGenerator.Pack pack) {
         pack.addProvider(BlockTagProvider::new);
         pack.addProvider(ItemTagProvider::new);
+        pack.addProvider(DamageTypeTagProvider::new);
     }
 }
