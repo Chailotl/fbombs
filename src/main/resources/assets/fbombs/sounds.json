@@ -16,5 +16,11 @@
 		"sounds": [
 			"fbombs:nuclear_explosion"
 		]
+	},
+	"nuclear_alarm_siren": {
+		"subtitle": "sound.fbombs.nuclear_alarm_siren",
+		"sounds": [
+			"fbombs:nuclear_alarm_siren"
+		]
 	}
 }

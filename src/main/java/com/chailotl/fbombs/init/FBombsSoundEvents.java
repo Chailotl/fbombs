@@ -11,6 +11,7 @@ public class FBombsSoundEvents {
     public static final SoundEvent RADIOACTIVE_NOISE = register("radioactive_noise");
     public static final SoundEvent DYNAMITE_EXPLOSION = register("dynamite_explosion");
     public static final SoundEvent NUCLEAR_EXPLOSION = register("nuclear_explosion");
+    public static final SoundEvent NUCLEAR_ALARM_SIREN = register("nuclear_alarm_siren");
 
     private static SoundEvent register(String name) {
         Identifier identifier = FBombs.getId(name);

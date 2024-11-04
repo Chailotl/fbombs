@@ -33,7 +33,7 @@ public class MushroomCloudEmitterParticle extends NoRenderParticle {
         MinecraftClient client = MinecraftClient.getInstance();
         particleManager = client.particleManager;
         maxAge = 20 * 40;
-        PositionedSoundInstance positionedSoundInstance = new PositionedSoundInstance(FBombsSoundEvents.NUCLEAR_EXPLOSION, SoundCategory.BLOCKS, 20, 1, Random.create(random.nextLong()), x, y, z);
+        PositionedSoundInstance positionedSoundInstance = new PositionedSoundInstance(FBombsSoundEvents.NUCLEAR_EXPLOSION, SoundCategory.BLOCKS, 64, 1, Random.create(random.nextLong()), x, y, z);
         double d = client.gameRenderer.getCamera().getPos().squaredDistanceTo(x, y, z);
         double e = Math.sqrt(d) / 120;
         client.getSoundManager().play(positionedSoundInstance, (int)(e * 20));
@@ -72,7 +72,7 @@ public class MushroomCloudEmitterParticle extends NoRenderParticle {
                 BlockHitResult blockHitResult = world.raycast(new RaycastContext(pos, pos.add(0, -30, 0), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, ShapeContext.absent()));
                 if (blockHitResult.getType() == HitResult.Type.BLOCK) {
                     pos = blockHitResult.getPos();
-                    world.addParticle(FBombsParticleTypes.GROUND_SMOKE, pos.x, pos.y, pos.z, cos / 10f, 0.1, sin / 10f);
+                    world.addParticle(FBombsParticleTypes.GROUND_SMOKE, pos.x, pos.y, pos.z, cos / 2f, 0.1, sin / 2f);
                 }
             }
         }
