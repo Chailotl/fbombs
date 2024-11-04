@@ -131,6 +131,9 @@ public class FBombsBlocks {
             .strength(3.5F)
     ), true);
 
+    public static final Block RUSTY_CORRUGATED_METAL = register("rusty_corrugated_metal", new Block(AbstractBlock.Settings.create()), true);
+    public static final Block RUSTY_PLATE_METAL = register("rusty_plate_metal", new Block(AbstractBlock.Settings.create()), true);
+    public static final Block RUSTY_CHAINLINK = register("rusty_chainlink", new Block(AbstractBlock.Settings.create()), true);
 
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
         Registry.register(Registries.BLOCK, FBombs.getId(name), block);

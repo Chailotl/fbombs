@@ -23,6 +23,8 @@ public class FBombsClient implements ClientModInitializer {
         FBombsS2CNetworking.initialize();
         FBombsClientEvents.initialize();
 
+        BlockRenderLayerMap.INSTANCE.putBlock(FBombsBlocks.RUSTY_CHAINLINK, RenderLayer.getCutout());
+
         ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.MUSHROOM_CLOUD_EMITTER, MushroomCloudEmitterParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.MUSHROOM_CLOUD_SMOKE, MushroomCloudSmokeParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(FBombsParticleTypes.GROUND_SMOKE, GroundSmokeParticle.Factory::new);
