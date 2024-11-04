@@ -5,6 +5,7 @@ import com.chailotl.fbombs.entity.util.TntEntityType;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,6 +27,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.BiConsumer;
 
 public class GenericTntBlock extends Block {
     public static final MapCodec<GenericTntBlock> CODEC = RecordCodecBuilder.mapCodec(
@@ -75,6 +78,14 @@ public class GenericTntBlock extends Block {
         }
 
         return super.onBreak(world, pos, state, player);
+    }
+
+    @Override
+    protected void onExploded(BlockState state, World world, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> stackMerger) {
+        if (!state.isAir() && explosion.getDestructionType() != Explosion.DestructionType.TRIGGER_BLOCK) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+            onDestroyedByExplosion(world, pos, explosion, state);
+        }
     }
 
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion, BlockState state) {

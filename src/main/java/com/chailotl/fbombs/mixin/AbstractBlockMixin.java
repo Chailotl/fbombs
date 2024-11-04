@@ -65,14 +65,4 @@ public class AbstractBlockMixin implements VolumetricExplosion {
             world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
         }
     }
-
-    @WrapOperation(method = "onExploded", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onDestroyedByExplosion(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/explosion/Explosion;)V"))
-    private void onExplodedWithOriginalState(Block instance, World world, BlockPos pos, Explosion explosion, Operation<Void> original,
-                                             @Local(argsOnly = true) LocalRef<BlockState> state) {
-        if (!(instance instanceof GenericTntBlock genericTntBlock)) {
-            original.call(instance, world, pos, explosion);
-            return;
-        }
-        genericTntBlock.onDestroyedByExplosion(world, pos, explosion, state.get());
-    }
 }
