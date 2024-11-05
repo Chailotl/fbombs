@@ -5,6 +5,7 @@ import com.chailotl.fbombs.block.*;
 import com.chailotl.fbombs.entity.*;
 import com.chailotl.fbombs.entity.util.TntEntityProvider;
 import com.chailotl.fbombs.entity.util.TntEntityType;
+import com.chailotl.fbombs.item.AdaptiveTntItem;
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.block.enums.BedPart;
@@ -23,6 +24,8 @@ import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+
+import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class FBombsBlocks {
@@ -70,7 +73,7 @@ public class FBombsBlocks {
             .sounds(BlockSoundGroup.METAL)
             .burnable()
             .solidBlock(Blocks::never)
-    ), false);
+    ), block -> new AdaptiveTntItem(block, new Item.Settings()));
 
     public static final SplitTntBlock SPLIT_TNT = register("split_tnt", new SplitTntBlock(
         new TntEntityType("split_tnt", SplitTntEntity::new),
@@ -157,6 +160,14 @@ public class FBombsBlocks {
         return block;
     }
 
+    private static <T extends Block> T register(String name, T block, Function<Block, BlockItem> blockItemProvider) {
+        register(name, block, false);
+        BlockItem blockItem = blockItemProvider.apply(block);
+        Registry.register(Registries.ITEM, FBombs.getId(name), blockItem);
+        FBombsItemGroups.GROUP.addItems(blockItem);
+        return block;
+    }
+
     private static GenericTntBlock registerTnt(String name, TntEntityProvider tntEntityProvider) {
         GenericTntBlock block = new GenericTntBlock(
             TntEntityType.register(name, tntEntityProvider),
@@ -203,5 +214,22 @@ public class FBombsBlocks {
 
     public static void initialize() {
         // static initialisation
+        DispenserBlock.registerBehavior(ADAPTIVE_TNT, new ItemDispenserBehavior() {
+            @Override
+            protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+                World world = pointer.world();
+                BlockPos blockPos = pointer.pos().offset(pointer.state().get(DispenserBlock.FACING));
+                AdaptiveTntEntity tntEntity = new AdaptiveTntEntity(world, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, null, ADAPTIVE_TNT.getDefaultState());
+                AdaptiveTntBlock.configureAdaptiveTnt(tntEntity, stack);
+
+                world.spawnEntity(tntEntity);
+                if (tntEntity.getFuse() >= 10) {
+                    world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                }
+                world.emitGameEvent(null, GameEvent.ENTITY_PLACE, blockPos);
+                stack.decrement(1);
+                return stack;
+            }
+        });
     }
 }
