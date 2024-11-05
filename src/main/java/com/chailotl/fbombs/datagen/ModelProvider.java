@@ -2,6 +2,7 @@ package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.AcmeBedBlock;
+import com.chailotl.fbombs.block.DetonatorBlock;
 import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.block.SplitTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
@@ -30,7 +31,8 @@ public class ModelProvider extends FabricModelProvider {
                 FBombsBlocks.SPLIT_TNT,
                 FBombsBlocks.SHAPED_CHARGE,
                 FBombsBlocks.MINING_CHARGE,
-                FBombsBlocks.FIREWORK_TNT
+                FBombsBlocks.FIREWORK_TNT,
+                FBombsBlocks.DETONATOR
         );
 
         FBombs.streamEntries(Registries.BLOCK).forEach(block -> {
@@ -43,6 +45,10 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_BASE, FBombs.getId("block/siren_base")));
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SIREN_POLE).coordinate(createPowerableSirenPole("siren_pole")));
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SIREN_HEAD).coordinate(createPowerableSirenPole("siren_pole")));
+
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.DETONATOR)
+                .coordinate(createPressableDetonator())
+                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
 
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHAPED_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
@@ -101,8 +107,16 @@ public class ModelProvider extends FabricModelProvider {
 
     private BlockStateVariantMap createPowerableSirenPole(String name) {
         return BlockStateVariantMap.create(Properties.POWERED).register(isPowered -> {
-            String path = "block/" + name; //siren_pole_active
+            String path = "block/" + name;
             if (isPowered) path = path.concat("_active");
+            return BlockStateVariant.create().put(VariantSettings.MODEL, FBombs.getId(path));
+        });
+    }
+
+    private BlockStateVariantMap createPressableDetonator() {
+        return BlockStateVariantMap.create(DetonatorBlock.IS_PRESSED).register(isPressed -> {
+            String path = "block/detonator";
+            if (isPressed) path = path.concat("_pressed");
             return BlockStateVariant.create().put(VariantSettings.MODEL, FBombs.getId(path));
         });
     }

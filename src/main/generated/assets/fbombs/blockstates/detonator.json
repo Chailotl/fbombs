@@ -1,7 +1,34 @@
 {
   "variants": {
-    "": {
+    "facing=east,is_pressed=false": {
+      "model": "fbombs:block/detonator",
+      "y": 90
+    },
+    "facing=east,is_pressed=true": {
+      "model": "fbombs:block/detonator_pressed",
+      "y": 90
+    },
+    "facing=north,is_pressed=false": {
       "model": "fbombs:block/detonator"
+    },
+    "facing=north,is_pressed=true": {
+      "model": "fbombs:block/detonator_pressed"
+    },
+    "facing=south,is_pressed=false": {
+      "model": "fbombs:block/detonator",
+      "y": 180
+    },
+    "facing=south,is_pressed=true": {
+      "model": "fbombs:block/detonator_pressed",
+      "y": 180
+    },
+    "facing=west,is_pressed=false": {
+      "model": "fbombs:block/detonator",
+      "y": 270
+    },
+    "facing=west,is_pressed=true": {
+      "model": "fbombs:block/detonator_pressed",
+      "y": 270
     }
   }
 }
