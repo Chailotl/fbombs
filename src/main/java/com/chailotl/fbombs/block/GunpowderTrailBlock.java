@@ -348,7 +348,6 @@ public class GunpowderTrailBlock extends Block {
         } else {
             world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
             lightGunpowder(world, pos);
-            Item item = stack.getItem();
             if (stack.isOf(Items.FLINT_AND_STEEL)) {
                 stack.damage(1, player, LivingEntity.getSlotForHand(hand));
             } else {
