@@ -36,7 +36,7 @@ public class SirenBlockEntity extends BlockEntity {
         blockEntity.normalizedRedstoneStrength = normalizedRedstonePower * normalizedPoleSizePower;
     }
 
-    private static int getStrengthFromStructure(World world, BlockPos pos) {
+    public static int getStrengthFromStructure(World world, BlockPos pos) {
         BlockPos.Mutable posWalker = pos.down().mutableCopy();
         while (world.getBlockState(posWalker).isIn(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)) {
             if (world.getBlockState(posWalker).getBlock() instanceof SirenPoleWalker) break;
@@ -53,6 +53,14 @@ public class SirenBlockEntity extends BlockEntity {
             return Optional.ofNullable(poleWalker.getPoleCountBelow(world, pos)).orElse(0);
         }
         return 0;
+    }
+
+    public int getTick() {
+        return tick;
+    }
+
+    public float getNormalizedRedstoneStrength() {
+        return normalizedRedstoneStrength;
     }
 
     public static boolean isPartOfPole(World world, BlockPos pos) {
