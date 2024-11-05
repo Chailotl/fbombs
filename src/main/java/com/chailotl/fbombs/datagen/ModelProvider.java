@@ -37,6 +37,11 @@ public class ModelProvider extends FabricModelProvider {
             blockStateModelGenerator.registerSingleton(block, TexturedModel.CUBE_BOTTOM_TOP);
         });
 
+        blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_BASE, FBombs.getId("block/siren_base")));
+        blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_POLE, FBombs.getId("block/siren_pole")));
+        blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_HEAD, FBombs.getId("block/siren_pole")));
+
+
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHAPED_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         registerFireworkTnt(blockStateModelGenerator);

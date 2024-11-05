@@ -83,6 +83,6 @@ public abstract class AbstractSirenBlock extends Block implements Waterloggable,
 
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
+        return BlockRenderType.MODEL;
     }
 }

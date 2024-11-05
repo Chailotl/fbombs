@@ -122,9 +122,9 @@ public class FBombs implements ModInitializer {
     public static <T> Stream<T> streamEntries(Registry<T> registry, Predicate<T> filter) {
         return registry.stream().filter(entry -> {
             Identifier identifier = registry.getId(entry);
-            if (!filter.test(entry)) return false;
             if (identifier == null) return false;
-            return identifier.getNamespace().equals(FBombs.MOD_ID);
+            if (!identifier.getNamespace().equals(FBombs.MOD_ID)) return false;
+            return filter.test(entry);
         });
     }
 
