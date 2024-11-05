@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "powered=false": {
       "model": "fbombs:block/siren_pole"
+    },
+    "powered=true": {
+      "model": "fbombs:block/siren_pole_active"
     }
   }
 }

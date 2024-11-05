@@ -1,5 +1,6 @@
 package com.chailotl.fbombs.block.entity;
 
+import com.chailotl.fbombs.block.SirenBaseBlock;
 import com.chailotl.fbombs.block.SirenHeadBlock;
 import com.chailotl.fbombs.block.SirenPoleBlock;
 import com.chailotl.fbombs.init.FBombsTags;
@@ -27,6 +28,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public abstract class AbstractSirenBlock extends Block implements Waterloggable, SirenPoleWalker {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final BooleanProperty POWERED = Properties.POWERED;
@@ -51,10 +54,12 @@ public abstract class AbstractSirenBlock extends Block implements Waterloggable,
                     posWalker.move(Direction.UP);
                 } while (SirenBlockEntity.isPartOfPole(world, posWalker));
                 if (world.canSetBlock(posWalker) && world.getBlockState(posWalker).isReplaceable()) {
-                    stack.decrementUnlessCreative(1, player);
-                    world.setBlockState(posWalker, blockItem.getBlock().getDefaultState());
-                    if (world instanceof ServerWorld serverWorld)
+                    if (world instanceof ServerWorld serverWorld) {
                         serverWorld.playSound(null, pos, this.soundGroup.getPlaceSound(), SoundCategory.BLOCKS, 1f, 1f);
+                    }
+                    world.setBlockState(posWalker, blockItem.getBlock().getPlacementState(new ItemPlacementContext(player, hand, stack, hit)), NOTIFY_LISTENERS);
+
+                    stack.decrementUnlessCreative(1, player);
                     return ItemActionResult.SUCCESS;
                 }
             }
@@ -69,12 +74,8 @@ public abstract class AbstractSirenBlock extends Block implements Waterloggable,
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        /*
-        BlockState stateBelow = world.getBlockState(pos.down());
-        if (!(stateBelow.getBlock() instanceof SirenPoleWalker) || !stateBelow.isIn(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)) {
-            return Blocks.AIR.getDefaultState();
-        }*/
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState
+            neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (state.get(WATERLOGGED)) {
             world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
@@ -86,17 +87,24 @@ public abstract class AbstractSirenBlock extends Block implements Waterloggable,
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
-    protected BlockState setPoweredState(WorldAccess world, BlockPos pos, Direction direction, BlockState state) {
-        BlockPos.Mutable offsetPos = pos.offset(direction).mutableCopy();
+    protected static void updatePowerState(WorldAccess world, BlockPos pos, BlockState state) {
+        BlockPos.Mutable offsetPos = pos.offset(Direction.DOWN).mutableCopy();
         BlockState offsetState = world.getBlockState(offsetPos);
+
         while (world.getBlockState(offsetPos).isIn(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)) {
             offsetPos.move(Direction.DOWN);
         }
-        if (offsetState.getBlock() instanceof SirenPoleBlock || offsetState.getBlock() instanceof SirenHeadBlock) {
-            if (offsetState.contains(POWERED)) {
-                state = state.with(POWERED, offsetState.get(POWERED));
+
+        boolean isPowered = state.contains(POWERED) && state.get(POWERED);
+        boolean isOffsetPowered = offsetState.contains(POWERED) && offsetState.get(POWERED);
+        isOffsetPowered = offsetState.getBlock() instanceof SirenBaseBlock baseBlock
+                ? Optional.ofNullable(baseBlock.getPower(world, offsetPos)).map(integer -> integer > 0).orElse(false)
+                : isOffsetPowered;
+
+        if (offsetState.getBlock() instanceof SirenPoleWalker) {
+            if (isPowered != isOffsetPowered) {
+                world.setBlockState(pos, state.with(POWERED, isOffsetPowered), NOTIFY_LISTENERS);
             }
         }
-        return state;
     }
 }

@@ -1,5 +1,7 @@
 package com.chailotl.fbombs.block.entity;
 
+import com.chailotl.fbombs.block.SirenHeadBlock;
+import com.chailotl.fbombs.block.SirenPoleBlock;
 import com.chailotl.fbombs.init.FBombsBlockEntities;
 import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.NbtKeys;
@@ -11,6 +13,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 
 import java.util.Optional;
 
@@ -28,10 +31,14 @@ public class SirenBlockEntity extends BlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, SirenBlockEntity blockEntity) {
-        blockEntity.tick++;
+        AbstractSirenBlock.updatePowerState(world, pos, state);
+
         float normalizedRedstonePower = (float) getStrengthFromStructure(world, pos) / 15;
         float normalizedPoleSizePower = (float) (MAX_POLE_LENGTH - Math.max(0, getPoleCountBelow(world, pos) - MIN_POLE_LENGTH)) / MAX_POLE_LENGTH;
         blockEntity.normalizedRedstoneStrength = normalizedRedstonePower * normalizedPoleSizePower;
+        if (blockEntity.normalizedRedstoneStrength > 0 && state.get(SirenPoleBlock.POWERED)) {
+            blockEntity.tick++;
+        }
     }
 
     public static int getStrengthFromStructure(World world, BlockPos pos) {
@@ -61,9 +68,11 @@ public class SirenBlockEntity extends BlockEntity {
         return normalizedRedstoneStrength;
     }
 
-    public static boolean isPartOfPole(World world, BlockPos pos) {
+    public static boolean isPartOfPole(WorldAccess world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
         return world.getBlockState(pos).isIn(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)
-                || world.getBlockState(pos).getBlock() instanceof SirenPoleWalker;
+                || state.getBlock() instanceof SirenPoleBlock
+                || state.getBlock() instanceof SirenHeadBlock;
     }
 
     @Override

@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class SirenBaseBlock extends AbstractSirenBlock {
@@ -18,12 +18,12 @@ public class SirenBaseBlock extends AbstractSirenBlock {
 
     @Nullable
     @Override
-    public Integer getPower(World world, BlockPos pos) {
+    public Integer getPower(WorldAccess world, BlockPos pos) {
         if (!(world.isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ()))))
             return null;
         BlockState state = world.getBlockState(pos);
         if (!(state.getBlock() instanceof SirenBaseBlock)) return null;
-        return world.getReceivedRedstonePower(pos);
+        return Math.max(world.getReceivedRedstonePower(pos), world.getReceivedRedstonePower(pos.down()));
     }
 
     @Override

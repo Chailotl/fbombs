@@ -26,8 +26,7 @@ public class SirenBlockEntityRenderer implements BlockEntityRenderer<SirenBlockE
     @Override
     public void render(SirenBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         if (blockEntity == null || blockEntity.getWorld() == null) return;
-        if (isLit(blockEntity))
-            this.rotator.yaw = (blockEntity.getTick() * blockEntity.getNormalizedRedstoneStrength() % 360) * (float) (Math.PI / 180.0);
+        this.rotator.yaw = (blockEntity.getTick() * blockEntity.getNormalizedRedstoneStrength() % 360) * (float) (Math.PI / 180.0);
         matrices.push();
         matrices.translate(0.5, 1.5, 0.5);
         float scale = 1.2f;

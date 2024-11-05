@@ -6,11 +6,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public interface SirenPoleWalker {
     @Nullable
-    default Integer getPower(World world, BlockPos pos) {
+    default Integer getPower(WorldAccess world, BlockPos pos) {
         if (!(world.isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ()))))
             return null;
         BlockPos.Mutable posWalker = pos.mutableCopy();
@@ -20,7 +21,7 @@ public interface SirenPoleWalker {
         }
         while (SirenBlockEntity.isPartOfPole(world, posWalker));
 
-        BlockState bottomState = world.getBlockState(posWalker.move(Direction.UP));
+        BlockState bottomState = world.getBlockState(posWalker/*.move(Direction.UP)*/);
         if (bottomState.getBlock() instanceof SirenPoleWalker walker && walker.canReceivePower()) {
             return walker.getPower(world, posWalker);
         }

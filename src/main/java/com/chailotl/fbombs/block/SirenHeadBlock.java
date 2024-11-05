@@ -32,6 +32,12 @@ public class SirenHeadBlock extends AbstractSirenBlock implements BlockEntityPro
         builder.add(POWERED);
     }
 
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        world.scheduleBlockTick(pos, this, 5);
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -42,12 +48,6 @@ public class SirenHeadBlock extends AbstractSirenBlock implements BlockEntityPro
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return FBombsBlockEntities.SIREN == type ? (world1, pos, state1, blockEntity) -> SirenBlockEntity.tick(world1, pos, state1, (SirenBlockEntity) blockEntity) : null;
-    }
-
-    @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        state = setPoweredState(world, pos, direction, state);
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     @Override
