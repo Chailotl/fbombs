@@ -108,7 +108,7 @@ public class AdaptiveTntBlock extends GenericTntBlock implements BlockEntityProv
     }
 
     private static void configureAdaptiveTnt(AdaptiveTntEntity tntEntity, AdaptiveTntBlockEntity blockEntity) {
-        tntEntity.power = blockEntity.power;
+        tntEntity.power = Math.clamp(blockEntity.power, 0, 8);
         tntEntity.setFuse(blockEntity.fuse);
         boolean damage = blockEntity.damage;
         boolean blockDamage = blockEntity.blockDamage;
@@ -165,7 +165,7 @@ public class AdaptiveTntBlock extends GenericTntBlock implements BlockEntityProv
         NbtComponent nbtComponent = stack.getComponents().get(DataComponentTypes.BLOCK_ENTITY_DATA);
         NbtCompound nbt = nbtComponent != null ? nbtComponent.getNbt() : new NbtCompound();
 
-        tntEntity.power = getIntOrDefault(nbt, "power", 0);
+        tntEntity.power =  Math.clamp(getIntOrDefault(nbt, "power", 0), 0, 8);
         tntEntity.setFuse(getIntOrDefault(nbt, "fuse", 0));
         boolean damage = getBooleanOrDefault(nbt, "damage", true);
         boolean blockDamage = getBooleanOrDefault(nbt, "block_damage", true);

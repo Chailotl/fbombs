@@ -24,7 +24,8 @@ public class AdaptiveTntItem extends BlockItem {
         NbtComponent nbtComponent = stack.getComponents().get(DataComponentTypes.BLOCK_ENTITY_DATA);
         NbtCompound nbt = nbtComponent != null ? nbtComponent.getNbt() : new NbtCompound();
 
-        tooltip.add(Text.literal("Power: " + getIntOrDefault(nbt, "power", 0)).formatted(Formatting.GRAY));
+        int power = Math.clamp(getIntOrDefault(nbt, "power", 0), 0, 8);
+        tooltip.add(Text.literal("Power: " + power).formatted(Formatting.GRAY));
         float fuse = getIntOrDefault(nbt, "fuse", 0) / 20f;
         tooltip.add(Text.literal("Fuse: " + fuse + " second" + (fuse == 1 ? "" : "s")).formatted(Formatting.GRAY));
         tooltip.add(Text.literal("Entity Damage: " + getYesNo(nbt, "damage", true)).formatted(Formatting.GRAY));
