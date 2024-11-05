@@ -29,21 +29,19 @@ import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class FBombsBlocks {
-    public static final SirenHeadBlock SIREN_HEAD = register("siren_head", new SirenHeadBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
-    public static final SirenPoleBlock SIREN_POLE = register("siren_pole", new SirenPoleBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
-    public static final SirenBaseBlock SIREN_BASE = register("siren_base", new SirenBaseBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
-
     public static final GenericTntBlock INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final GenericTntBlock LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);
     public static final GenericTntBlock HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);
     public static final GenericTntBlock FRAGMENTATION_TNT = registerTnt("fragmentation_tnt", FragmentationTntEntity::new);
+    public static final GenericTntBlock CLUSTER_TNT = registerTnt("cluster_tnt", ClusterTntEntity::new);
     public static final GenericTntBlock FIRE_CHARGED_TNT = registerTnt("fire_charged_tnt", FireChargedTntEntity::new);
     public static final GenericTntBlock WIND_CHARGED_TNT = registerTnt("wind_charged_tnt", WindChargedTntEntity::new);
     public static final GenericTntBlock UNDERWATER_TNT = registerTnt("underwater_tnt", UnderwaterTntEntity::new);
     public static final GenericTntBlock SPONGE_BOMB = registerTnt("sponge_bomb", SpongeBombEntity::new);
     public static final GenericTntBlock LEVITATING_TNT = registerTnt("levitating_tnt", LevitatingTntEntity::new);
+    public static final GenericTntBlock FIREWORK_TNT = registerTnt("firework_tnt", FireworkTntEntity::new);
     public static final ShapedChargeBlock SHAPED_CHARGE = register("shaped_charge", new ShapedChargeBlock(
         TntEntityType.register("shaped_charge", ShapedChargeEntity::new),
         AbstractBlock.Settings.create()
@@ -62,8 +60,6 @@ public class FBombsBlocks {
             .burnable()
             .solidBlock(Blocks::never)
     ), true);
-    public static final GenericTntBlock FIREWORK_TNT = registerTnt("firework_tnt", FireworkTntEntity::new);
-    public static final GenericTntBlock CLUSTER_TNT = registerTnt("cluster_tnt", ClusterTntEntity::new);
     public static final AdaptiveTntBlock ADAPTIVE_TNT = register("adaptive_tnt", new AdaptiveTntBlock(
         AbstractBlock.Settings.create()
             .mapColor(MapColor.IRON_GRAY)
@@ -91,6 +87,10 @@ public class FBombsBlocks {
             .burnable()
             .solidBlock(Blocks::never)
     ), true);
+
+    public static final SirenBaseBlock SIREN_BASE = register("siren_base", new SirenBaseBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
+    public static final SirenPoleBlock SIREN_POLE = register("siren_pole", new SirenPoleBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
+    public static final SirenHeadBlock SIREN_HEAD = register("siren_head", new SirenHeadBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
 
     public static final DetonatorBlock DETONATOR = register("detonator", new DetonatorBlock(
             new TntEntityType("detonator", DetonatorEntity::new),
