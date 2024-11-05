@@ -12,7 +12,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class FBombsBlockEntities {
-    public static final BlockEntityType<TestBlockEntity> TEST_BLOCK_ENTITY = register("test_block_entity", TestBlockEntity::new, FBombsBlocks.TEST);
     public static final BlockEntityType<AdaptiveTntBlockEntity> ADAPTIVE_TNT = register("adaptive_tnt", AdaptiveTntBlockEntity::new, FBombsBlocks.ADAPTIVE_TNT);
     public static final BlockEntityType<AcmeBedBlockEntity> ACME_BED = register("acme_bed", AcmeBedBlockEntity::new,
             FBombs.streamEntries(Registries.BLOCK, block -> block instanceof AcmeBedBlock).toArray(Block[]::new)
