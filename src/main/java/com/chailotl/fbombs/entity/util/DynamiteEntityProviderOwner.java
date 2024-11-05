@@ -5,6 +5,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 
 @FunctionalInterface
-public interface DynamiteEntityProvider {
+public interface DynamiteEntityProviderOwner {
     DynamiteEntity spawn(World world, LivingEntity owner);
 }

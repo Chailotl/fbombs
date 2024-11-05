@@ -1,31 +1,24 @@
 package com.chailotl.fbombs.init;
 
 import com.chailotl.fbombs.FBombs;
-import com.chailotl.fbombs.block.AdaptiveTntBlock;
 import com.chailotl.fbombs.entity.*;
+import com.chailotl.fbombs.entity.util.DynamiteEntityProviderOwner;
+import com.chailotl.fbombs.entity.util.DynamiteEntityProviderPos;
 import com.chailotl.fbombs.item.*;
 import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.math.BlockPointer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 
 @SuppressWarnings("unused")
 public class FBombsItems {
-    public static final DynamiteItem DYNAMITE = register("dynamite", new DynamiteItem(DynamiteEntity::new, new Item.Settings()), FBombsItemGroups.GROUP);
-    public static final DynamiteItem BOUNCY_DYNAMITE = register("bouncy_dynamite", new DynamiteItem(BouncyDynamiteEntity::new, new Item.Settings()), FBombsItemGroups.GROUP);
-    public static final DynamiteItem STICKY_DYNAMITE = register("sticky_dynamite", new DynamiteItem(StickyDynamiteEntity::new, new Item.Settings()), FBombsItemGroups.GROUP);
-    public static final DynamiteItem DYNAMITE_BUNDLE = register("dynamite_bundle", new DynamiteItem(DynamiteBundleEntity::new, new Item.Settings()), FBombsItemGroups.GROUP);
+    public static final DynamiteItem DYNAMITE = registerDynamite("dynamite", DynamiteEntity::new, DynamiteEntity::new);
+    public static final DynamiteItem BOUNCY_DYNAMITE = registerDynamite("bouncy_dynamite", BouncyDynamiteEntity::new, BouncyDynamiteEntity::new);
+    public static final DynamiteItem STICKY_DYNAMITE = registerDynamite("sticky_dynamite", StickyDynamiteEntity::new, StickyDynamiteEntity::new);
+    public static final DynamiteItem DYNAMITE_BUNDLE = registerDynamite("dynamite_bundle", DynamiteBundleEntity::new, DynamiteBundleEntity::new);
     public static final BlockItem GUNPOWDER_TRAIL = register("gunpowder_trail", new BlockItem(FBombsBlocks.GUNPOWDER_TRAIL, new Item.Settings()));
 
     public static final HazmatArmor HAZMAT_HELMET = register("hazmat_helmet", new HazmatArmor(ArmorItem.Type.HELMET, new Item.Settings()));
@@ -51,6 +44,12 @@ public class FBombsItems {
                 entry.addItems(item);
             }
         }
+        return item;
+    }
+
+    private static DynamiteItem registerDynamite(String name, DynamiteEntityProviderOwner dynamiteEntityProviderOwner, DynamiteEntityProviderPos dynamiteEntityProviderPos) {
+        DynamiteItem item = register(name, new DynamiteItem(dynamiteEntityProviderOwner, dynamiteEntityProviderPos, new Item.Settings()), FBombsItemGroups.GROUP);
+        DispenserBlock.registerProjectileBehavior(item);
         return item;
     }
 
