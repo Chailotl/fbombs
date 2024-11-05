@@ -2,9 +2,9 @@ package com.chailotl.fbombs.block.entity;
 
 import com.chailotl.fbombs.block.SirenHeadBlock;
 import com.chailotl.fbombs.block.SirenPoleBlock;
+import com.chailotl.fbombs.init.FBombsTags;
 import com.chailotl.fbombs.util.SirenPoleWalker;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,6 +13,8 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -27,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractSirenBlock extends Block implements Waterloggable, SirenPoleWalker {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    public static final BooleanProperty POWERED = Properties.POWERED;
 
     public AbstractSirenBlock(Settings settings) {
         super(settings);
@@ -50,6 +53,8 @@ public abstract class AbstractSirenBlock extends Block implements Waterloggable,
                 if (world.canSetBlock(posWalker) && world.getBlockState(posWalker).isReplaceable()) {
                     stack.decrementUnlessCreative(1, player);
                     world.setBlockState(posWalker, blockItem.getBlock().getDefaultState());
+                    if (world instanceof ServerWorld serverWorld)
+                        serverWorld.playSound(null, pos, this.soundGroup.getPlaceSound(), SoundCategory.BLOCKS, 1f, 1f);
                     return ItemActionResult.SUCCESS;
                 }
             }
@@ -81,8 +86,17 @@ public abstract class AbstractSirenBlock extends Block implements Waterloggable,
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
-    @Override
-    protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+    protected BlockState setPoweredState(WorldAccess world, BlockPos pos, Direction direction, BlockState state) {
+        BlockPos.Mutable offsetPos = pos.offset(direction).mutableCopy();
+        BlockState offsetState = world.getBlockState(offsetPos);
+        while (world.getBlockState(offsetPos).isIn(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)) {
+            offsetPos.move(Direction.DOWN);
+        }
+        if (offsetState.getBlock() instanceof SirenPoleBlock || offsetState.getBlock() instanceof SirenHeadBlock) {
+            if (offsetState.contains(POWERED)) {
+                state = state.with(POWERED, offsetState.get(POWERED));
+            }
+        }
+        return state;
     }
 }

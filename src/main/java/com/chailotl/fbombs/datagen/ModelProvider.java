@@ -13,6 +13,7 @@ import net.minecraft.data.client.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+import net.minecraft.state.property.Properties;
 
 import java.util.List;
 
@@ -25,44 +26,45 @@ public class ModelProvider extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         List<Block> unsupported = List.of(
-            FBombsBlocks.TNT_SLAB,
-            FBombsBlocks.SPLIT_TNT,
-            FBombsBlocks.SHAPED_CHARGE,
-            FBombsBlocks.MINING_CHARGE,
-            FBombsBlocks.FIREWORK_TNT
+                FBombsBlocks.TNT_SLAB,
+                FBombsBlocks.SPLIT_TNT,
+                FBombsBlocks.SHAPED_CHARGE,
+                FBombsBlocks.MINING_CHARGE,
+                FBombsBlocks.FIREWORK_TNT
         );
 
         FBombs.streamEntries(Registries.BLOCK).forEach(block -> {
-            if (!(block instanceof GenericTntBlock) || unsupported.contains(block)) { return; }
+            if (!(block instanceof GenericTntBlock) || unsupported.contains(block)) {
+                return;
+            }
             blockStateModelGenerator.registerSingleton(block, TexturedModel.CUBE_BOTTOM_TOP);
         });
 
         blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_BASE, FBombs.getId("block/siren_base")));
-        blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_POLE, FBombs.getId("block/siren_pole")));
-        blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_HEAD, FBombs.getId("block/siren_pole")));
-
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SIREN_POLE).coordinate(createPowerableSirenPole("siren_pole")));
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SIREN_HEAD).coordinate(createPowerableSirenPole("siren_pole")));
 
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHAPED_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         registerFireworkTnt(blockStateModelGenerator);
 
         blockStateModelGenerator.blockStateCollector.accept(
-            VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT).coordinate(createSplitTntBlockState())
+                VariantsBlockStateSupplier.create(FBombsBlocks.SPLIT_TNT).coordinate(createSplitTntBlockState())
         );
 
         blockStateModelGenerator.blockStateCollector.accept(
-            BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
-                FBombs.getId("block/tnt_slab_bottom"),
-                FBombs.getId("block/tnt_slab_top"),
-                FBombs.getId("block/tnt_slab_double")
-            )
+                BlockStateModelGenerator.createSlabBlockState(FBombsBlocks.TNT_SLAB,
+                        FBombs.getId("block/tnt_slab_bottom"),
+                        FBombs.getId("block/tnt_slab_top"),
+                        FBombs.getId("block/tnt_slab_double")
+                )
         );
         blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.TNT_SLAB, FBombs.getId("block/tnt_slab_bottom"));
 
         blockStateModelGenerator.registerBuiltin(FBombs.getId("block/acme_bed"), Blocks.OAK_PLANKS)
-            .includeWithoutItem(
-                FBombs.streamEntries(Registries.BLOCK, block -> block instanceof AcmeBedBlock).toArray(Block[]::new)
-            );
+                .includeWithoutItem(
+                        FBombs.streamEntries(Registries.BLOCK, block -> block instanceof AcmeBedBlock).toArray(Block[]::new)
+                );
         blockStateModelGenerator.registerBed(FBombsBlocks.WHITE_ACME_BED, Blocks.WHITE_WOOL);
         blockStateModelGenerator.registerBed(FBombsBlocks.ORANGE_ACME_BED, Blocks.ORANGE_WOOL);
         blockStateModelGenerator.registerBed(FBombsBlocks.MAGENTA_ACME_BED, Blocks.MAGENTA_WOOL);
@@ -90,17 +92,27 @@ public class ModelProvider extends FabricModelProvider {
         List<Item> unsupported = List.of();
 
         FBombs.streamEntries(Registries.ITEM).forEach(item -> {
-            if (item instanceof BlockItem || unsupported.contains(item)) { return; }
+            if (item instanceof BlockItem || unsupported.contains(item)) {
+                return;
+            }
             itemModelGenerator.register(item, Models.GENERATED);
+        });
+    }
+
+    private BlockStateVariantMap createPowerableSirenPole(String name) {
+        return BlockStateVariantMap.create(Properties.POWERED).register(isPowered -> {
+            String path = "block/" + name; //siren_pole_active
+            if (isPowered) path = path.concat("_active");
+            return BlockStateVariant.create().put(VariantSettings.MODEL, FBombs.getId(path));
         });
     }
 
     private BlockStateVariantMap createSplitTntBlockState() {
         return BlockStateVariantMap.create(
-            SplitTntBlock.Split.NE.getProperty(),
-            SplitTntBlock.Split.SE.getProperty(),
-            SplitTntBlock.Split.SW.getProperty(),
-            SplitTntBlock.Split.NW.getProperty()
+                SplitTntBlock.Split.NE.getProperty(),
+                SplitTntBlock.Split.SE.getProperty(),
+                SplitTntBlock.Split.SW.getProperty(),
+                SplitTntBlock.Split.NW.getProperty()
         ).register((ne, se, sw, nw) -> {
             StringBuilder sb = new StringBuilder("block/split_tnt");
             if (ne) sb.append("_ne");
@@ -113,15 +125,15 @@ public class ModelProvider extends FabricModelProvider {
 
     private void registerFireworkTnt(BlockStateModelGenerator blockStateModelGenerator) {
         TextureMap textureMap = new TextureMap()
-            .put(TextureKey.PARTICLE, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
-            .put(TextureKey.DOWN, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_bottom"))
-            .put(TextureKey.UP, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_top"))
-            .put(TextureKey.NORTH, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
-            .put(TextureKey.SOUTH, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
-            .put(TextureKey.EAST, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_side"))
-            .put(TextureKey.WEST, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_side"));
+                .put(TextureKey.PARTICLE, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
+                .put(TextureKey.DOWN, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_bottom"))
+                .put(TextureKey.UP, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_top"))
+                .put(TextureKey.NORTH, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
+                .put(TextureKey.SOUTH, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_front"))
+                .put(TextureKey.EAST, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_side"))
+                .put(TextureKey.WEST, TextureMap.getSubId(FBombsBlocks.FIREWORK_TNT, "_side"));
         blockStateModelGenerator.blockStateCollector.accept(
-            BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.FIREWORK_TNT, Models.CUBE.upload(FBombsBlocks.FIREWORK_TNT, textureMap, blockStateModelGenerator.modelCollector))
+                BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.FIREWORK_TNT, Models.CUBE.upload(FBombsBlocks.FIREWORK_TNT, textureMap, blockStateModelGenerator.modelCollector))
         );
     }
 }

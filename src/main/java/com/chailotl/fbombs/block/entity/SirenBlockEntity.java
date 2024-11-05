@@ -29,8 +29,6 @@ public class SirenBlockEntity extends BlockEntity {
 
     public static void tick(World world, BlockPos pos, BlockState state, SirenBlockEntity blockEntity) {
         blockEntity.tick++;
-        if (blockEntity.tick % 40 != 0) return;
-
         float normalizedRedstonePower = (float) getStrengthFromStructure(world, pos) / 15;
         float normalizedPoleSizePower = (float) (MAX_POLE_LENGTH - Math.max(0, getPoleCountBelow(world, pos) - MIN_POLE_LENGTH)) / MAX_POLE_LENGTH;
         blockEntity.normalizedRedstoneStrength = normalizedRedstonePower * normalizedPoleSizePower;

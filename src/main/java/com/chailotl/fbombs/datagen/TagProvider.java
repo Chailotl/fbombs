@@ -35,7 +35,7 @@ public class TagProvider {
                     .add(FBombsBlocks.SIREN_BASE, FBombsBlocks.SIREN_POLE, FBombsBlocks.SIREN_HEAD, Blocks.IRON_BARS);
 
             getOrCreateTagBuilder(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE)
-                .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.BEDROCK, Blocks.END_PORTAL,
+                .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.END_PORTAL,
                     Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,
                     Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW, Blocks.MOVING_PISTON, Blocks.LIGHT,
                     Blocks.REINFORCED_DEEPSLATE);
