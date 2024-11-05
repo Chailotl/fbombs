@@ -61,7 +61,6 @@ public class MultiShotDispenserBlock extends DispenserBlock {
     @Override
     protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int power = world.getReceivedStrongRedstonePower(pos);
-        FBombs.LOGGER.info(String.valueOf(power));
         for (int i = 0; i < power; ++i) {
             this.dispense(world, state, pos);
         }
