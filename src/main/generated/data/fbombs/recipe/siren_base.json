@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "s": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
+  "pattern": [
+    "s",
+    "s",
+    "r"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fbombs:siren_base"
+  }
+}

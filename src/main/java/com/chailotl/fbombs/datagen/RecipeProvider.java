@@ -103,6 +103,48 @@ public class RecipeProvider extends FabricRecipeProvider {
             .input(FBombsItems.SARSPARILLA_BOTTLE_CAP)
             .criterion("has_the_recipe2", RecipeUnlockedCriterion.create(Registries.ITEM.getId(FBombsItems.NUCLEAR_LAUNCH_KEY)))
             .offerTo(exporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.SIREN_POLE, 4)
+                .pattern(" i ")
+                .pattern("rir")
+                .pattern(" i ")
+                .input('i', Items.IRON_INGOT)
+                .input('r', Items.REDSTONE)
+                .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
+                .criterion(FabricRecipeProvider.hasItem(Items.IRON_INGOT), FabricRecipeProvider.conditionsFromItem(Items.IRON_INGOT))
+                .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.SIREN_BASE, 1)
+                .pattern("s")
+                .pattern("s")
+                .pattern("r")
+                .input('s', Items.SMOOTH_STONE)
+                .input('r', Items.REDSTONE)
+                .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
+                .criterion(FabricRecipeProvider.hasItem(Items.SMOOTH_STONE), FabricRecipeProvider.conditionsFromItem(Items.SMOOTH_STONE))
+                .offerTo(exporter);
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.SIREN_HEAD, 2)
+                .pattern(" p ")
+                .pattern("npn")
+                .pattern(" p ")
+                .input('n', Blocks.NOTE_BLOCK)
+                .input('p', FBombsBlocks.SIREN_POLE)
+                .criterion(FabricRecipeProvider.hasItem(Blocks.NOTE_BLOCK), FabricRecipeProvider.conditionsFromItem(Blocks.NOTE_BLOCK))
+                .criterion(FabricRecipeProvider.hasItem(FBombsBlocks.SIREN_POLE), FabricRecipeProvider.conditionsFromItem(FBombsBlocks.SIREN_POLE))
+                .offerTo(exporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.DETONATOR, 2)
+                .pattern("nnn")
+                .pattern(" f ")
+                .pattern("pgp")
+                .input('n', Items.IRON_NUGGET)
+                .input('f', Items.FLINT)
+                .input('g', Items.GUNPOWDER)
+                .input('p', ItemTags.PLANKS)
+                .criterion(FabricRecipeProvider.hasItem(Items.IRON_NUGGET), FabricRecipeProvider.conditionsFromItem(Items.IRON_NUGGET))
+                .criterion(FabricRecipeProvider.hasItem(Items.FLINT), FabricRecipeProvider.conditionsFromItem(Items.FLINT))
+                .criterion(FabricRecipeProvider.hasItem(Items.GUNPOWDER), FabricRecipeProvider.conditionsFromItem(Items.GUNPOWDER))
+                .criterion("has_planks", FabricRecipeProvider.conditionsFromTag(ItemTags.PLANKS))
+                .offerTo(exporter);
     }
 
     private void offerTntRecipe(RecipeExporter exporter, ItemConvertible output, ItemConvertible input) {

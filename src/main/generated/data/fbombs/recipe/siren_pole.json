@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " i ",
+    "rir",
+    " i "
+  ],
+  "result": {
+    "count": 4,
+    "id": "fbombs:siren_pole"
+  }
+}

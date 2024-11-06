@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "n": {
+      "item": "minecraft:note_block"
+    },
+    "p": {
+      "item": "fbombs:siren_pole"
+    }
+  },
+  "pattern": [
+    " p ",
+    "npn",
+    " p "
+  ],
+  "result": {
+    "count": 2,
+    "id": "fbombs:siren_head"
+  }
+}
