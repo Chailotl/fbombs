@@ -16,10 +16,16 @@ import org.spongepowered.asm.mixin.injection.At;
 public class ItemEntityMixin {
     @WrapOperation(method = "onPlayerCollision", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z"))
     private boolean applyContaminatedEffect(PlayerInventory instance, ItemStack stack, Operation<Boolean> original) {
+        ItemStack stackHolder = stack.copy();
         boolean insertedStack = original.call(instance, stack);
-        boolean isContaminated = stack.getOrDefault(FBombsItemComponents.CONTAMINATION, 0f) > RadiationCategory.SAFE.getMaxCps();
-        if (insertedStack && isContaminated) {
-            instance.player.addStatusEffect(new StatusEffectInstance(FBombsStatusEffects.RADIATION_POISONING, 5), (ItemEntity) (Object) this);
+        float contamination = stackHolder.getOrDefault(FBombsItemComponents.CONTAMINATION, 0f);
+        boolean isContaminated = contamination > RadiationCategory.SAFE.getMaxCps();
+        if (insertedStack && isContaminated && !instance.player.getWorld().isClient()) {
+            instance.player.addStatusEffect(new StatusEffectInstance(
+                            FBombsStatusEffects.RADIATION_POISONING,
+                            (int) (contamination), 0,
+                            true, false, true),
+                    (ItemEntity) (Object) this);
         }
         return insertedStack;
     }
