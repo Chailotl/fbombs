@@ -23,7 +23,7 @@ public class ItemEntityMixin {
         if (insertedStack && isContaminated && !instance.player.getWorld().isClient()) {
             instance.player.addStatusEffect(new StatusEffectInstance(
                             FBombsStatusEffects.RADIATION_POISONING,
-                            (int) (contamination), 0,
+                            (int) (contamination) * 20, 0,
                             true, false, true),
                     (ItemEntity) (Object) this);
         }
