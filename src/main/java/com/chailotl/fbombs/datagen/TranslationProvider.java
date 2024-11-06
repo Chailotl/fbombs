@@ -44,6 +44,11 @@ public class TranslationProvider extends FabricLanguageProvider {
         FBombs.streamEntries(Registries.ITEM, item -> !(item instanceof BlockItem)).forEach(item -> translationBuilder.add(item, cleanString(item)));
         FBombs.streamEntries(Registries.BLOCK).forEach(block -> translationBuilder.add(block, cleanString(block)));
 
+        translationBuilder.add("sound.fbombs.radioactive_noise", "Radioactive noise");
+        translationBuilder.add("sound.fbombs.dynamite_explosion", "Dynamite explosion");
+        translationBuilder.add("sound.fbombs.nuclear_explosion", "Nuclear explosion");
+        translationBuilder.add("sound.fbombs.nuclear_siren", "Nuclear siren");
+
 
         try {
             Path existingFilePath = dataOutput.getModContainer().findPath("assets/%s/lang/en_us.existing.json".formatted(FBombs.MOD_ID)).orElseThrow();
