@@ -17,6 +17,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Direction;
@@ -38,7 +39,7 @@ public class DynamiteItem extends Item implements ProjectileItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
-        tooltip.add(Text.translatable("item.fbombs.dynamite_stick.tooltip"));
+        tooltip.add(Text.translatable("item.fbombs.dynamite_stick.tooltip").formatted(Formatting.GRAY));
     }
 
     @Override
