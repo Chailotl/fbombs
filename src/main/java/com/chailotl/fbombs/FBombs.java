@@ -1,10 +1,12 @@
 package com.chailotl.fbombs;
 
+import com.chailotl.fbombs.compat.SkycatsLuckyBlocks;
 import com.chailotl.fbombs.data.ScorchedBlockDataLoader;
 import com.chailotl.fbombs.init.*;
 import com.chailotl.fbombs.network.FBombsC2SNetworking;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
@@ -55,6 +57,10 @@ public class FBombs implements ModInitializer {
                 }
             }
         });
+
+        if (FabricLoader.getInstance().isModLoaded("skycats-lucky-blocks")) {
+            SkycatsLuckyBlocks.initialize();
+        }
 
         LOGGER.info("May contain traces of nuclear explosions");
     }
