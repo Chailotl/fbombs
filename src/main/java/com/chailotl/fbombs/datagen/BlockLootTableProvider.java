@@ -26,18 +26,18 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        List<Block> unsupported = List.of(FBombsBlocks.ADAPTIVE_TNT);
+        List<Block> unsupported = List.of(
+            FBombsBlocks.ADAPTIVE_TNT,
+            FBombsBlocks.GUNPOWDER_TRAIL,
+            FBombsBlocks.SPLIT_TNT
+        );
 
-        FBombs.streamEntries(Registries.BLOCK, block -> block instanceof GenericTntBlock).forEach(block -> {
+        FBombs.streamEntries(Registries.BLOCK).forEach(block -> {
             if (unsupported.contains(block)) { return; }
             addDrop(block);
         });
 
-        addDrop(FBombsBlocks.DETONATOR);
         addDrop(FBombsBlocks.GUNPOWDER_TRAIL, Items.GUNPOWDER);
-        addDrop(FBombsBlocks.EXPOSED_CORRUGATED_IRON);
-        addDrop(FBombsBlocks.EXPOSED_IRON_PLATE);
-        addDrop(FBombsBlocks.EXPOSED_CHAINLINK);
 
         addDrop(FBombsBlocks.ADAPTIVE_TNT, LootTable.builder()
             .pool(
