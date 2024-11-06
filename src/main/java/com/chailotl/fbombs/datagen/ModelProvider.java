@@ -45,8 +45,7 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_BASE, FBombs.getId("block/siren_base")));
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SIREN_POLE).coordinate(createPowerableSirenPole("siren_pole")));
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SIREN_HEAD).coordinate(createPowerableSirenPole("siren_pole")));
-        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.SIREN_HEAD, FBombs.getId("block/siren_pole"));
-
+        blockStateModelGenerator.excludeFromSimpleItemModelGeneration(FBombsBlocks.SIREN_HEAD);
 
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.DETONATOR)
                 .coordinate(createPressableDetonator())
