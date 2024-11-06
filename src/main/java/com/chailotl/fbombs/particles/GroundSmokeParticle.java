@@ -21,7 +21,7 @@ public class GroundSmokeParticle extends SpriteBillboardParticle {
         collidesWithWorld = false;
         scale = 2;
         maxAge = random.nextBetween(300, 600);
-        float f = 0.15f + random.nextFloat() * 0.15f;
+        float f = 0.3f + random.nextFloat() * 0.15f;
         setColor(f, f, f);
 
         velocityX = xVel;

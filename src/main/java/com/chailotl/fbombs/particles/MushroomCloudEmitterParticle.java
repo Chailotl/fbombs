@@ -69,7 +69,7 @@ public class MushroomCloudEmitterParticle extends NoRenderParticle {
                 double sin = Math.sin(theta);
                 Vec3d pos = new Vec3d(this.x + r2 * cos, this.y, this.z + r2 * sin);
 
-                BlockHitResult blockHitResult = world.raycast(new RaycastContext(pos, pos.add(0, -30, 0), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, ShapeContext.absent()));
+                BlockHitResult blockHitResult = world.raycast(new RaycastContext(pos.add(0, 10, 0), pos.add(0, -30, 0), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, ShapeContext.absent()));
                 if (blockHitResult.getType() == HitResult.Type.BLOCK) {
                     pos = blockHitResult.getPos();
                     world.addParticle(FBombsParticleTypes.GROUND_SMOKE, pos.x, pos.y, pos.z, cos / 2f, 0.1, sin / 2f);
