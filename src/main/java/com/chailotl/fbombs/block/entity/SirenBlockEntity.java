@@ -33,7 +33,7 @@ public class SirenBlockEntity extends BlockEntity {
         float normalizedPoleSizePower = (float) (MAX_POLE_LENGTH - Math.max(0, getPoleCountBelow(world, pos) - MIN_POLE_LENGTH)) / MAX_POLE_LENGTH;
         float normalizedRedstoneStrength = normalizedRedstonePower * normalizedPoleSizePower;
         blockEntity.prevAngle = blockEntity.angle;
-        if (normalizedRedstoneStrength >= 0 && state.get(SirenPoleBlock.POWERED)) {
+        if (normalizedRedstoneStrength > 0 && state.get(SirenPoleBlock.POWERED)) {
             blockEntity.angle += (float) (12.0 / 20.0 * (normalizedRedstoneStrength * 3 + 1));
         }
     }
