@@ -31,7 +31,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         offerTntRecipe(exporter, FBombsBlocks.SHORT_FUSE_TNT, FBombsBlocks.FUSELESS_TNT, Items.STRING);
         offerTntRecipe(exporter, Blocks.TNT, FBombsBlocks.SHORT_FUSE_TNT, Items.STRING);
         offerTntRecipe(exporter, FBombsBlocks.LONG_FUSE_TNT, Items.STRING);
-        //offerTntRecipe(exporter, FBombsBlocks.HIGH_POWER_TNT, Blocks.TNT);
+        offerTntRecipe(exporter, FBombsBlocks.HIGH_POWER_TNT, Blocks.TNT);
         offerTntRecipe(exporter, FBombsBlocks.FIRE_CHARGED_TNT, Items.FIRE_CHARGE);
         offerTntRecipe(exporter, FBombsBlocks.WIND_CHARGED_TNT, Items.WIND_CHARGE);
         offerTntRecipe(exporter, FBombsBlocks.UNDERWATER_TNT, Items.PRISMARINE_SHARD);
@@ -70,12 +70,12 @@ public class RecipeProvider extends FabricRecipeProvider {
             .input('n', Items.IRON_NUGGET)
             .criterion(FabricRecipeProvider.hasItem(Blocks.TNT), FabricRecipeProvider.conditionsFromItem(Blocks.TNT))
             .offerTo(exporter);
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.HIGH_POWER_TNT)
+        /*ShapelessRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.HIGH_POWER_TNT)
             .input(Blocks.BARREL)
             .input(Items.GUNPOWDER, 8)
             .criterion(FabricRecipeProvider.hasItem(Items.GUNPOWDER), FabricRecipeProvider.conditionsFromItem(Items.GUNPOWDER))
             .criterion(FabricRecipeProvider.hasItem(Blocks.BARREL), FabricRecipeProvider.conditionsFromItem(Blocks.BARREL))
-            .offerTo(exporter);
+            .offerTo(exporter);*/
         ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, FBombsBlocks.LOW_POWER_TNT)
             .pattern("gs")
             .pattern("sg")

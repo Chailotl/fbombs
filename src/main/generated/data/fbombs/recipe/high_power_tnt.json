@@ -3,31 +3,10 @@
   "category": "redstone",
   "ingredients": [
     {
-      "item": "minecraft:barrel"
+      "item": "minecraft:tnt"
     },
     {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "minecraft:gunpowder"
+      "item": "minecraft:tnt"
     }
   ],
   "result": {
