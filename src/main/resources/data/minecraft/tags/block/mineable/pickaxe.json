@@ -3,6 +3,7 @@
 	"values": [
 		"fbombs:exposed_corrugated_iron",
 		"fbombs:exposed_iron_plate",
-		"fbombs:exposed_chainlink"
+		"fbombs:exposed_chainlink",
+		"fbombs:multi_shot_dispenser"
 	]
 }

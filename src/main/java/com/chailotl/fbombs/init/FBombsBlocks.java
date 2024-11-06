@@ -125,11 +125,7 @@ public class FBombsBlocks {
     public static final AcmeBedBlock PINK_ACME_BED = registerAcmeBed("pink_acme_bed", DyeColor.PINK);
 
     public static final MultiShotDispenserBlock MULTI_SHOT_DISPENSER = register("multi_shot_dispenser", new MultiShotDispenserBlock(
-        AbstractBlock.Settings.create()
-            .mapColor(MapColor.STONE_GRAY)
-            .instrument(NoteBlockInstrument.BASEDRUM)
-            .requiresTool()
-            .strength(3.5F)
+        AbstractBlock.Settings.copy(Blocks.DISPENSER)
     ), true);
 
     public static final Block EXPOSED_CORRUGATED_IRON = register("exposed_corrugated_iron", new PillarBlock(AbstractBlock.Settings.create()
