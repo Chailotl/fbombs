@@ -10,7 +10,6 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -23,18 +22,11 @@ import org.jetbrains.annotations.Nullable;
 public class SirenHeadBlock extends AbstractSirenBlock implements BlockEntityProvider {
     public SirenHeadBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(POWERED, false));
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
-        builder.add(POWERED);
     }
 
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        world.scheduleBlockTick(pos, this, 5);
+        world.scheduleBlockTick(pos, this, 1);
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 

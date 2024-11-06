@@ -4,10 +4,13 @@ import com.chailotl.fbombs.block.entity.AbstractSirenBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +32,32 @@ public class SirenBaseBlock extends AbstractSirenBlock {
     @Override
     public boolean canReceivePower() {
         return true;
+    }
+
+    @Override
+    protected boolean emitsRedstonePower(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        if (!world.isClient) {
+            boolean bl = state.get(POWERED);
+            if (bl != world.isReceivingRedstonePower(pos)) {
+                if (bl) {
+                    world.scheduleBlockTick(pos, this, 4);
+                } else {
+                    world.setBlockState(pos, state.cycle(POWERED), Block.NOTIFY_LISTENERS);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        if (state.get(POWERED) && !world.isReceivingRedstonePower(pos)) {
+            world.setBlockState(pos, state.cycle(POWERED), Block.NOTIFY_LISTENERS);
+        }
     }
 
     @Override

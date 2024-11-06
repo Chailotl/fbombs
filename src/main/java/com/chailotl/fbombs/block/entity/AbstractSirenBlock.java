@@ -31,18 +31,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public abstract class AbstractSirenBlock extends Block implements Waterloggable, SirenPoleWalker {
-    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final BooleanProperty POWERED = Properties.POWERED;
+    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     public AbstractSirenBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(POWERED, false).with(WATERLOGGED, false));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(WATERLOGGED);
+        builder.add(POWERED).add(WATERLOGGED);
     }
 
     @Override
