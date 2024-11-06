@@ -5,8 +5,11 @@ import com.chailotl.fbombs.init.FBombsGamerules;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -24,23 +27,44 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-public class DetonatorBlock extends GenericTntBlock {
+public class DetonatorBlock extends GenericTntBlock implements Waterloggable {
     public static final BooleanProperty IS_PRESSED = BooleanProperty.of("is_pressed");
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     public static final float SELF_DETONATION_CHANCE = 0.2f;
 
     public DetonatorBlock(TntEntityType tntEntityType, Settings settings) {
         super(tntEntityType, settings);
-        this.setDefaultState(this.getDefaultState().with(IS_PRESSED, false).with(FACING, Direction.NORTH));
+        this.setDefaultState(this.getDefaultState().with(IS_PRESSED, false)
+                .with(FACING, Direction.NORTH)
+                .with(Properties.WATERLOGGED, false));
     }
 
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(IS_PRESSED, false).with(FACING, ctx.getHorizontalPlayerFacing());
+        return this.getDefaultState()
+                .with(IS_PRESSED, false)
+                .with(FACING, ctx.getHorizontalPlayerFacing())
+                .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).isOf(Fluids.WATER));
+    }
+
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState
+            neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (state.get(WATERLOGGED)) {
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    @Override
+    protected FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     @Override
@@ -57,7 +81,7 @@ public class DetonatorBlock extends GenericTntBlock {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(IS_PRESSED, FACING);
+        builder.add(IS_PRESSED, FACING, WATERLOGGED);
     }
 
     @Override
@@ -69,17 +93,21 @@ public class DetonatorBlock extends GenericTntBlock {
     }
 
 
-
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (world instanceof ServerWorld serverWorld) {
+            if (state.get(WATERLOGGED)) {
+                serverWorld.playSound(null, pos, SoundEvents.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundCategory.BLOCKS, 0.6f, 1f);
+            } else {
+                serverWorld.playSound(null, pos, SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.BLOCKS, 0.6f, 1f);
+            }
             serverWorld.playSound(null, pos, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 1f, 1f);
         }
         if (world.getRandom().nextFloat() <= SELF_DETONATION_CHANCE && world.getGameRules().getBoolean(FBombsGamerules.SELF_DESTRUCTING_DETONATOR)) {
             if (world.isClient()) return ActionResult.SUCCESS;
             activateExplosion(world, pos, player);
         } else {
-            world.setBlockState(pos, state.with(IS_PRESSED, true));
+            world.setBlockState(pos, state.with(IS_PRESSED, !state.get(IS_PRESSED)));
             if (world.isClient()) return ActionResult.SUCCESS;
             activateConnectedGunPowderTrails(world, pos);
         }
