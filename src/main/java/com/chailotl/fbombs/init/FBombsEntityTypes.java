@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class FBombsEntityTypes {
     private static final List<EntityType<? extends AbstractTntEntity>> TNT_ENTITY_TYPES = new ArrayList<>();
 
-    public static final EntityType<InstantTntEntity> INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
+    public static final EntityType<FuselessTntEntity> FUSELESS_TNT = registerTnt("fuseless_tnt", FuselessTntEntity::new);
     public static final EntityType<ShortFuseTntEntity> SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final EntityType<LongFuseTntEntity> LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final EntityType<HighPowerTntEntity> HIGH_POWER_TNT = registerTnt("high_power_tnt", HighPowerTntEntity::new);

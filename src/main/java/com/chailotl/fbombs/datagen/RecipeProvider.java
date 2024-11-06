@@ -28,7 +28,7 @@ public class RecipeProvider extends FabricRecipeProvider {
     public void generate(RecipeExporter exporter) {
         //createTntRecipe(exporter, FBombsBlocks.INSTANT_TNT, Blocks.SPONGE);
         //createTntRecipe(exporter, FBombsBlocks.SHORT_FUSE_TNT, Blocks.SPONGE);
-        offerTntRecipe(exporter, FBombsBlocks.SHORT_FUSE_TNT, FBombsBlocks.INSTANT_TNT, Items.STRING);
+        offerTntRecipe(exporter, FBombsBlocks.SHORT_FUSE_TNT, FBombsBlocks.FUSELESS_TNT, Items.STRING);
         offerTntRecipe(exporter, Blocks.TNT, FBombsBlocks.SHORT_FUSE_TNT, Items.STRING);
         offerTntRecipe(exporter, FBombsBlocks.LONG_FUSE_TNT, Items.STRING);
         //offerTntRecipe(exporter, FBombsBlocks.HIGH_POWER_TNT, Blocks.TNT);

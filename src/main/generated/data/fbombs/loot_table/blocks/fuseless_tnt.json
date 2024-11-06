@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "fbombs:instant_tnt"
+          "name": "fbombs:fuseless_tnt"
         }
       ],
       "rolls": 1.0

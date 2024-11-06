@@ -29,7 +29,7 @@ import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public class FBombsBlocks {
-    public static final GenericTntBlock INSTANT_TNT = registerTnt("instant_tnt", InstantTntEntity::new);
+    public static final GenericTntBlock FUSELESS_TNT = registerTnt("fuseless_tnt", FuselessTntEntity::new);
     public static final GenericTntBlock SHORT_FUSE_TNT = registerTnt("short_fuse_tnt", ShortFuseTntEntity::new);
     public static final GenericTntBlock LONG_FUSE_TNT = registerTnt("long_fuse_tnt", LongFuseTntEntity::new);
     public static final GenericTntBlock LOW_POWER_TNT = registerTnt("low_power_tnt", LowPowerTntEntity::new);

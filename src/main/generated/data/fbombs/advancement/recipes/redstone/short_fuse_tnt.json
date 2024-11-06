@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_instant_tnt": {
+    "has_fuseless_tnt": {
       "conditions": {
         "items": [
           {
-            "items": "fbombs:instant_tnt"
+            "items": "fbombs:fuseless_tnt"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_instant_tnt"
+      "has_fuseless_tnt"
     ]
   ],
   "rewards": {

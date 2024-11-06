@@ -1,7 +1,7 @@
 {
   "values": [
     "minecraft:tnt",
-    "fbombs:instant_tnt",
+    "fbombs:fuseless_tnt",
     "fbombs:short_fuse_tnt",
     "fbombs:long_fuse_tnt",
     "fbombs:low_power_tnt",
@@ -18,7 +18,6 @@
     "fbombs:mining_charge",
     "fbombs:adaptive_tnt",
     "fbombs:split_tnt",
-    "fbombs:etho_slab",
-    "fbombs:detonator"
+    "fbombs:etho_slab"
   ]
 }

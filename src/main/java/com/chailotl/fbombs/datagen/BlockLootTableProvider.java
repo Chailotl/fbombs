@@ -33,7 +33,7 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider {
             addDrop(block);
         });
 
-        addDrop(FBombsBlocks.TNT_SLAB);
+        addDrop(FBombsBlocks.DETONATOR);
         addDrop(FBombsBlocks.GUNPOWDER_TRAIL, Items.GUNPOWDER);
         addDrop(FBombsBlocks.EXPOSED_CORRUGATED_IRON);
         addDrop(FBombsBlocks.EXPOSED_IRON_PLATE);

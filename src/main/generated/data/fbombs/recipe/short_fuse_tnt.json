@@ -3,7 +3,7 @@
   "category": "redstone",
   "ingredients": [
     {
-      "item": "fbombs:instant_tnt"
+      "item": "fbombs:fuseless_tnt"
     },
     {
       "item": "minecraft:string"
