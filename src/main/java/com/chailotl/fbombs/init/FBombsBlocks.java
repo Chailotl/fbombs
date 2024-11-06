@@ -93,12 +93,12 @@ public class FBombsBlocks {
     public static final SirenHeadBlock SIREN_HEAD = register("siren_head", new SirenHeadBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)), true);
 
     public static final DetonatorBlock DETONATOR = register("detonator", new DetonatorBlock(
-            new TntEntityType("detonator", DetonatorEntity::new),
-            AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BROWN)
-                    .sounds(BlockSoundGroup.WOOD)
-                    .burnable()
-                    .solidBlock(Blocks::never)
+        new TntEntityType("detonator", DetonatorEntity::new),
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BROWN)
+            .sounds(BlockSoundGroup.WOOD)
+            .burnable()
+            .solidBlock(Blocks::never)
     ), true);
     public static final GunpowderTrailBlock GUNPOWDER_TRAIL = register("gunpowder_trail", new GunpowderTrailBlock(
         AbstractBlock.Settings.create()

@@ -25,6 +25,11 @@ public class DetonatorEntity extends AbstractTntEntity{
 
     @Override
     protected int getDefaultFuse() {
-        return 40;
+        return 20;
+    }
+
+    @Override
+    protected float getPower() {
+        return 2;
     }
 }
