@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench by ShiroJR",
+	"parent": "block/block",
 	"textures": {
 		"0": "block/tnt_top",
 		"1": "block/tnt_bottom",

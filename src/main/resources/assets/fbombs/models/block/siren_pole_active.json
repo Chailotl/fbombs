@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench by ShiroJR",
+	"parent": "block/block",
 	"textures": {
 		"1": "fbombs:block/siren_pole_active",
 		"particle": "fbombs:block/siren_pole_active"

@@ -45,10 +45,13 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(FBombsBlocks.SIREN_BASE, FBombs.getId("block/siren_base")));
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SIREN_POLE).coordinate(createPowerableSirenPole("siren_pole")));
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.SIREN_HEAD).coordinate(createPowerableSirenPole("siren_pole")));
+        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.SIREN_HEAD, FBombs.getId("block/siren_pole"));
+
 
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(FBombsBlocks.DETONATOR)
                 .coordinate(createPressableDetonator())
                 .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
+        blockStateModelGenerator.registerParentedItemModel(FBombsBlocks.DETONATOR, FBombs.getId("block/detonator"));
 
         blockStateModelGenerator.registerSingleton(FBombsBlocks.SHAPED_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
         blockStateModelGenerator.registerSingleton(FBombsBlocks.MINING_CHARGE, TexturedModel.CUBE_BOTTOM_TOP);
@@ -93,6 +96,7 @@ public class ModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSingleton(FBombsBlocks.EXPOSED_CHAINLINK, TexturedModel.CUBE_ALL);
     }
 
+    @SuppressWarnings("ConstantValue")
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         List<Item> unsupported = List.of();
