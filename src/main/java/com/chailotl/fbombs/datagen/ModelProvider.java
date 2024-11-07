@@ -6,11 +6,13 @@ import com.chailotl.fbombs.block.DetonatorBlock;
 import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.block.SplitTntBlock;
 import com.chailotl.fbombs.init.FBombsBlocks;
+import com.chailotl.fbombs.init.FBombsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.client.*;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -101,11 +103,15 @@ public class ModelProvider extends FabricModelProvider {
         List<Item> unsupported = List.of();
 
         FBombs.streamEntries(Registries.ITEM).forEach(item -> {
-            if (item instanceof BlockItem || unsupported.contains(item)) {
+            if (item instanceof BlockItem || item instanceof ArmorItem || unsupported.contains(item)) {
                 return;
             }
             itemModelGenerator.register(item, Models.GENERATED);
         });
+        itemModelGenerator.registerArmor(FBombsItems.HAZMAT_HELMET);
+        itemModelGenerator.registerArmor(FBombsItems.HAZMAT_CHESTPLATE);
+        itemModelGenerator.registerArmor(FBombsItems.HAZMAT_LEGGINGS);
+        itemModelGenerator.registerArmor(FBombsItems.HAZMAT_BOOTS);
     }
 
     private BlockStateVariantMap createPowerableSirenPole(String name) {
