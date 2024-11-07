@@ -21,10 +21,10 @@ public class FBombsItems {
     public static final DynamiteItem DYNAMITE_BUNDLE = registerDynamite("dynamite_bundle", DynamiteBundleEntity::new, DynamiteBundleEntity::new);
     public static final BlockItem GUNPOWDER_TRAIL = register("gunpowder_trail", new BlockItem(FBombsBlocks.GUNPOWDER_TRAIL, new Item.Settings()));
 
-    public static final HazmatArmor HAZMAT_HELMET = register("hazmat_helmet", new HazmatArmor(ArmorItem.Type.HELMET, new Item.Settings()));
-    public static final HazmatArmor HAZMAT_CHESTPLATE = register("hazmat_chestplate", new HazmatArmor(ArmorItem.Type.CHESTPLATE, new Item.Settings()));
-    public static final HazmatArmor HAZMAT_LEGGINGS = register("hazmat_leggings", new HazmatArmor(ArmorItem.Type.LEGGINGS, new Item.Settings()));
-    public static final HazmatArmor HAZMAT_BOOTS = register("hazmat_boots", new HazmatArmor(ArmorItem.Type.BOOTS, new Item.Settings()));
+    public static final HazmatArmor HAZMAT_HELMET = register("hazmat_helmet", new HazmatArmor(ArmorItem.Type.HELMET, new Item.Settings()), FBombsItemGroups.GROUP);
+    public static final HazmatArmor HAZMAT_CHESTPLATE = register("hazmat_chestplate", new HazmatArmor(ArmorItem.Type.CHESTPLATE, new Item.Settings()), FBombsItemGroups.GROUP);
+    public static final HazmatArmor HAZMAT_LEGGINGS = register("hazmat_leggings", new HazmatArmor(ArmorItem.Type.LEGGINGS, new Item.Settings()), FBombsItemGroups.GROUP);
+    public static final HazmatArmor HAZMAT_BOOTS = register("hazmat_boots", new HazmatArmor(ArmorItem.Type.BOOTS, new Item.Settings()),  FBombsItemGroups.GROUP);
 
     public static final Item NUCLEAR_LAUNCH_KEY = register("nuclear_launch_key", new NuclearLaunchKeyItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC)));
     public static final BottleCapItem COLA_BOTTLE_CAP = registerBottleCap("cola_bottle_cap", 1);
