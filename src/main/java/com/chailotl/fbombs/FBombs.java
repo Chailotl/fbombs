@@ -46,6 +46,7 @@ public class FBombs implements ModInitializer {
         FBombsSoundEvents.initialize();
         FBombsStatusEffects.initialize();
         FBombsParticleTypes.initialize();
+        FBombsArgumentTypes.initialize();
 
         ScorchedBlockDataLoader.initialize();
 
