@@ -21,6 +21,10 @@ public class ExplosionScheduler {
         this.recentTickTimes = new ArrayDeque<>();
     }
 
+    public Queue<BlockAndEntityGroup> getExplosions() {
+        return explosions;
+    }
+
     public void processNextTick(MinecraftServer server, double currentTime) {
         adjustBlocksPerTick(currentTime);
 
@@ -31,7 +35,7 @@ public class ExplosionScheduler {
 
             blocksProcessed += explosionPartition.applyChanges(server, blocksPerTick);
             ServerWorld groupWorld = server.getWorld(explosionPartition.getDimension());
-            if (isComplete() && groupWorld != null) {
+            if (explosionPartition.isComplete() && groupWorld != null) {
                 FBombs.modifyCachedPersistentState(groupWorld, state -> state.getExplosions().remove(explosionPartition));
                 this.explosions.poll();
             }
@@ -55,6 +59,10 @@ public class ExplosionScheduler {
         } else if (averageTickTime < tickTimeThreshold && blocksPerTick < maxBlocksPerTick) {
             this.blocksPerTick = Math.min(maxBlocksPerTick, blocksPerTick + adjustmentFactor);
         }
+    }
+
+    public void addExplosion(BlockAndEntityGroup explosion) {
+        this.explosions.add(explosion);
     }
 
     public boolean isComplete() {

@@ -190,6 +190,7 @@ public class ExplosionHandler {
                 .thenAccept(blockAndEntityGroup -> world.getServer().execute(() -> {
                     FBombs.modifyCachedPersistentState(world, state -> {
                         state.getExplosions().add(blockAndEntityGroup);
+                        ExplosionManager.getInstance(world.getServer()).addExplosion(world, blockAndEntityGroup);
                     });
                     LoggerUtil.devLogger("finished explosion data gathering");
                 }));
@@ -200,7 +201,7 @@ public class ExplosionHandler {
         int processedScorchedBlocks = 0;
         int processedUnaffectedBlocks = 0;
 
-        while (processedAffectedBlocks < blocksPerTick / 3) {
+        while (processedAffectedBlocks < blocksPerTick / 3 && !group.getAffectedBlocks().isEmpty()) {
             // TODO: [ShiroJR] add radiation even to air blocks
 
             processedAffectedBlocks++;
@@ -211,7 +212,7 @@ public class ExplosionHandler {
             );
             // spawnParticlesAndSound(world, group.getOrigin(), entry);
         }
-        while (processedScorchedBlocks < blocksPerTick / 3) {
+        while (processedScorchedBlocks < blocksPerTick / 3 && !group.getScorchedBlocks().isEmpty()) {
             // TODO: [ShiroJR] add radiation even to air blocks
 
             processedScorchedBlocks++;
@@ -230,9 +231,9 @@ public class ExplosionHandler {
             // spawnParticlesAndSound(world, group.getOrigin(), scorchedBlockEntry);
         }
 
-        while (processedUnaffectedBlocks < blocksPerTick / 3) {
+        while (processedUnaffectedBlocks < blocksPerTick / 3 && !group.getUnaffectedBlocks().isEmpty()) {
             processedUnaffectedBlocks++;
-            LocatableBlock entry = group.getAffectedBlocks().poll();
+            LocatableBlock entry = group.getUnaffectedBlocks().poll();
             if (entry == null) continue;
             // TODO: [ShiroJR] add radiation even to air blocks
 

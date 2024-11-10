@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -100,11 +99,7 @@ public class FBombs implements ModInitializer {
      *                    yet on the server this will not be applied and also doesn't include a markDirty call
      */
     public static void modifyCachedPersistentState(ServerWorld world, Consumer<FBombsPersistentState> cachedState) {
-        Optional.ofNullable(FBombsPersistentState.fromServer(world)).ifPresent(
-                cachedState
-        );
-
-        /*FBombsPersistentState state = CACHED_PERSISTENT_STATE.get(world.getRegistryKey());
+        FBombsPersistentState state = CACHED_PERSISTENT_STATE.get(world.getRegistryKey());
         if (state != null) {
             cachedState.accept(state);
             state.markDirty();
@@ -115,7 +110,7 @@ public class FBombs implements ModInitializer {
                 newState.markDirty();
                 CACHED_PERSISTENT_STATE.put(world.getRegistryKey(), newState);
             }
-        }*/
+        }
     }
 
     public static Identifier getId(String path) {

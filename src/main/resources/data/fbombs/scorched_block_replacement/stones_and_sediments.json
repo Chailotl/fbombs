@@ -2,8 +2,7 @@
   "minecraft:stone": [
     "minecraft:tuff",
     "minecraft:andesite",
-    "minecraft:magma_block",
-    "minecraft:lava"
+    "minecraft:magma_block"
   ],
   "minecraft:dirt": [
     "minecraft:rooted_dirt",
