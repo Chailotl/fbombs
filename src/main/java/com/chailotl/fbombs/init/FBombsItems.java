@@ -6,9 +6,8 @@ import com.chailotl.fbombs.entity.util.DynamiteEntityProviderOwner;
 import com.chailotl.fbombs.entity.util.DynamiteEntityProviderPos;
 import com.chailotl.fbombs.item.*;
 import net.minecraft.block.DispenserBlock;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.component.type.FoodComponents;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Rarity;
@@ -19,12 +18,17 @@ public class FBombsItems {
     public static final DynamiteItem BOUNCY_DYNAMITE = registerDynamite("bouncy_dynamite", BouncyDynamiteEntity::new, BouncyDynamiteEntity::new);
     public static final DynamiteItem STICKY_DYNAMITE = registerDynamite("sticky_dynamite", StickyDynamiteEntity::new, StickyDynamiteEntity::new);
     public static final DynamiteItem DYNAMITE_BUNDLE = registerDynamite("dynamite_bundle", DynamiteBundleEntity::new, DynamiteBundleEntity::new);
-    public static final BlockItem GUNPOWDER_TRAIL = register("gunpowder_trail", new BlockItem(FBombsBlocks.GUNPOWDER_TRAIL, new Item.Settings()));
+
+    public static final JuiceThatMakesYouExplodeBottleItem JUICE_THAT_MAKES_YOU_EXPLODE_BOTTLE = register("juice_that_makes_you_explode_bottle", new JuiceThatMakesYouExplodeBottleItem(new Item.Settings().food(FoodComponents.OMINOUS_BOTTLE).recipeRemainder(Items.GLASS_BOTTLE).maxCount(16)), FBombsItemGroups.GROUP);
+    public static final BucketItem JUICE_THAT_MAKES_YOU_EXPLODE_BUCKET = register("juice_that_makes_you_explode_bucket",
+        new BucketItem(FBombsFluids.JUICE_THAT_MAKES_YOU_EXPLODE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)), FBombsItemGroups.GROUP);
 
     public static final HazmatArmor HAZMAT_HELMET = register("hazmat_helmet", new HazmatArmor(ArmorItem.Type.HELMET, new Item.Settings()), FBombsItemGroups.GROUP);
     public static final HazmatArmor HAZMAT_CHESTPLATE = register("hazmat_chestplate", new HazmatArmor(ArmorItem.Type.CHESTPLATE, new Item.Settings()), FBombsItemGroups.GROUP);
     public static final HazmatArmor HAZMAT_LEGGINGS = register("hazmat_leggings", new HazmatArmor(ArmorItem.Type.LEGGINGS, new Item.Settings()), FBombsItemGroups.GROUP);
     public static final HazmatArmor HAZMAT_BOOTS = register("hazmat_boots", new HazmatArmor(ArmorItem.Type.BOOTS, new Item.Settings()),  FBombsItemGroups.GROUP);
+
+    public static final BlockItem GUNPOWDER_TRAIL = register("gunpowder_trail", new BlockItem(FBombsBlocks.GUNPOWDER_TRAIL, new Item.Settings()));
 
     public static final Item NUCLEAR_LAUNCH_KEY = register("nuclear_launch_key", new NuclearLaunchKeyItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC)));
     public static final BottleCapItem COLA_BOTTLE_CAP = registerBottleCap("cola_bottle_cap", 1);

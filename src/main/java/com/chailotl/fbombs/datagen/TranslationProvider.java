@@ -1,13 +1,16 @@
 package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
+import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsItemGroups;
+import com.chailotl.fbombs.init.FBombsItems;
 import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -36,13 +39,15 @@ public class TranslationProvider extends FabricLanguageProvider {
         translationBuilder.add(FBombsTags.Blocks.TNT_VARIANTS, "TNT Variants");
         translationBuilder.add(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE, "Volumetric Explosion Immune");
         translationBuilder.add(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER, "Transmits Redstone Power for Sirens");
+        translationBuilder.add(FBombsTags.Fluids.JUICE_THAT_MAKES_YOU_EXPLODE, "Juice That Makes You Explode");
 
         FBombsItemGroups.ItemGroupEntry.ALL_GROUPS.forEach(itemGroupEntry -> translationBuilder.add(itemGroupEntry.getTranslationKey(), "FBombs"));
 
+        FBombs.streamEntries(Registries.BLOCK).forEach(block -> translationBuilder.add(block, cleanString(block)));
+        FBombs.streamEntries(Registries.ITEM, item -> !(item instanceof BlockItem)).forEach(item -> translationBuilder.add(item, cleanString(item)));
         FBombs.streamEntries(Registries.ENTITY_TYPE).forEach(entityType -> translationBuilder.add(entityType, cleanString(entityType)));
         FBombs.streamEntries(Registries.STATUS_EFFECT).forEach(statusEffect -> translationBuilder.add(statusEffect, cleanString(statusEffect)));
-        FBombs.streamEntries(Registries.ITEM, item -> !(item instanceof BlockItem)).forEach(item -> translationBuilder.add(item, cleanString(item)));
-        FBombs.streamEntries(Registries.BLOCK).forEach(block -> translationBuilder.add(block, cleanString(block)));
+        //FBombs.streamEntries(Registries.FLUID).forEach(fluid -> translationBuilder.add(fluid, cleanString(fluid)));
 
         translationBuilder.add("sound.fbombs.radioactive_noise", "Radioactive noise");
         translationBuilder.add("sound.fbombs.dynamite_explosion", "Dynamite explosion");
@@ -108,5 +113,10 @@ public class TranslationProvider extends FabricLanguageProvider {
     @NotNull
     public static String cleanString(StatusEffect statusEffect) {
         return cleanString(Registries.STATUS_EFFECT.getId(statusEffect));
+    }
+
+    @NotNull
+    public static String cleanString(Fluid fluid) {
+        return cleanString(Registries.FLUID.getId(fluid));
     }
 }

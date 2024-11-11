@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:bucket"
+    },
+    {
+      "item": "minecraft:fire_charge"
+    },
+    {
+      "tag": "fbombs:fire_coral"
+    },
+    {
+      "item": "fbombs:dynamite_bundle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fbombs:juice_that_makes_you_explode_bucket"
+  }
+}

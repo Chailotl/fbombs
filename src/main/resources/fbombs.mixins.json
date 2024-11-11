@@ -5,6 +5,7 @@
 	"mixins": [
 		"AbstractBlockMixin",
 		"BucketItemMixin",
+		"GlassBottleItemMixin",
 		"ItemEntityMixin",
 		"ItemMixin",
 		"LivingEntityMixin",

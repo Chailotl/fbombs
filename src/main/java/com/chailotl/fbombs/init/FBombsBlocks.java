@@ -144,6 +144,8 @@ public class FBombsBlocks {
         .blockVision(Blocks::never)
     ), true);
 
+    public static final FluidBlock JUICE_THAT_MAKES_YOU_EXPLODE = register("juice_that_makes_you_explode", new FluidBlock(FBombsFluids.JUICE_THAT_MAKES_YOU_EXPLODE, AbstractBlock.Settings.copy(Blocks.WATER)), false);
+
     private static <T extends Block> T register(String name, T block, boolean hasDefaultItem) {
         Registry.register(Registries.BLOCK, FBombs.getId(name), block);
         if (hasDefaultItem) {

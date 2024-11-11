@@ -3,6 +3,7 @@ package com.chailotl.fbombs.datagen;
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.GenericTntBlock;
 import com.chailotl.fbombs.init.FBombsDamageTypes;
+import com.chailotl.fbombs.init.FBombsFluids;
 import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -14,6 +15,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.registry.tag.FluidTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -28,18 +30,18 @@ public class TagProvider {
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 
             var tntVariants = getOrCreateTagBuilder(FBombsTags.Blocks.TNT_VARIANTS)
-                    .add(Blocks.TNT);
+                .add(Blocks.TNT);
 
             FBombs.streamEntries(Registries.BLOCK, block -> block instanceof GenericTntBlock).forEach(tntVariants::add);
 
             getOrCreateTagBuilder(FBombsTags.Blocks.TRANSMITS_REDSTONE_POWER)
-                    .add(Blocks.IRON_BARS, Blocks.IRON_BLOCK);
+                .add(Blocks.IRON_BARS, Blocks.IRON_BLOCK);
 
             getOrCreateTagBuilder(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE)
-                    .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.END_PORTAL,
-                            Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,
-                            Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW, Blocks.MOVING_PISTON, Blocks.LIGHT,
-                            Blocks.REINFORCED_DEEPSLATE);
+                .add(Blocks.BEDROCK, Blocks.BARRIER, Blocks.END_PORTAL,
+                    Blocks.END_PORTAL_FRAME, Blocks.END_GATEWAY, Blocks.COMMAND_BLOCK, Blocks.REPEATING_COMMAND_BLOCK,
+                    Blocks.CHAIN_COMMAND_BLOCK, Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW, Blocks.MOVING_PISTON, Blocks.LIGHT,
+                    Blocks.REINFORCED_DEEPSLATE);
 
         }
     }
@@ -52,9 +54,25 @@ public class TagProvider {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             getOrCreateTagBuilder(FBombsTags.Items.SPLITS_TNT)
-                    .add(Items.SHEARS);
+                .add(Items.SHEARS);
             getOrCreateTagBuilder(FBombsTags.Items.IGNITES_TNT)
-                    .add(Items.FLINT_AND_STEEL, Items.FIRE_CHARGE);
+                .add(Items.FLINT_AND_STEEL, Items.FIRE_CHARGE);
+            getOrCreateTagBuilder(FBombsTags.Items.FIRE_CORAL)
+                .add(Items.FIRE_CORAL, Items.FIRE_CORAL_FAN);
+        }
+    }
+
+    public static class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
+        public FluidTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(output, registriesFuture);
+        }
+
+        @Override
+        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+            getOrCreateTagBuilder(FluidTags.WATER)
+                .add(FBombsFluids.JUICE_THAT_MAKES_YOU_EXPLODE, FBombsFluids.FLOWING_JUICE_THAT_MAKES_YOU_EXPLODE);
+            getOrCreateTagBuilder(FBombsTags.Fluids.JUICE_THAT_MAKES_YOU_EXPLODE)
+                .add(FBombsFluids.JUICE_THAT_MAKES_YOU_EXPLODE, FBombsFluids.FLOWING_JUICE_THAT_MAKES_YOU_EXPLODE);
         }
     }
 
@@ -75,6 +93,7 @@ public class TagProvider {
     public static void registerAll(FabricDataGenerator.Pack pack) {
         pack.addProvider(BlockTagProvider::new);
         pack.addProvider(ItemTagProvider::new);
+        pack.addProvider(FluidTagProvider::new);
         pack.addProvider(DamageTypeTagProvider::new);
     }
 }

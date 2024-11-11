@@ -2,6 +2,7 @@ package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsItems;
+import com.chailotl.fbombs.init.FBombsTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
@@ -145,6 +146,16 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .criterion(FabricRecipeProvider.hasItem(Items.GUNPOWDER), FabricRecipeProvider.conditionsFromItem(Items.GUNPOWDER))
                 .criterion("has_planks", FabricRecipeProvider.conditionsFromTag(ItemTags.PLANKS))
                 .offerTo(exporter);
+
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, FBombsItems.JUICE_THAT_MAKES_YOU_EXPLODE_BUCKET)
+            .input(Items.BUCKET)
+            .input(Items.FIRE_CHARGE)
+            .input(FBombsTags.Items.FIRE_CORAL)
+            .input(FBombsItems.DYNAMITE_BUNDLE)
+            .criterion(FabricRecipeProvider.hasItem(Items.FIRE_CHARGE), FabricRecipeProvider.conditionsFromItem(Items.FIRE_CHARGE))
+            .criterion(FabricRecipeProvider.hasItem(Items.FIRE_CORAL), FabricRecipeProvider.conditionsFromTag(FBombsTags.Items.FIRE_CORAL))
+            .criterion(FabricRecipeProvider.hasItem(FBombsItems.DYNAMITE_BUNDLE), FabricRecipeProvider.conditionsFromItem(FBombsItems.DYNAMITE_BUNDLE))
+            .offerTo(exporter);
     }
 
     private void offerTntRecipe(RecipeExporter exporter, ItemConvertible output, ItemConvertible input) {

@@ -26,6 +26,7 @@
   "block.fbombs.green_acme_bed": "Green ACME Bed",
   "block.fbombs.gunpowder_trail": "Gunpowder Trail",
   "block.fbombs.high_power_tnt": "High Power TNT",
+  "block.fbombs.juice_that_makes_you_explode": "Juice That Makes You Explode",
   "block.fbombs.levitating_tnt": "Levitating TNT",
   "block.fbombs.light_blue_acme_bed": "Light Blue ACME Bed",
   "block.fbombs.light_gray_acme_bed": "Light Gray ACME Bed",
@@ -90,6 +91,8 @@
   "item.fbombs.hazmat_chestplate": "Hazmat Chestplate",
   "item.fbombs.hazmat_helmet": "Hazmat Helmet",
   "item.fbombs.hazmat_leggings": "Hazmat Leggings",
+  "item.fbombs.juice_that_makes_you_explode_bottle": "Juice That Makes You Explode Bottle",
+  "item.fbombs.juice_that_makes_you_explode_bucket": "Juice That Makes You Explode Bucket",
   "item.fbombs.lemon_lime_soda_bottle_cap": "Lemon Lime Soda Bottle Cap",
   "item.fbombs.nuclear_launch_key": "Nuclear Launch Key",
   "item.fbombs.orange_soda_bottle_cap": "Orange Soda Bottle Cap",
@@ -104,6 +107,7 @@
   "tag.block.fbombs.tnt_variants": "TNT Variants",
   "tag.block.fbombs.transmits_redstone_power": "Transmits Redstone Power for Sirens",
   "tag.block.fbombs.volumetric_explosion_immune": "Volumetric Explosion Immune",
+  "tag.fluid.fbombs.juice_that_makes_you_explode": "Juice That Makes You Explode",
   "tag.item.fbombs.ignites_tnt": "Ignites TNT",
   "tag.item.fbombs.splits_tnt": "Splits TNT"
 }
