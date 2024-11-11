@@ -1,23 +1,25 @@
 {
-  "required": true,
-  "package": "com.chailotl.fbombs.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "AbstractBlockMixin",
-    "BucketItemMixin",
-    "ItemEntityMixin",
-    "ItemMixin",
-    "LivingEntityMixin",
-    "StatusEffectInstanceMixin",
-    "TntBlockMixin",
-    "access.StatusEffectInstanceAccessor",
-    "access.StatusEffectInstanceInvoker",
-    "SpreadableBlockMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "client": [
-    "access.BillboardParticleAccessor"
-  ]
+	"required": true,
+	"package": "com.chailotl.fbombs.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"AbstractBlockMixin",
+		"BucketItemMixin",
+		"ItemEntityMixin",
+		"ItemMixin",
+		"LivingEntityMixin",
+		"ServerWorldMixin",
+		"SpreadableBlockMixin",
+		"StatusEffectInstanceMixin",
+		"TntBlockMixin",
+		"access.StatusEffectInstanceAccessor",
+		"access.StatusEffectInstanceInvoker"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"client": [
+		"ParticleManagerMixin",
+		"access.BillboardParticleAccessor"
+	]
 }

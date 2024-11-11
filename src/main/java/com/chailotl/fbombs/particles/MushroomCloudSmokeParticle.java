@@ -1,14 +1,34 @@
 package com.chailotl.fbombs.particles;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.render.*;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class MushroomCloudSmokeParticle extends SpriteBillboardParticle {
+    public static final ParticleTextureSheet PARTICLE_SHEET_OPAQUE_NO_FOG = new ParticleTextureSheet() {
+        @Override
+        public BufferBuilder begin(Tessellator tessellator, TextureManager textureManager) {
+            RenderSystem.disableBlend();
+            RenderSystem.depthMask(true);
+            RenderSystem.setShader(GameRenderer::getParticleProgram);
+            RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
+            RenderSystem.setShaderFogEnd(1024);
+            return tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT);
+        }
+
+        public String toString() {
+            return "PARTICLE_SHEET_OPAQUE_NO_FOG";
+        }
+    };
+
     private final SpriteProvider provider;
     public MushroomCloudEmitterParticle owner;
     public boolean donut = false;
@@ -106,7 +126,7 @@ public class MushroomCloudSmokeParticle extends SpriteBillboardParticle {
 
     @Override
     public ParticleTextureSheet getType() {
-        return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
+        return PARTICLE_SHEET_OPAQUE_NO_FOG;
     }
 
     @Environment(EnvType.CLIENT)

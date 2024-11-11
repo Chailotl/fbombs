@@ -8,6 +8,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleTypes;
@@ -33,7 +34,7 @@ public class MushroomCloudEmitterParticle extends NoRenderParticle {
         MinecraftClient client = MinecraftClient.getInstance();
         particleManager = client.particleManager;
         maxAge = 20 * 40;
-        PositionedSoundInstance positionedSoundInstance = new PositionedSoundInstance(FBombsSoundEvents.NUCLEAR_EXPLOSION, SoundCategory.BLOCKS, 64, 1, Random.create(random.nextLong()), x, y, z);
+        PositionedSoundInstance positionedSoundInstance = new PositionedSoundInstance(FBombsSoundEvents.NUCLEAR_EXPLOSION, SoundCategory.BLOCKS, 48, 1, Random.create(random.nextLong()), x, y, z);
         double d = client.gameRenderer.getCamera().getPos().squaredDistanceTo(x, y, z);
         double e = Math.sqrt(d) / 120;
         client.getSoundManager().play(positionedSoundInstance, (int)(e * 20));
@@ -137,7 +138,7 @@ public class MushroomCloudEmitterParticle extends NoRenderParticle {
         if (!isAlive()) { return; }
 
         double radius = 6 + 6 * delta;
-        int count = age > 120 ? 3 : 6;
+        int count = age > 120 ? 3 : 9;
 
         for (int i = 0; i < count; i++) {
             double r = radius * random.nextDouble();
