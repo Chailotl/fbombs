@@ -5,6 +5,7 @@ import com.chailotl.fbombs.block.entity.MultiShotDispenserBlockEntity;
 import com.chailotl.fbombs.init.FBombsBlockEntities;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;
@@ -15,6 +16,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
 import org.slf4j.Logger;
@@ -38,8 +40,21 @@ public class MultiShotDispenserBlock extends DispenserBlock {
     }
 
     @Override
+    protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        int power = Math.max(world.getReceivedRedstonePower(pos), world.getReceivedRedstonePower(pos.up()));
+        boolean triggered = state.get(TRIGGERED);
+        if (power > 0 && !triggered) {
+            offerPower(world, pos, power);
+            world.scheduleBlockTick(pos, this, 4);
+            world.setBlockState(pos, state.with(TRIGGERED, true), Block.NOTIFY_LISTENERS);
+        } else if (power == 0 && triggered) {
+            world.setBlockState(pos, state.with(TRIGGERED, false), Block.NOTIFY_LISTENERS);
+        }
+    }
+
+    @Override
     protected void dispense(ServerWorld world, BlockState state, BlockPos pos) {
-        DispenserBlockEntity dispenserBlockEntity = world.getBlockEntity(pos, FBombsBlockEntities.MULTI_SHOT_DISPENSER).orElse(null);
+        MultiShotDispenserBlockEntity dispenserBlockEntity = world.getBlockEntity(pos, FBombsBlockEntities.MULTI_SHOT_DISPENSER).orElse(null);
         if (dispenserBlockEntity == null) {
             LOGGER.warn("Ignoring dispensing attempt for Dispenser without matching block entity at {}", pos);
         } else {
@@ -60,9 +75,24 @@ public class MultiShotDispenserBlock extends DispenserBlock {
 
     @Override
     protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        int power = world.getReceivedStrongRedstonePower(pos);
+        int power = pollPower(world, pos);
         for (int i = 0; i < power; ++i) {
             this.dispense(world, state, pos);
         }
+    }
+
+    private static void offerPower(World world, BlockPos pos, int power) {
+        if (world.getBlockEntity(pos) instanceof MultiShotDispenserBlockEntity dispenserBlockEntity) {
+            dispenserBlockEntity.power.offer(power);
+        }
+    }
+
+    private static int pollPower(World world, BlockPos pos) {
+        if (world.getBlockEntity(pos) instanceof MultiShotDispenserBlockEntity dispenserBlockEntity
+            && dispenserBlockEntity.power.poll() instanceof Integer power) {
+            return power;
+        }
+        
+        return 0;
     }
 }

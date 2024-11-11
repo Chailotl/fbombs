@@ -7,7 +7,12 @@ import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class MultiShotDispenserBlockEntity extends DispenserBlockEntity {
+    public Queue<Integer> power = new LinkedList<>();
+
     protected MultiShotDispenserBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
     }
