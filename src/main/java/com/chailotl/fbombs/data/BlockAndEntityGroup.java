@@ -152,4 +152,9 @@ public class BlockAndEntityGroup {
     public int applyChanges(MinecraftServer server, int blocksPerTick) {
         return ExplosionHandler.handleExplosion(server.getWorld(this.dimension), this, blocksPerTick);
     }
+
+    public boolean isComplete() {
+        return getAffectedBlocks().isEmpty() && getScorchedBlocks().isEmpty() && getUnaffectedBlocks().isEmpty()
+                && getAffectedEntities().isEmpty() && getUnaffectedEntities().isEmpty();
+    }
 }

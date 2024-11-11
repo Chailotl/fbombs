@@ -28,8 +28,8 @@ public record RadiationData(BlockPos pos, float cps, float radius) {
 
     public void toNbt(NbtCompound nbt) {
         NbtList nbtList;
-        if (nbt.contains(NbtKeys.RADIATION_DATA)) {
-            nbtList = nbt.getList(NbtKeys.RADIATION_DATA, NbtElement.LIST_TYPE);
+        if (nbt.contains(NbtKeys.RADIATION_DATA, NbtElement.LIST_TYPE)) {
+            nbtList = nbt.getList(NbtKeys.RADIATION_DATA, NbtElement.COMPOUND_TYPE);
         } else {
             nbtList = new NbtList();
         }
@@ -44,9 +44,10 @@ public record RadiationData(BlockPos pos, float cps, float radius) {
     }
 
     public static ArrayList<RadiationData> fromNbt(NbtCompound nbt) {
-        if (!nbt.contains(NbtKeys.RADIATION_DATA)) return new ArrayList<>();
         ArrayList<RadiationData> radiationDataList = new ArrayList<>();
-        for (NbtElement entry : nbt.getList(NbtKeys.RADIATION_DATA, NbtElement.LIST_TYPE)) {
+        if (!nbt.contains(NbtKeys.RADIATION_DATA)) return radiationDataList;
+
+        for (NbtElement entry : nbt.getList(NbtKeys.RADIATION_DATA, NbtElement.COMPOUND_TYPE)) {
             radiationDataList.add(CODEC.parse(NbtOps.INSTANCE, entry).getPartialOrThrow());
         }
         return radiationDataList;
@@ -59,10 +60,10 @@ public record RadiationData(BlockPos pos, float cps, float radius) {
         return MathHelper.lerp(normalizedDistance, 0f, this.cps);
     }
 
-    public static double getRadiationLevel(List<RadiationData> data, BlockPos pos) {
-        double level = 0;
+    public static float getRadiationLevel(List<RadiationData> data, BlockPos pos) {
+        float level = 0;
         for (RadiationData entry : data) {
-            level = Math.max(level, entry.getRadiationLevel(pos));
+            level = (float) Math.max(level, entry.getRadiationLevel(pos));
         }
         return level;
     }

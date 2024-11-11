@@ -1,7 +1,11 @@
 package com.chailotl.fbombs.mixin;
 
+import com.chailotl.fbombs.contamination.ContaminationHandler;
+import com.chailotl.fbombs.data.RadiationCategory;
+import com.chailotl.fbombs.init.FBombsStatusEffects;
 import com.chailotl.fbombs.item.HazmatArmor;
 import com.chailotl.fbombs.util.NbtKeys;
+import com.chailotl.fbombs.util.cast.Contaminatable;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -19,12 +23,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements Attackable {
+public abstract class LivingEntityMixin extends Entity implements Attackable, Contaminatable {
     @Unique
     private static final TrackedData<Float> CPS = DataTracker.registerData(LivingEntityMixin.class, TrackedDataHandlerRegistry.FLOAT);
-
-    @Unique
-    private int tick = 0;
 
     protected LivingEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -35,29 +36,59 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
         builder.add(CPS, 0.0f);
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void readFBombsDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-        if (nbt.contains(NbtKeys.CPS)) {
-            this.dataTracker.set(CPS, nbt.getFloat(NbtKeys.CPS));
-        }
+    @Override
+    public float fbombs$getCps() {
+        return this.dataTracker.get(CPS);
+    }
+
+    @Override
+    public void fbombs$setCps(float cps) {
+        this.dataTracker.set(CPS, cps);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void addCpsPerTick(CallbackInfo ci) {
+    private void tickContamination(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        if (!(entity.getWorld() instanceof ServerWorld world)) return;
-        this.tick++;
-        if (tick % 40 != 0) return;
+        if (!(entity.getWorld() instanceof ServerWorld serverWorld)) return;
+        if (this.age % 40 != 0) return;
 
-        //TODO: [ShiroJR] get BlockPos cps value from PersistentState
-        float locationCps = 0;  // placeholder!
+        if (fbombs$getCps() > RadiationCategory.SAFE.getMaxCps()) {
+            if (!entity.hasStatusEffect(FBombsStatusEffects.RADIATION_POISONING)) {
+                ContaminationHandler.applyEffectIfMissing(entity, fbombs$getCps());
+            }
 
-        if (locationCps > 0) {
+            ContaminationHandler.applyCpsToInventoryAndEquipment(entity, fbombs$getCps());
+        }
+
+        float currentCps = ContaminationHandler.getLocationCps(serverWorld, entity.getBlockPos());
+        currentCps = Math.max(currentCps, ContaminationHandler.getMaxContaminationInInventory(entity));
+
+        if (currentCps > RadiationCategory.SAFE.getMaxCps()) {
             HazmatArmor.damageHazmatSet(entity);
             if (!HazmatArmor.hasFullSetEquipped(entity)) {
-                float currentPlayerCps = this.dataTracker.get(CPS);
-                this.dataTracker.set(CPS, currentPlayerCps + locationCps);
+                float currentPlayerCps = fbombs$getCps();
+                fbombs$setCps(currentPlayerCps + currentCps);
             }
         }
+
+        if (fbombs$getCps() > 0) {
+            RadiationCategory category = RadiationCategory.getRadiationCategory(fbombs$getCps());
+            fbombs$setCps(Math.max(0, fbombs$getCps() - category.getCpsDecay()));
+        }/*
+        if (entity instanceof ServerPlayerEntity) {
+            LoggerUtil.devLogger("cps: %s | category: %s | decay: %s".formatted(fbombs$getCps(), RadiationCategory.getRadiationCategory(fbombs$getCps()).name(), RadiationCategory.getRadiationCategory(fbombs$getCps()).getCpsDecay()));
+        }*/
+    }
+
+    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
+    private void readFBombsDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+        if (nbt.contains(NbtKeys.CPS)) {
+            fbombs$setCps(nbt.getFloat(NbtKeys.CPS));
+        }
+    }
+
+    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
+    private void writeFBombsDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+        nbt.putFloat(NbtKeys.CPS, fbombs$getCps());
     }
 }

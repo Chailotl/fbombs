@@ -178,18 +178,19 @@ public class ExplosionHandler {
     }
 
 
-    public static void explodeSpherical(ServerWorld world, BlockPos origin, int radius, int strength) {
+    public static void explodeSpherical(ServerWorld world, BlockPos origin, int radius, int strength, float falloff, int scorchedThreshold) {
         Predicate<BlockState> isImmune = blockState -> {
             if (blockState.contains(Properties.WATERLOGGED) && blockState.get(Properties.WATERLOGGED)) return true;
             if (!world.getGameRules().getBoolean(FBombsGamerules.ALLOW_VOLUMETRIC_EXPLOSION_DAMAGE)) return true;
             return blockState.isIn(FBombsTags.Blocks.VOLUMETRIC_EXPLOSION_IMMUNE);
         };
 
-        CompletableFuture.supplyAsync(() -> collect(world, origin, /*radius*/ 15, ExplosionShape.SPHERE, null,
-                        isImmune, /*strength*/ 20, 0.1f, 8))
+        CompletableFuture.supplyAsync(() -> collect(world, origin, radius, ExplosionShape.SPHERE, null,
+                        isImmune, strength, falloff, scorchedThreshold))
                 .thenAccept(blockAndEntityGroup -> world.getServer().execute(() -> {
                     FBombs.modifyCachedPersistentState(world, state -> {
                         state.getExplosions().add(blockAndEntityGroup);
+                        ExplosionManager.getInstance(world.getServer()).addExplosion(world, blockAndEntityGroup);
                     });
                     LoggerUtil.devLogger("finished explosion data gathering");
                 }));
@@ -200,7 +201,7 @@ public class ExplosionHandler {
         int processedScorchedBlocks = 0;
         int processedUnaffectedBlocks = 0;
 
-        while (processedAffectedBlocks < blocksPerTick / 3) {
+        while (processedAffectedBlocks < blocksPerTick / 3 && !group.getAffectedBlocks().isEmpty()) {
             // TODO: [ShiroJR] add radiation even to air blocks
 
             processedAffectedBlocks++;
@@ -211,7 +212,7 @@ public class ExplosionHandler {
             );
             // spawnParticlesAndSound(world, group.getOrigin(), entry);
         }
-        while (processedScorchedBlocks < blocksPerTick / 3) {
+        while (processedScorchedBlocks < blocksPerTick / 3 && !group.getScorchedBlocks().isEmpty()) {
             // TODO: [ShiroJR] add radiation even to air blocks
 
             processedScorchedBlocks++;
@@ -230,9 +231,9 @@ public class ExplosionHandler {
             // spawnParticlesAndSound(world, group.getOrigin(), scorchedBlockEntry);
         }
 
-        while (processedUnaffectedBlocks < blocksPerTick / 3) {
+        while (processedUnaffectedBlocks < blocksPerTick / 3 && !group.getUnaffectedBlocks().isEmpty()) {
             processedUnaffectedBlocks++;
-            LocatableBlock entry = group.getAffectedBlocks().poll();
+            LocatableBlock entry = group.getUnaffectedBlocks().poll();
             if (entry == null) continue;
             // TODO: [ShiroJR] add radiation even to air blocks
 
