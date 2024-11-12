@@ -1,0 +1,87 @@
+{
+	"type": "magisterium:spell",
+	"elements": [
+		{
+			"type": "magisterium:fold",
+			"left": [
+				{
+					"type": "magisterium:heading",
+					"text": {
+						"translate": "magisterium.spell.fbombs.crimson_explosion.heading"
+					}
+				},
+				{
+					"type": "magisterium:paragraph",
+					"text": {
+						"translate": "magisterium.spell.fbombs.crimson_explosion.components"
+					}
+				},
+				{
+					"type": "magisterium:paragraph",
+					"text": {
+						"translate": "magisterium.spell.fbombs.crimson_explosion.description.0"
+					}
+				},
+				{
+					"type": "magisterium:paragraph",
+					"text": {
+						"translate": "magisterium.spell.fbombs.crimson_explosion.description.1"
+					}
+				}
+			],
+			"right": [
+				{
+					"type": "magisterium:heading",
+					"text": {
+						"translate": "magisterium.spell.fbombs.crimson_explosion.heading"
+					}
+				},
+				{
+					"type": "magisterium:inventory",
+					"slots": [
+						{
+							"x": 42,
+							"y": 0,
+							"ingredient": {
+								"tag": "fbombs:crimson_explosion_ingredients"
+							},
+							"background": "magisterium:item/placeholder/question_mark"
+						},
+						{
+							"x": 33,
+							"y": 18,
+							"ingredient": {
+								"tag": "fbombs:crimson_explosion_ingredients"
+							},
+							"background": "magisterium:item/placeholder/question_mark"
+						},
+						{
+							"x": 51,
+							"y": 18,
+							"ingredient": {
+								"tag": "fbombs:crimson_explosion_ingredients"
+							},
+							"background": "magisterium:item/placeholder/question_mark"
+						}
+					]
+				},
+				{
+					"type": "magisterium:utterance",
+					"id": "fbombs:crimson_explosion",
+					"text": {
+						"translate": "magisterium.spell.fbombs.crimson_explosion.utterance"
+					},
+					"duration": 10
+				}
+			]
+		}
+	],
+	"effects": [
+		{
+			"type": "fbombs:crimson_explosion",
+			"utterance": "fbombs:crimson_explosion",
+			"duration": 10,
+			"max_range": 32
+		}
+	]
+}

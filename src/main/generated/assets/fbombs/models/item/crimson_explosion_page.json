@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "fbombs:item/crimson_explosion_page"
+  }
+}

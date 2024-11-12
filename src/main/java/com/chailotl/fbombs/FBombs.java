@@ -1,5 +1,6 @@
 package com.chailotl.fbombs;
 
+import com.chailotl.fbombs.compat.Magisterium;
 import com.chailotl.fbombs.compat.MineFactorial;
 import com.chailotl.fbombs.compat.SkycatsLuckyBlocks;
 import com.chailotl.fbombs.data.ScorchedBlockDataLoader;
@@ -62,9 +63,11 @@ public class FBombs implements ModInitializer {
         if (FabricLoader.getInstance().isModLoaded("skycats-lucky-blocks")) {
             SkycatsLuckyBlocks.initialize();
         }
-
         if (FabricLoader.getInstance().isModLoaded("minefactorial")) {
             MineFactorial.initialize();
+        }
+        if (FabricLoader.getInstance().isModLoaded("magisterium")) {
+            Magisterium.initialize();
         }
 
         LOGGER.info("May contain traces of nuclear explosions");

@@ -2,9 +2,7 @@ package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
 import com.chailotl.fbombs.block.GenericTntBlock;
-import com.chailotl.fbombs.init.FBombsDamageTypes;
-import com.chailotl.fbombs.init.FBombsFluids;
-import com.chailotl.fbombs.init.FBombsTags;
+import com.chailotl.fbombs.init.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -59,6 +57,10 @@ public class TagProvider {
                 .add(Items.FLINT_AND_STEEL, Items.FIRE_CHARGE);
             getOrCreateTagBuilder(FBombsTags.Items.FIRE_CORAL)
                 .add(Items.FIRE_CORAL, Items.FIRE_CORAL_FAN);
+            getOrCreateTagBuilder(FBombsTags.Items.CRIMSON_EXPLOSION_INGREDIENTS)
+                .add(FBombsItems.DYNAMITE, FBombsItems.BOUNCY_DYNAMITE, FBombsItems.STICKY_DYNAMITE,
+                    FBombsItems.DYNAMITE_BUNDLE, FBombsItems.JUICE_THAT_MAKES_YOU_EXPLODE_BOTTLE,
+                    FBombsBlocks.LOW_POWER_TNT.asItem(), Items.TNT, FBombsBlocks.HIGH_POWER_TNT.asItem());
         }
     }
 

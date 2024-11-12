@@ -10,5 +10,11 @@
   "advancement.fbombs.bottle_cap_quest.desc": "Collect all the bottle caps",
   "death.attack.nuclear_explosion": "%1$s perished in nuclear fire",
   "death.attack.nuclear_explosion.player": "%1$s was vaporized by %2$s",
-  "death.attack.nuclear_explosion.player.item": "%1$s was vaporized by %2$s using %3$s"
+  "death.attack.nuclear_explosion.player.item": "%1$s was vaporized by %2$s using %3$s",
+  "magisterium.spell.fbombs.crimson_explosion": "Crimson Explosion",
+  "magisterium.spell.fbombs.crimson_explosion.heading": "ᴄʀɪᴍꜱᴏɴ ᴇxᴘʟᴏꜱɪᴏɴ",
+  "magisterium.spell.fbombs.crimson_explosion.components": "ᴄᴏᴍᴘᴏɴᴇɴᴛs: up to three objects infused with explosive element",
+  "magisterium.spell.fbombs.crimson_explosion.description.0": "Summon a beam of light that detonates with a devastating blast of pure magical power.",
+  "magisterium.spell.fbombs.crimson_explosion.description.1": "Additional items increase the power of spell.",
+  "magisterium.spell.fbombs.crimson_explosion.utterance": "ᴋᴏʀᴇ ɢᴀ ᴊɪɴʀᴜɪ ꜱᴀɪᴅᴀɪ ɴᴏ ɪʀʏᴏᴋᴜ ɴᴏ ᴋᴏᴜɢᴇᴋɪ ꜱʜᴜᴅᴀɴ, ᴋᴏʀᴇ ᴋᴏꜱᴏ ɢᴀ ᴋʏᴜᴜᴋʏᴏᴋᴜ ɴᴏ ᴋᴏᴜɢᴇᴋɪ ᴍᴀʜᴏᴜ, ᴇxᴘʟᴏꜱɪᴏɴ!"
 }

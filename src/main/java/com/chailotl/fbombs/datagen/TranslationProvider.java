@@ -1,6 +1,7 @@
 package com.chailotl.fbombs.datagen;
 
 import com.chailotl.fbombs.FBombs;
+import com.chailotl.fbombs.compat.ExcludeTranslation;
 import com.chailotl.fbombs.init.FBombsBlocks;
 import com.chailotl.fbombs.init.FBombsItemGroups;
 import com.chailotl.fbombs.init.FBombsItems;
@@ -44,7 +45,7 @@ public class TranslationProvider extends FabricLanguageProvider {
         FBombsItemGroups.ItemGroupEntry.ALL_GROUPS.forEach(itemGroupEntry -> translationBuilder.add(itemGroupEntry.getTranslationKey(), "FBombs"));
 
         FBombs.streamEntries(Registries.BLOCK).forEach(block -> translationBuilder.add(block, cleanString(block)));
-        FBombs.streamEntries(Registries.ITEM, item -> !(item instanceof BlockItem)).forEach(item -> translationBuilder.add(item, cleanString(item)));
+        FBombs.streamEntries(Registries.ITEM, item -> !(item instanceof BlockItem) && !(item instanceof ExcludeTranslation)).forEach(item -> translationBuilder.add(item, cleanString(item)));
         FBombs.streamEntries(Registries.ENTITY_TYPE).forEach(entityType -> translationBuilder.add(entityType, cleanString(entityType)));
         FBombs.streamEntries(Registries.STATUS_EFFECT).forEach(statusEffect -> translationBuilder.add(statusEffect, cleanString(statusEffect)));
         //FBombs.streamEntries(Registries.FLUID).forEach(fluid -> translationBuilder.add(fluid, cleanString(fluid)));

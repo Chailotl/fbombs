@@ -12,6 +12,7 @@ public class FBombsTags {
         public static final TagKey<Item> SPLITS_TNT = TagKey.of(RegistryKeys.ITEM, FBombs.getId("splits_tnt"));
         public static final TagKey<Item> IGNITES_TNT = TagKey.of(RegistryKeys.ITEM, FBombs.getId("ignites_tnt"));
         public static final TagKey<Item> FIRE_CORAL = TagKey.of(RegistryKeys.ITEM, FBombs.getId("fire_coral"));
+        public static final TagKey<Item> CRIMSON_EXPLOSION_INGREDIENTS = TagKey.of(RegistryKeys.ITEM, FBombs.getId("crimson_explosion_ingredients"));
     }
 
     public static class Blocks {
