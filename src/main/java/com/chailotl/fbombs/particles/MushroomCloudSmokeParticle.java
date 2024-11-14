@@ -59,6 +59,11 @@ public class MushroomCloudSmokeParticle extends SpriteBillboardParticle {
         prevPosY = y;
         prevPosZ = z;
 
+        if (owner == null) {
+            markDead();
+            return;
+        }
+
         if (!owner.isAlive()) {
             if (age++ >= maxAge) {
                 markDead();

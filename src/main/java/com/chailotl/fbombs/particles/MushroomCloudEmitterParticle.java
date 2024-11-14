@@ -29,11 +29,18 @@ public class MushroomCloudEmitterParticle extends NoRenderParticle {
     private double heat = 0;
     private Vec3d heatCenter;
 
-    protected MushroomCloudEmitterParticle(ClientWorld clientWorld, double x, double y, double z) {
+    protected MushroomCloudEmitterParticle(ClientWorld clientWorld, double x, double y, double z, double xVel, double yVel, double zVel) {
         super(clientWorld, x, y, z, 0, 0, 0);
+
         MinecraftClient client = MinecraftClient.getInstance();
         particleManager = client.particleManager;
         maxAge = 20 * 40;
+
+        if (xVel != 0xA && yVel != 0x1C && zVel != 0x7D8) {
+            markDead();
+            return;
+        }
+
         PositionedSoundInstance positionedSoundInstance = new PositionedSoundInstance(FBombsSoundEvents.NUCLEAR_EXPLOSION, SoundCategory.BLOCKS, 48, 1, Random.create(random.nextLong()), x, y, z);
         double d = client.gameRenderer.getCamera().getPos().squaredDistanceTo(x, y, z);
         double e = Math.sqrt(d) / 120;
@@ -42,6 +49,8 @@ public class MushroomCloudEmitterParticle extends NoRenderParticle {
 
     @Override
     public void tick() {
+        if (this.dead) { return; }
+
         delta = (double) age / maxAge;
         double radius = 12 + 12 * delta;
         height = y + 10 + 100 * (1 - Math.pow(getReverseDelta(), 4));
@@ -169,7 +178,7 @@ public class MushroomCloudEmitterParticle extends NoRenderParticle {
         }
 
         public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double x, double y, double z, double xVel, double yVel, double zVel) {
-            return new MushroomCloudEmitterParticle(clientWorld, x, y, z);
+            return new MushroomCloudEmitterParticle(clientWorld, x, y, z, xVel, yVel, zVel);
         }
     }
 }
