@@ -2,7 +2,6 @@ package com.chailotl.fbombs.block.entity;
 
 import com.chailotl.fbombs.init.FBombsBlockEntities;
 import com.chailotl.fbombs.init.FBombsBlocks;
-import com.chailotl.fbombs.init.FBombsItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
